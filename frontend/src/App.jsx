@@ -1,18 +1,16 @@
-import { Route, Routes } from 'react-router-dom';
-// imports for main page sections (sidebar, dashboard, library)
+import {Route, Routes} from 'react-router-dom';
 import Dashboard from './views/Dashboard.jsx';
-import './App.css'
+import TopBar from './components/TopBar.jsx';
 
 export default function App() {
 
   return (
-    <div className="app-container" style={{ display: 'flex' }}>
-      {/*<Sidebar />*/}
+    <div className="p-0">
+      <TopBar />
 
-      <main style={{ flex: 1, padding: '20px' }}>
+      <main>
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          {/*<Route path="/library" element={<Library />} />*/}
         </Routes>
       </main>
     </div>
