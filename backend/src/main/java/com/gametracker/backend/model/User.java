@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -21,6 +22,9 @@ public class User {
 
     @Column(name = "steam_id", unique = true)
     private Long steamId;
+
+    @Column(name = "last_synced")
+    private LocalDateTime lastSynced;
 
     @Column(name = "display_name", nullable = false)
     private String displayName;
@@ -41,7 +45,8 @@ public class User {
         return new UserInfoDTO(
                 this.id,
                 this.steamId,
-                this.displayName
+                this.displayName,
+                this.lastSynced
         );
     }
 

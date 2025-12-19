@@ -23,7 +23,6 @@ public class UserController {
 
     /**
      * get user information by their id
-     *
      * @param id the id of the client's user record
      * @return DTO containing user info
      */
@@ -34,7 +33,6 @@ public class UserController {
 
     /**
      * creating a new user
-     *
      * @param dto creation DTO (only creates display name)
      * @return DTO containing new user's info
      */
@@ -46,7 +44,6 @@ public class UserController {
 
     /**
      * edit the display name of the user
-     *
      * @param id client user id
      * @param dto creation DTO (only creates display name)
      * @return DTO containing user info
@@ -59,7 +56,6 @@ public class UserController {
 
     /**
      * edit the user's steam connection
-     *
      * @param id client user id
      * @param dto steam ID editing DTO
      * @return DTO containing user info

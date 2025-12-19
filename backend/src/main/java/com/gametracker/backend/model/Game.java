@@ -1,5 +1,6 @@
 package com.gametracker.backend.model;
 
+import com.gametracker.backend.dto.game.GameInfoDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,9 +25,26 @@ public class Game {
 
     private String title;
 
-    private String headerImage;
-
     @Column(name = "release_date")
     private LocalDate releaseDate;
+
+    // --- methods ---
+
+    public Game() {}
+
+    public Game(Long steamAppId, String title, LocalDate releaseDate) {
+        this.steamAppId = steamAppId;
+        this.title = title;
+        this.releaseDate = releaseDate;
+    }
+
+    public GameInfoDTO toDTO() {
+        return new GameInfoDTO(
+                id,
+                steamAppId,
+                title,
+                releaseDate
+        );
+    }
 
 }

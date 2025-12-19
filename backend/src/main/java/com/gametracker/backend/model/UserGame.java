@@ -5,6 +5,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
+// TODO owned?
+
 @Entity
 @Table(name = "user_games")
 @Getter @Setter
@@ -25,17 +29,27 @@ public class UserGame {
     @JoinColumn(name = "game_id", nullable = false)
     private Game game;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "review_id")
-    private Review review;
-
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    private String notes;
+
     @Column(name = "full_achievements")
     private Integer fullAchievements;
 
-    private String notes;
+    @Column(name = "review_text")
+    private String reviewText;
 
+    @Column(name = "finish_date")
+    private LocalDate finishDate;
+
+    private Integer rating;
+
+    // 5 types of sub-rating
+    private Integer enjoyment;
+    private Integer gameplay;
+    private Integer story;
+    private Integer visuals;
+    private Integer sound;
 }
