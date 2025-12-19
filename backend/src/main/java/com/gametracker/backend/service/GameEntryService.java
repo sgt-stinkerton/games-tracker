@@ -8,6 +8,7 @@ import com.gametracker.backend.model.User;
 import com.gametracker.backend.repository.GameEntryRepository;
 import com.gametracker.backend.repository.GameRepository;
 import com.gametracker.backend.repository.UserRepository;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,8 +1,8 @@
 package com.gametracker.backend.model;
 
-import com.gametracker.backend.dto.gameEntry.GameEntryCreationDTO;
 import com.gametracker.backend.dto.gameEntry.GameEntryInfoDTO;
 import com.gametracker.backend.enums.Status;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

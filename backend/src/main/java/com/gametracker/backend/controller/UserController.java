@@ -5,6 +5,7 @@ import com.gametracker.backend.dto.user.UserInfoDTO;
 import com.gametracker.backend.dto.user.UserSteamIdDTO;
 import com.gametracker.backend.model.User;
 import com.gametracker.backend.service.UserService;
+
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
