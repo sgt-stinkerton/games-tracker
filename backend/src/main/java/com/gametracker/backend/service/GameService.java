@@ -28,8 +28,8 @@ public class GameService {
     }
 
     public Game createGame(GameCreationDTO dto) {
-        Game game = new Game(dto.steamAppId(), dto.title(), dto.releaseDate());
-        return gameRepository.save(game);
+        Game newGame = new Game(dto.steamAppId(), dto.title(), dto.releaseDate());
+        return gameRepository.save(newGame);
     }
 
 }

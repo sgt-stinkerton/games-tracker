@@ -30,7 +30,7 @@ public class User {
     private String displayName;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<UserGame> userGames;
+    private List<GameEntry> gameEntries;
 
     // --- methods ---
 

@@ -1,5 +1,7 @@
 package com.gametracker.backend.model;
 
+import com.gametracker.backend.dto.gameEntry.GameEntryCreationDTO;
+import com.gametracker.backend.dto.gameEntry.GameEntryInfoDTO;
 import com.gametracker.backend.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,15 +12,15 @@ import java.time.LocalDate;
 // TODO owned?
 
 @Entity
-@Table(name = "user_games")
+@Table(name = "game_entries")
 @Getter @Setter
-public class UserGame {
+public class GameEntry {
 
     // --- fields ---
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_game_id", nullable = false, unique = true)
+    @Column(name = "game_entry_id", nullable = false, unique = true)
     private Long id;
 
     @ManyToOne
@@ -52,4 +54,34 @@ public class UserGame {
     private Integer story;
     private Integer visuals;
     private Integer sound;
+
+    // --- methods ---
+
+    public GameEntry() {}
+
+    public GameEntry(User user, Game game, Status status, String notes) {
+        this.user = user;
+        this.game = game;
+        this.status = status;
+        this.notes = notes;
+    }
+
+    public GameEntryInfoDTO toDTO() {
+        return new GameEntryInfoDTO(
+                id,
+                user.getId(),
+                game.getId(),
+                status,
+                notes,
+                fullAchievements,
+                reviewText,
+                finishDate,
+                rating,
+                enjoyment,
+                gameplay,
+                story,
+                visuals,
+                sound
+        );
+    }
 }

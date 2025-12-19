@@ -2,7 +2,6 @@ package com.gametracker.backend.controller;
 
 import com.gametracker.backend.dto.game.GameCreationDTO;
 import com.gametracker.backend.dto.game.GameInfoDTO;
-import com.gametracker.backend.dto.user.UserCreationDTO;
 import com.gametracker.backend.model.Game;
 import com.gametracker.backend.service.GameService;
 import jakarta.validation.Valid;

@@ -49,7 +49,8 @@ public class UserController {
      * @return DTO containing user info
      */
     @PatchMapping({"/{id}/edit/name"})
-    public ResponseEntity<UserInfoDTO> editDisplayName(@PathVariable long id, @Valid @RequestBody UserCreationDTO dto) {
+    public ResponseEntity<UserInfoDTO> editDisplayName(@PathVariable long id,
+                                                       @Valid @RequestBody UserCreationDTO dto) {
         User updatedUser = userService.editDisplayName(id, dto);
         return ResponseEntity.status(HttpStatus.OK).body(updatedUser.toDTO());
     }
@@ -61,7 +62,8 @@ public class UserController {
      * @return DTO containing user info
      */
     @PatchMapping({"/{id}/edit/steam"})
-    public ResponseEntity<UserInfoDTO> editSteamConnection(@PathVariable long id, @Valid @RequestBody UserSteamIdDTO dto) {
+    public ResponseEntity<UserInfoDTO> editSteamConnection(@PathVariable long id,
+                                                           @Valid @RequestBody UserSteamIdDTO dto) {
         User updatedUser = userService.editSteamConnection(id, dto);
         return ResponseEntity.status(HttpStatus.OK).body(updatedUser.toDTO());
     }
