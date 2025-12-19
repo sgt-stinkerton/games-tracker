@@ -1,6 +1,6 @@
 package com.gametracker.backend.model;
 
-import com.gametracker.backend.dto.UserInfoDTO;
+import com.gametracker.backend.dto.user.UserInfoDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

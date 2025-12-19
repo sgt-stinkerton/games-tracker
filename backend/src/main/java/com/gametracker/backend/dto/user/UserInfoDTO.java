@@ -1,4 +1,4 @@
-package com.gametracker.backend.dto;
+package com.gametracker.backend.dto.user;
 
 public record UserInfoDTO (
     Long id,
