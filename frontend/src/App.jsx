@@ -13,7 +13,7 @@ export default function App() {
     <div className="d-flex p-0">
       <SideBar />
       <main
-        className="p-4 bg-secondary-subtle"
+        className="p-4 bg-light"
         style={{ marginLeft: '220px', minHeight: '100vh', width: 'calc(100vw - 220px)' }}
       >
         <Routes>

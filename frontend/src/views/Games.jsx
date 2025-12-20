@@ -1,11 +1,11 @@
 import { gameService } from "../services/gameService.js";
 import {useEffect, useState} from "react";
 import {Row, Col, Spinner, Button} from 'react-bootstrap';
+import {List, ListUl, Grid} from 'react-bootstrap-icons'
 import GameCard from "../components/GameCard.jsx";
 
 // TODO error alert
 // TODO hidden games are only shown when filtering
-// TODO button that flattens card view into list, and unflattens list into grid card view
 
 export default function Games ({  }) {
   const [entries, setEntries] = useState([]);
@@ -14,11 +14,13 @@ export default function Games ({  }) {
 
   useEffect(() => {
     gameService.getAll()
-      .then(data => setEntries(data))
+      .then(data => {
+        setEntries(data);
+        console.log(data);
+      })
       .catch(error => setError(error))
       .finally(() => setLoading(false))
   }, []);
-
 
   if (loading) {
     return (
@@ -29,29 +31,44 @@ export default function Games ({  }) {
   }
 
   return (<>
-    <div className="bg-light rounded-3 shadow p-3 mb-4 d-flex flex-row align-items-center justify-content-between">
-      <div className="d-flex flex-row gap-3">
-        <h3 className="mb-1">Your Games List</h3>
-        <Button>Sort by dropdown</Button> {/* TODO */}
-        <Button>Add</Button> {/* TODO */}
+    <div className="d-flex justify-content-between align-items-baseline">
+      <div className="d-flex flex-row align-items-baseline gap-3">
+        <h4 className="mb-1">Your Games List</h4>
+        <p className="m-0 text-muted">Showing {entries.length} {entries.length === 1 ? " game." : " games."}</p>
       </div>
-      <div className="d-flex flex-row justify-content-end gap-3">
-        <Button>Search</Button> {/* TODO */}
-        <Button>Filter Menu</Button> {/* TODO */}
+
+      <div className="d-flex flex-row gap-3">
+        <List size={26} /> {/* TODO */}
+        <Grid size={24} /> {/* TODO */}
       </div>
     </div>
 
+    <hr className="mt-2 mb-3"></hr>
+
+    <div className="d-flex justify-content-between align-items-baseline">
+      <div className="d-flex align-items-center gap-2">
+        <Button variant="primary" className="px-5 py-1 border me-3">Search</Button> {/* TODO */}
+        <Button variant="secondary" className="px-3 py-1">Status</Button> {/* TODO */}
+        <Button variant="secondary" className="px-3 py-1">Genre</Button> {/* TODO */}
+        <Button variant="secondary" className="px-3 py-1">Release Year</Button> {/* TODO */}
+        <Button variant="secondary" className="px-3 py-1">Your Rating</Button> {/* TODO */}
+      </div>
+      <p className="m-0">Sort: [<>sort type</>]</p> {/* TODO */}
+    </div>
+
+    <hr className="my-3"></hr>
+
     <Row xs={1} md={4} className="g-4">
-      {entries && entries.map(e => (
+      {entries.map(e => (
         <Col key={e.id}>
           <GameCard
-            imgSrc={null}
+            imgSrc={null}  // TODO
             title={e.game.title}
             status={e.status}
             releaseYear={e.game.releaseYear}
-            currentAchievements={"?"}
-            maxAchievements={null}
-            genres={"Action, Tactical, Stealth"}
+            currentAchievements={"?"}  // TODO
+            maxAchievements={null}  // TODO
+            genres={"Action, Tactical, Stealth"}  // TODO
             gameId={e.game.id} />
         </Col>
       ))}

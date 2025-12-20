@@ -1,5 +1,5 @@
 import {Nav} from 'react-bootstrap';
-import {PersonCircle, Controller, JournalText, HouseDoor} from 'react-bootstrap-icons';
+import {PersonCircle, Controller, JournalText, HouseDoor, PlusCircle} from 'react-bootstrap-icons';
 import {Link, NavLink} from 'react-router';
 
 // TODO make nicer games tracker logo
@@ -23,6 +23,11 @@ export default function SideBar ({  }) {
         <Nav.Item>
           <Nav.Link as={NavLink} to="/games" className="d-flex align-items-center gap-2">
             <Controller />Games
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link as={NavLink} to="/add" className="d-flex align-items-center gap-2">
+            <PlusCircle />Add Game
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
