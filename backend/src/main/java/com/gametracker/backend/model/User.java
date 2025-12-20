@@ -31,7 +31,7 @@ public class User {
     private String displayName;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<GameEntry> gameEntries;
+    private List<Library> gameEntries;
 
     // --- methods ---
 

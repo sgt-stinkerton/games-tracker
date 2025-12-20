@@ -1,6 +1,6 @@
 package com.gametracker.backend.model;
 
-import com.gametracker.backend.dto.gameEntry.GameEntryInfoDTO;
+import com.gametracker.backend.dto.library.LibraryInfoDTO;
 import com.gametracker.backend.enums.Status;
 
 import jakarta.persistence.*;
@@ -9,12 +9,10 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-// TODO owned?
-
 @Entity
 @Table(name = "game_entries")
 @Getter @Setter
-public class GameEntry {
+public class Library {
 
     // --- fields ---
 
@@ -57,20 +55,20 @@ public class GameEntry {
 
     // --- methods ---
 
-    public GameEntry() {}
+    public Library() {}
 
-    public GameEntry(User user, Game game, Status status, String notes) {
+    public Library(User user, Game game, Status status, String notes) {
         this.user = user;
         this.game = game;
         this.status = status;
         this.notes = notes;
     }
 
-    public GameEntryInfoDTO toDTO() {
-        return new GameEntryInfoDTO(
+    public LibraryInfoDTO toDTO() {
+        return new LibraryInfoDTO(
                 id,
                 user.getId(),
-                game.getId(),
+                game.toDTO(),
                 status,
                 notes,
                 fullAchievements,

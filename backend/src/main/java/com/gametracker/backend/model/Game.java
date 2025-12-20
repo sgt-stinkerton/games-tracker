@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.Year;
 
 @Entity
 @Table(name = "games")
@@ -24,17 +24,17 @@ public class Game {
 
     private String title;
 
-    @Column(name = "release_date")
-    private LocalDate releaseDate;
+    @Column(name = "release_year")
+    private Year releaseYear;
 
     // --- methods ---
 
     public Game() {}
 
-    public Game(Long steamAppId, String title, LocalDate releaseDate) {
+    public Game(Long steamAppId, String title, Year releaseYear) {
         this.steamAppId = steamAppId;
         this.title = title;
-        this.releaseDate = releaseDate;
+        this.releaseYear = releaseYear;
     }
 
     public GameInfoDTO toDTO() {
@@ -42,7 +42,7 @@ public class Game {
                 id,
                 steamAppId,
                 title,
-                releaseDate
+                releaseYear
         );
     }
 

@@ -1,12 +1,15 @@
 import {Card} from 'react-bootstrap';
-import {BoxArrowInRight} from 'react-bootstrap-icons';
+import {BoxArrowUpRight} from 'react-bootstrap-icons';
 import {Link} from 'react-router';
-import DefaultImg from '../assets/mgsv.jpeg';
+import DefaultImg from '../assets/placeholder.jpg';
 
-// TODO if a title has : or - then separate the lines
+// TODO if a title has : or - then separate the lines, and make the series part slightly smaller
 // TODO different colour for different statuses
+// TODO hovering over a card makes it expand
 
-export default function GameCard ({ imgSrc=null, title, status, releaseYear, genres, currentAchievements="?", maxAchievements=null, gameId }) {
+export default function GameCard (
+  { imgSrc, title, status, releaseYear, genres, currentAchievements, maxAchievements, gameId }
+){
   return (
     <Card className="shadow-sm h-100">
       <div className="px-3 pt-3 pb-1">
@@ -40,7 +43,7 @@ export default function GameCard ({ imgSrc=null, title, status, releaseYear, gen
             }
           </p>
           <Link to={`/games/${gameId}`}>
-            <BoxArrowInRight size={24} fill="secondary" />
+            <BoxArrowUpRight size={20} fill="secondary" />
           </Link>
         </div>
       </Card.Footer>

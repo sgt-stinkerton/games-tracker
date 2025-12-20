@@ -5,5 +5,6 @@ public enum Status {
     UP_NEXT,
     PLAYING,
     COMPLETED,
-    DROPPED
+    DROPPED,
+    HIDDEN
 }

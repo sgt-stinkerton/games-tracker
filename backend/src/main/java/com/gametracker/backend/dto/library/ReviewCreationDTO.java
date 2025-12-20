@@ -1,4 +1,4 @@
-package com.gametracker.backend.dto.gameEntry;
+package com.gametracker.backend.dto.library;
 
 import java.time.LocalDate;
 
