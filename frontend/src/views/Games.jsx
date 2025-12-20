@@ -1,7 +1,11 @@
 import { gameService } from "../services/gameService.js";
 import {useEffect, useState} from "react";
-import {Row, Col, Spinner} from 'react-bootstrap';
+import {Row, Col, Spinner, Button} from 'react-bootstrap';
 import GameCard from "../components/GameCard.jsx";
+
+// TODO error alert
+// TODO hidden games are only shown when filtering
+// TODO button that flattens card view into list, and unflattens list into grid card view
 
 export default function Games ({  }) {
   const [entries, setEntries] = useState([]);
@@ -24,15 +28,19 @@ export default function Games ({  }) {
     )
   }
 
-  return (
-    // <ul>
-    //   <li>browse by status</li>
-    //   <li>filter by category</li>
-    //   <li>button that flattens card view into list, and unflattens list into grid card view</li>
-    //   <li>search filtering</li>
-    //   <li>add new game</li>
-    //   <li>games with hidden status aren't automatically shown</li>
-    // </ul>
+  return (<>
+    <div className="bg-light rounded-3 shadow p-3 mb-4 d-flex flex-row align-items-center justify-content-between">
+      <div className="d-flex flex-row gap-3">
+        <h3 className="mb-1">Your Games List</h3>
+        <Button>Sort by dropdown</Button> {/* TODO */}
+        <Button>Add</Button> {/* TODO */}
+      </div>
+      <div className="d-flex flex-row justify-content-end gap-3">
+        <Button>Search</Button> {/* TODO */}
+        <Button>Filter Menu</Button> {/* TODO */}
+      </div>
+    </div>
+
     <Row xs={1} md={4} className="g-4">
       {entries && entries.map(e => (
         <Col key={e.id}>
@@ -48,5 +56,5 @@ export default function Games ({  }) {
         </Col>
       ))}
     </Row>
-  )
+  </>)
 }

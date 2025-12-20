@@ -5,6 +5,8 @@ import Reviews from './views/Reviews.jsx';
 import Profile from './views/Profile.jsx';
 import SideBar from './components/SideBar.jsx';
 
+// TODO light mode / dark mode in user table
+
 export default function App() {
 
   return (
