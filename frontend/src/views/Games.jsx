@@ -1,37 +1,45 @@
-import {Row, Col} from 'react-bootstrap';
+import { gameService } from "../services/gameService.js";
+import {useEffect, useState} from "react";
+import {Row, Col, Spinner} from 'react-bootstrap';
 import GameCard from "../components/GameCard.jsx";
 
 export default function Games ({  }) {
+  const [games, setGames] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    gameService.getAllGames()
+      .then(data => setGames(data))
+      .catch(error => setError(error))
+      .finally(() => setLoading(false))
+  }, []);
+
+
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center mt-5">
+        <Spinner animation="border" variant="primary" />
+      </div>
+    )
+  }
+
   return (
     // <ul>
     //   <li>browse by status</li>
-    //   <ul>
-    //     <li>to play</li>
-    //     <li>up next</li>
-    //     <li>currently playing</li>
-    //     <li>completed</li>
-    //     <li>dropped</li>
-    //   </ul>
     //   <li>filter by category</li>
-    //   <ul>
-    //     <li>action</li>
-    //     <li>adventure</li>
-    //     <li>puzzle</li>
-    //     <li>stealth</li>
-    //     <li>etc</li>
-    //   </ul>
     //   <li>button that flattens card view into list, and unflattens list into grid card view</li>
     // </ul>
-    <Row xs={1} md={4} className="g-4">
-      {Array.from({ length: 12 }).map((_, idx) => (
-        <Col key={idx}>
+    <Row xs={1} md={4} lg={4} className="g-4">
+      {games && games.map(game => (
+        <Col key={game.id}>
           <GameCard
-            title={"Metal Gear Solid V: The Phantom Pain"}
+            title={game.title}
             status="PLAYING"
-            releaseYear={"2015"}
+            releaseYear={game.releaseDate}
             genres={"Action, Tactical, Stealth"}
             maxAchievements="42"
-            gameId={"1"} />
+            gameId={game.id} />
         </Col>
       ))}
     </Row>

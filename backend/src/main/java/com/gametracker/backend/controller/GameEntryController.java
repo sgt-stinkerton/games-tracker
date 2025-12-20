@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// TODO thinking about merging this with game controller
+
 @RestController
-@RequestMapping("/game-entry")
+@RequestMapping("/games-entry")
 public class GameEntryController {
     private final GameEntryService gameEntryService;
 

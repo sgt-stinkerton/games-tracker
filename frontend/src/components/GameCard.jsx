@@ -4,6 +4,7 @@ import {Link} from 'react-router';
 import DefaultImg from '../assets/mgsv.jpeg';
 
 // TODO if a title has : or - then separate the lines
+// TODO different colour for different statuses
 
 export default function GameCard ({ imgSrc=null, title, status, releaseYear, genres, currentAchievements="?", maxAchievements=null, gameId }) {
   return (
