@@ -1,23 +1,56 @@
-import { gameService } from "../services/gameService.js";
 import {useEffect, useState} from "react";
 import {Row, Col, Spinner, Button} from 'react-bootstrap';
-import {List, ListUl, Grid} from 'react-bootstrap-icons'
+import {List, Grid, Search} from 'react-bootstrap-icons'
+
+import {gameService} from "../services/gameService.js";
 import GameCard from "../components/GameCard.jsx";
+import FilterStatus from "../components/FilterStatus.jsx";
+import FilterYear from "../components/FilterYear.jsx";
 
 // TODO error alert
-// TODO hidden games are only shown when filtering
 
 export default function Games ({  }) {
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [activeFilters, setActiveFilters] = useState({
+    status: [],
+    genre: [],
+    year: { min: null, max: null },
+    rating: []
+  });
+
+  const handleFilterChange = (type, newFilters) => {
+    setActiveFilters(prev => ({...prev, [type]: newFilters}));
+  };
+
+  const visibleEntries = entries.filter(e => {
+    const matchesStatus = activeFilters.status.length === 0
+      ? e.status !== "HIDDEN"
+      : activeFilters.status.includes(e.status);
+
+    // todo
+    // const matchesGenre = activeFilters.genre.length === 0
+    //   ? true
+    //   : activeFilters.genre.includes(e.game.genre);
+
+    const gameYear = parseInt(e.game.releaseYear);
+    const {min, max} = activeFilters.year;
+    const matchesYear = (!min || gameYear >= min) && (!max || gameYear <= max);
+
+    // todo
+    // const matchesRating = activeFilters.rating.length === 0
+    //   ? true
+    //   : activeFilters.rating.includes(e.game.rating);
+
+    // return matchesStatus && matchesGenre && matchesYear && matchesRating;
+    return matchesStatus && matchesYear;
+  })
+
   useEffect(() => {
-    gameService.getAll()
-      .then(data => {
-        setEntries(data);
-        console.log(data);
-      })
+    gameService.getAllEntries()
+      .then(data => setEntries(data))
       .catch(error => setError(error))
       .finally(() => setLoading(false))
   }, []);
@@ -25,41 +58,55 @@ export default function Games ({  }) {
   if (loading) {
     return (
       <div className="d-flex justify-content-center mt-5">
-        <Spinner animation="border" variant="primary" />
+        <Spinner animation="border" />
       </div>
     )
   }
 
   return (<>
     <div className="d-flex justify-content-between align-items-baseline">
-      <div className="d-flex flex-row align-items-baseline gap-3">
+      <div className="d-flex flex-row align-items-baseline gap-3 mt-1">  {/* do not touch the mt-1 */}
         <h4 className="mb-1">Your Games List</h4>
-        <p className="m-0 text-muted">Showing {entries.length} {entries.length === 1 ? " game." : " games."}</p>
+        <p className="m-0 text-muted">Showing {visibleEntries.length} {visibleEntries.length === 1 ? " game." : " games."}</p>
       </div>
 
+      {/* TODO */}
       <div className="d-flex flex-row gap-3">
-        <List size={26} /> {/* TODO */}
-        <Grid size={24} /> {/* TODO */}
+        <List size={26} />
+        <Grid size={24} />
       </div>
+    </div>
+
+    <hr className="my-2"></hr>
+
+    <div className="d-flex justify-content-between align-items-baseline">
+      <div className="d-flex align-items-center gap-2">
+
+        {/* TODO */}
+        <Button variant="primary" className="px-5 py-0 border me-3">
+          Search <Search size={16}/>
+        </Button>
+
+        <FilterStatus onFilterChange={filters => handleFilterChange("status", filters)}/>
+
+        {/* TODO */}
+        {/*<FilterGenre onFilterChange={filters => handleFilterChange("genre", filters)}/>*/}
+
+        {/* TODO */}
+        <FilterYear onFilterChange={filters => handleFilterChange("year", filters)}/>
+
+        {/* TODO */}
+        {/*<FilterRating onFilterChange={filters => handleFilterChange("rating", filters)}/>*/}
+      </div>
+
+      {/* TODO */}
+      <p className="m-0">Sort: [<>sort type</>]</p>
     </div>
 
     <hr className="mt-2 mb-3"></hr>
 
-    <div className="d-flex justify-content-between align-items-baseline">
-      <div className="d-flex align-items-center gap-2">
-        <Button variant="primary" className="px-5 py-1 border me-3">Search</Button> {/* TODO */}
-        <Button variant="secondary" className="px-3 py-1">Status</Button> {/* TODO */}
-        <Button variant="secondary" className="px-3 py-1">Genre</Button> {/* TODO */}
-        <Button variant="secondary" className="px-3 py-1">Release Year</Button> {/* TODO */}
-        <Button variant="secondary" className="px-3 py-1">Your Rating</Button> {/* TODO */}
-      </div>
-      <p className="m-0">Sort: [<>sort type</>]</p> {/* TODO */}
-    </div>
-
-    <hr className="my-3"></hr>
-
     <Row xs={1} md={4} className="g-4">
-      {entries.map(e => (
+      {visibleEntries.map(e => (
         <Col key={e.id}>
           <GameCard
             imgSrc={null}  // TODO

@@ -1,6 +1,6 @@
 package com.gametracker.backend.model;
 
-import com.gametracker.backend.dto.library.LibraryInfoDTO;
+import com.gametracker.backend.dto.entry.EntryInfoDTO;
 import com.gametracker.backend.enums.Status;
 
 import jakarta.persistence.*;
@@ -10,15 +10,15 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "game_entries")
+@Table(name = "entries")
 @Getter @Setter
-public class Library {
+public class Entry {
 
     // --- fields ---
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "game_entry_id", nullable = false, unique = true)
+    @Column(name = "entry_id", nullable = false, unique = true)
     private Long id;
 
     @ManyToOne
@@ -55,17 +55,17 @@ public class Library {
 
     // --- methods ---
 
-    public Library() {}
+    public Entry() {}
 
-    public Library(User user, Game game, Status status, String notes) {
+    public Entry(User user, Game game, Status status, String notes) {
         this.user = user;
         this.game = game;
         this.status = status;
         this.notes = notes;
     }
 
-    public LibraryInfoDTO toDTO() {
-        return new LibraryInfoDTO(
+    public EntryInfoDTO toDTO() {
+        return new EntryInfoDTO(
                 id,
                 user.getId(),
                 game.toDTO(),

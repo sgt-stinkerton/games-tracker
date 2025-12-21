@@ -1,6 +1,7 @@
 package com.gametracker.backend.dto.game;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.Year;
 

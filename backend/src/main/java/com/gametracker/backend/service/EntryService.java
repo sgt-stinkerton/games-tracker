@@ -1,11 +1,11 @@
 package com.gametracker.backend.service;
 
-import com.gametracker.backend.dto.library.LibraryCreationDTO;
-import com.gametracker.backend.dto.library.ReviewCreationDTO;
+import com.gametracker.backend.dto.entry.EntryCreationDTO;
+import com.gametracker.backend.dto.entry.ReviewCreationDTO;
 import com.gametracker.backend.model.Game;
-import com.gametracker.backend.model.Library;
+import com.gametracker.backend.model.Entry;
 import com.gametracker.backend.model.User;
-import com.gametracker.backend.repository.LibraryRepository;
+import com.gametracker.backend.repository.EntryRepository;
 import com.gametracker.backend.repository.GameRepository;
 import com.gametracker.backend.repository.UserRepository;
 
@@ -16,36 +16,36 @@ import java.util.List;
 
 @Service
 @Transactional
-public class LibraryService {
-    private final LibraryRepository libraryRepository;
+public class EntryService {
+    private final EntryRepository entryRepository;
     private final UserRepository userRepository;
     private final GameRepository gameRepository;
 
-    public LibraryService(LibraryRepository libraryRepository,
-                          UserRepository userRepository,
-                          GameRepository gameRepository) {
-        this.libraryRepository = libraryRepository;
+    public EntryService(EntryRepository entryRepository,
+                        UserRepository userRepository,
+                        GameRepository gameRepository) {
+        this.entryRepository = entryRepository;
         this.userRepository = userRepository;
         this.gameRepository = gameRepository;
     }
 
-    public List<Library> getAll() {
-        return libraryRepository.findAll();
+    public List<Entry> getAll() {
+        return entryRepository.findAll();
     }
 
-    public Library getById(Long id) {
-        return libraryRepository.findById(id).orElseThrow(); // TODO exception here
+    public Entry getById(Long id) {
+        return entryRepository.findById(id).orElseThrow(); // TODO exception here
     }
 
-    public Library createEntry(LibraryCreationDTO dto) {
+    public Entry createEntry(EntryCreationDTO dto) {
         User user = userRepository.findById(dto.userId()).orElseThrow(); // TODO exception
         Game game = gameRepository.findById(dto.gameId()).orElseThrow(); // TODO exception
-        Library newLibrary = new Library(user, game, dto.status(), dto.notes());
-        return libraryRepository.save(newLibrary);
+        Entry newEntry = new Entry(user, game, dto.status(), dto.notes());
+        return entryRepository.save(newEntry);
     }
 
-    public Library createReview(long id, ReviewCreationDTO dto) {
-        Library targetEntry = libraryRepository.findById(id).orElseThrow(); // TODO write exception for this
+    public Entry createReview(long id, ReviewCreationDTO dto) {
+        Entry targetEntry = entryRepository.findById(id).orElseThrow(); // TODO write exception for this
 
         targetEntry.setFullAchievements(dto.fullAchievements());
         targetEntry.setReviewText(dto.reviewText());
@@ -57,7 +57,7 @@ public class LibraryService {
         targetEntry.setVisuals(dto.visuals());
         targetEntry.setSound(dto.sound());
 
-        return libraryRepository.save(targetEntry);
+        return entryRepository.save(targetEntry);
     }
 
 }
