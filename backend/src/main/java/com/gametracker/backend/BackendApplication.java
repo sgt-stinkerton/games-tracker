@@ -48,6 +48,22 @@ public class BackendApplication {
                 libraryRepository.save(newLibrary3);
                 ReviewCreationDTO dto4 = new ReviewCreationDTO(null, "fuckin shit.", LocalDate.now(), 10, 2, 3, 1, 0, 4);
                 libraryService.createReview(newLibrary3.getId(), dto4);
+
+                Game game4 = gameRepository.save(new Game(null, "Metal Gear Solid 4: Guns of the Patriots", Year.now()));
+                LibraryCreationDTO dto5 = new LibraryCreationDTO(user.getId(), game4.getId(), Status.TO_PLAY, "");
+                Library newLibrary4 = new Library(user, game4, dto5.status(), dto5.notes());
+                libraryRepository.save(newLibrary4);
+
+                Game game5 = gameRepository.save(new Game(null, "Metal Gear Solid", Year.now()));
+                LibraryCreationDTO dto6 = new LibraryCreationDTO(user.getId(), game5.getId(), Status.UP_NEXT, "");
+                Library newLibrary5 = new Library(user, game5, dto6.status(), dto6.notes());
+                libraryRepository.save(newLibrary5);
+
+                Game game6 = gameRepository.save(new Game(null, "Among Us", Year.now()));
+                LibraryCreationDTO dto8 = new LibraryCreationDTO(user.getId(), game6.getId(), Status.HIDDEN, "");
+                Library newLibrary6 = new Library(user, game6, dto8.status(), dto8.notes());
+                libraryRepository.save(newLibrary6);
+
             } else {
                 System.out.println("Database already contains data. Skipping initial setup.");
             }
