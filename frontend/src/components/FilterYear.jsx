@@ -2,9 +2,9 @@ import {useEffect, useState} from "react";
 import {Row, Col, Form} from "react-bootstrap";
 import FilterDropdown from "./FilterDropdown";
 
-export default function FilterYear({ onFilterChange }) {
-  const [minYear, setMinYear] = useState("");
-  const [maxYear, setMaxYear] = useState("");
+export default function FilterYear({ initialState, onFilterChange }) {
+  const [minYear, setMinYear] = useState(initialState?.min || "");
+  const [maxYear, setMaxYear] = useState(initialState?.max || "");
 
   useEffect(() => {
     onFilterChange({

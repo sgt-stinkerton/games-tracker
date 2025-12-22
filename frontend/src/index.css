@@ -7,3 +7,20 @@
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
     cursor: pointer;
 }
+
+.view-hover {
+    transition: transform 0.2s ease-in-out;
+}
+.view-hover:hover {
+    transform: scale(1.15);
+    cursor: pointer;
+}
+
+.game-list-item {
+    background-color: var(--bs-white);
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+.game-list-item:hover {
+    background-color: var(--bs-secondary-bg-subtle);
+    cursor: pointer;
+}

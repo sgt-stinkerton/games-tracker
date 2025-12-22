@@ -2,22 +2,36 @@ import { useEffect, useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import FilterDropdown from "./FilterDropdown";
 
-export default function FilterRating({ onFilterChange }) {
+export default function FilterRating({ initialState, onFilterChange }) {
   const ratingTypes = [
     "rating", "enjoyment", "gameplay",
     "story", "visuals", "sound"
   ];
 
   // helper to set up rating type dict
-  const getInitialFilters = () => {
-    const init = {};
+  const getEmptyFilters = () => {
+    const empty = {};
     ratingTypes.forEach(type => {
-      init[type] = {min: "", max: ""};
+      empty[type] = {min: "", max: ""};
     });
-    return init;
+    return empty;
   };
 
-  const [filters, setFilters] = useState(getInitialFilters);
+  const getMergedFilters = () => {
+    const merged = getEmptyFilters();
+    if (initialState) {
+      Object.keys(initialState).forEach(type => {
+        if (merged[type]) {
+          const {min, max} = initialState[type];
+          merged[type].min = (min === null) ? "" : min;
+          merged[type].max = (max === null) ? "" : max;
+        }
+      });
+    }
+    return merged;
+  };
+
+  const [filters, setFilters] = useState(getMergedFilters);
 
   // iterate through types of ratings
   useEffect(() => {
@@ -45,7 +59,7 @@ export default function FilterRating({ onFilterChange }) {
     });
   };
 
-  const handleReset = () => setFilters(getInitialFilters);
+  const handleReset = () => setFilters(getEmptyFilters());
 
   return (
     <FilterDropdown type="Ratings" onReset={handleReset}>

@@ -9,18 +9,15 @@ export default function GameCard ({ imgSrc, title, status, releaseYear, genres, 
   // render series section of a title smaller (if it exists)
   const splitIx = title.indexOf(":");
   let renderedTitle;
-  const titleClass = "d-flex flex-column justify-content-end";
-  const titleStyle = { minHeight: "2.5rem" };
-
   if (splitIx !== -1) {
-    renderedTitle = (<div className={titleClass} style={titleStyle}>
-      <p className="text-uppercase fw-bold mb-1 lh-1 small">{title.substring(0, splitIx + 1)}</p>
-      <p className="text-uppercase fw-bold mb-1 lh-1">{title.substring(splitIx + 1).trim()}</p>
-    </div>)
+    renderedTitle = (<>
+      <p className="text-uppercase fw-bold mb-1 lh-1">{title.substring(0, splitIx + 1)}</p>
+      <p className="text-uppercase fw-bold mb-1 lh-1 small">{title.substring(splitIx + 1).trim()}</p>
+    </>)
   } else {
-    renderedTitle = <div className={titleClass} style={titleStyle}>
-      <p className="text-uppercase fw-bold mb-1 lh-sm">{title}</p>
-    </div>
+    renderedTitle = <>
+      <p className="text-uppercase fw-bold mb-1 lh-1">{title}</p>
+    </>
   }
 
   return (
@@ -29,18 +26,26 @@ export default function GameCard ({ imgSrc, title, status, releaseYear, genres, 
       className="shadow-sm h-100 card-hover text-decoration-none d-flex flex-column"
     >
       <div className="px-3 pt-2 pb-1 flex-grow-1">
-        {renderedTitle}
+        <div className="d-flex flex-column justify-content-end" style={{ minHeight: "2.5rem" }}>
+          {renderedTitle}
+        </div>
 
         {/* image */}
         {/* TODO scrape link from steam? */}
         <div className="rounded-3 mb-1">
-          <Card.Img src={imgSrc || DefaultImg} alt={"header image for " + title} style={{ height: '110px', objectFit: 'cover' }} />
+          <Card.Img
+            src={imgSrc || DefaultImg}
+            alt={"header image for " + title}
+            style={{ height: '110px', objectFit: 'cover' }}
+          />
         </div>
 
         {/* brief game information */}
         <Card.Body className="p-0">
           <div className="d-flex justify-content-between py-1">
-            <p className={`m-0 small fw-bold badge rounded-3 ${getStatusColor(status)}`}>{status.replaceAll("_", " ")}</p>
+            <p className={`m-0 fw-bold badge rounded-3 ${getStatusColor(status)}`}>
+              {status.replaceAll("_", " ")}
+            </p>
             <p className="m-0 small fw-bold">{releaseYear}</p>
           </div>
           <hr className="mt-1 mb-0 p-0"></hr>

@@ -2,8 +2,8 @@ import {useState} from "react";
 import {Row, Col, Button} from "react-bootstrap";
 import FilterDropdown from "./FilterDropdown";
 
-export default function FilterStatus({ onFilterChange }) {
-  const [activeFilters, setActiveFilters] = useState([]);
+export default function FilterStatus({ initialState, onFilterChange }) {
+  const [activeFilters, setActiveFilters] = useState(initialState || []);
 
   const statuses = [
     "TO_PLAY", "UP_NEXT", "PLAYING",

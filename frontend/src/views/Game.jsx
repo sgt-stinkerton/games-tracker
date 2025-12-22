@@ -18,9 +18,7 @@ export default function Game ({ setShowToast, setToastMsg }) {
       .catch(error => setError(error))
   }, [gameId]);
 
-  if (entry === null) return (
-    <LoadingSpinner />
-  )
+  if (entry === null) return <LoadingSpinner />
 
   return (
     <>
