@@ -55,5 +55,21 @@ export const gameService = {
       .catch(error => {
         console.error("Error creating game, " + error);
         throw error;
+      }),
+
+  syncGame: (appId, name) =>
+    api.post("/games/sync", null, {
+      params: {
+        appId: appId,
+        name: name
+      }
+    }),
+
+  getOwnedIds: () =>
+    api.get("/api/steam/ids")
+      .then(response => response.data)
+      .catch(error => {
+        console.error("Error getting owned ids, " + error);
+        throw error;
       })
 };

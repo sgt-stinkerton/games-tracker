@@ -13,7 +13,7 @@ public record EntryInfoDTO(
         GameInfoDTO game,
         Status status,
         String notes,
-        Integer fullAchievements,
+        Integer currentAchievements,
         String reviewText,
         LocalDate finishDate,
         Integer rating,

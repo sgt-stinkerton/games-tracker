@@ -24,12 +24,11 @@ public class UserController {
 
     /**
      * get user information by their id
-     * @param id the id of the client's user record
      * @return DTO containing user info
      */
-    @GetMapping({"/{id}"})
-    public ResponseEntity<UserInfoDTO> getUser(@PathVariable long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.getUser(id).toDTO());
+    @GetMapping({"", "/"})
+    public ResponseEntity<UserInfoDTO> getUser() {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getUser(1L).toDTO());
     }
 
     /**
@@ -45,27 +44,23 @@ public class UserController {
 
     /**
      * edit the display name of the user
-     * @param id client user id
      * @param dto creation DTO (only creates display name)
      * @return DTO containing user info
      */
-    @PatchMapping({"/{id}/edit/name"})
-    public ResponseEntity<UserInfoDTO> editDisplayName(@PathVariable long id,
-                                                       @Valid @RequestBody UserCreationDTO dto) {
-        User updatedUser = userService.editDisplayName(id, dto);
+    @PatchMapping({"/edit/name"})
+    public ResponseEntity<UserInfoDTO> editDisplayName(@Valid @RequestBody UserCreationDTO dto) {
+        User updatedUser = userService.editDisplayName(1L, dto);
         return ResponseEntity.status(HttpStatus.OK).body(updatedUser.toDTO());
     }
 
     /**
      * edit the user's steam connection
-     * @param id client user id
      * @param dto steam ID editing DTO
      * @return DTO containing user info
      */
-    @PatchMapping({"/{id}/edit/steam"})
-    public ResponseEntity<UserInfoDTO> editSteamConnection(@PathVariable long id,
-                                                           @Valid @RequestBody UserSteamIdDTO dto) {
-        User updatedUser = userService.editSteamConnection(id, dto);
+    @PatchMapping({"/edit/steam"})
+    public ResponseEntity<UserInfoDTO> editSteamConnection(@Valid @RequestBody UserSteamIdDTO dto) {
+        User updatedUser = userService.editSteamConnection(1L, dto);
         return ResponseEntity.status(HttpStatus.OK).body(updatedUser.toDTO());
     }
 }

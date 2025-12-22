@@ -1,3 +1,5 @@
+// TODO whole page
+
 export default function Home ({  }) {
   return (
     <ul>

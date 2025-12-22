@@ -5,6 +5,7 @@ import Home from "./views/Home.jsx";
 import Games from "./views/Games.jsx";
 import Game from "./views/Game.jsx";
 import AddGame from "./views/AddGame.jsx";
+import SyncGames from "./views/SyncGames.jsx";
 import Reviews from "./views/Reviews.jsx";
 import Profile from "./views/Profile.jsx";
 import SideBar from "./components/SideBar.jsx";
@@ -29,6 +30,7 @@ export default function App() {
           <Route path="/games" element={<Games />} />
           <Route path="/games/:gameId" element={<Game setShowToast={setShowToast} setToastMsg={setToastMsg} />} />
           <Route path="/add" element={<AddGame setShowToast={setShowToast} setToastMsg={setToastMsg} />} />
+          <Route path="/sync" element={<SyncGames />} />
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>

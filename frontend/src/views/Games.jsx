@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import {Row, Col, Button} from "react-bootstrap";
-import {List, Grid, Search} from "react-bootstrap-icons"
+import {Row, Col, Button, Spinner} from "react-bootstrap";
+import {List, Grid, Search, Steam} from "react-bootstrap-icons"
 import {gameService} from "../services/gameService.js";
 import "../index.css";
 
@@ -13,6 +13,7 @@ import SortDropdown from "../components/SortDropdown.jsx";
 import {GameListItem} from "../components/GameListItem.jsx";
 
 // TODO error alert
+// TODO page scroller?
 
 export default function Games ({  }) {
   const [entries, setEntries] = useState([]);
@@ -35,6 +36,10 @@ export default function Games ({  }) {
       rating: {}
     }
   })
+
+  const getTagsString = (tags) => {
+    return tags && tags.length > 0 ? tags.slice(0, 3).join(", ") : "";
+  };
 
   useEffect(() => {
     sessionStorage.setItem("games_view", view);
@@ -60,7 +65,7 @@ export default function Games ({  }) {
       ? e.status !== "HIDDEN"
       : activeFilters.status.includes(e.status);
 
-    // todo
+    // TODO STEAM
     const matchesGenre = true;
 
     // year
@@ -152,7 +157,7 @@ export default function Games ({  }) {
           onFilterChange={filters => handleFilterChange("status", filters)}
         />
 
-        {/* TODO */}
+        {/* TODO STEAM */}
         {/*<FilterGenre*/}
         {/*  initialState={activeFilters.genre}*/}
         {/*  onFilterChange={filters => handleFilterChange("genre", filters)}*/}
@@ -179,27 +184,27 @@ export default function Games ({  }) {
         {visibleEntries.map(e => (
           <Col key={e.id}>
             <GameCard
-              imgSrc={null}  // TODO
+              imgSrc={e.game.headerImageUrl}
               title={e.game.title}
               status={e.status}
               releaseYear={e.game.releaseYear}
-              currentAchievements={"?"}  // TODO
-              maxAchievements={null}  // TODO
-              genres={"Action, Tactical, Stealth"}  // TODO
+              currentAchievements={e.currentAchievements}
+              maxAchievements={e.game.steamAchievements}
+              genres={getTagsString(e.game.tags)}
               gameId={e.game.id} />
           </Col>
         ))}
       </Row>
     ) : (
-      <Row md={2} className="g-2">
+      <Row md={2} className="g-3">
         {visibleEntries.map(e => (
           <Col key={e.id}>
             <GameListItem
-              imgSrc={null}  // TODO
+              imgSrc={e.game.headerImageUrl}
               title={e.game.title}
               status={e.status}
               releaseYear={e.game.releaseYear}
-              genres={"Action, Tactical, Stealth"}  // TODO
+              genres={getTagsString(e.game.tags)}
               gameId={e.game.id} />
           </Col>
         ))}

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Year;
+import java.util.List;
 
 @Entity
 @Table(name = "games")
@@ -20,18 +21,32 @@ public class Game {
     private Long id;
 
     @Column(name = "steam_app_id", unique = true)
-    private Long steamAppId;
+    private String steamAppId;
 
     private String title;
 
+    @Column(length = 400)
+    private String description;
+
     @Column(name = "release_year")
     private Year releaseYear;
+
+    @Column(name = "steam_achievements")
+    private Integer steamAchievements;
+
+    @Column(name = "header_image_url")
+    private String headerImageUrl;
+
+    @ElementCollection // Stores a simple list of strings in a separate table
+    @CollectionTable(name = "game_tags", joinColumns = @JoinColumn(name = "game_id"))
+    @Column(name = "tag")
+    private List<String> tags;
 
     // --- methods ---
 
     public Game() {}
 
-    public Game(Long steamAppId, String title, Year releaseYear) {
+    public Game(String steamAppId, String title, Year releaseYear) {
         this.steamAppId = steamAppId;
         this.title = title;
         this.releaseYear = releaseYear;
@@ -42,7 +57,11 @@ public class Game {
                 id,
                 steamAppId,
                 title,
-                releaseYear
+                description,
+                releaseYear,
+                headerImageUrl,
+                steamAchievements,
+                tags
         );
     }
 

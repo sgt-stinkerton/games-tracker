@@ -55,4 +55,11 @@ public class GameController {
         Game newGame = gameService.createGame(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(newGame.toDTO());
     }
+
+    @PostMapping("/sync")
+    public ResponseEntity<Void> syncGame(@RequestParam String appId,
+                                         @RequestParam(required = false) String name) {
+        gameService.syncGame(appId, name);
+        return ResponseEntity.ok().build();
+    }
 }

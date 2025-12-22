@@ -6,7 +6,6 @@ import java.time.LocalDate;
 // TODO other validation
 
 public record ReviewCreationDTO(
-        Integer fullAchievements,
         String reviewText,
         LocalDate finishDate,
         Integer rating,

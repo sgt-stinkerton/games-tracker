@@ -1,11 +1,16 @@
 package com.gametracker.backend.dto.game;
 
 import java.time.Year;
+import java.util.List;
 
 public record GameInfoDTO (
         Long id,
-        Long steamAppId,
+        String steamAppId,
         String title,
-        Year releaseYear
+        String description,
+        Year releaseYear,
+        String headerImageUrl,
+        Integer steamAchievements,
+        List<String> tags
 ) {}
 

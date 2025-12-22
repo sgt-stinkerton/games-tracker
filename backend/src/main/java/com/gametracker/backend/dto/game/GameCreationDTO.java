@@ -1,12 +1,11 @@
 package com.gametracker.backend.dto.game;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 import java.time.Year;
 
 public record GameCreationDTO (
-        Long steamAppId,
+        String steamAppId,
         @NotBlank(message = "Title cannot be empty")
         String title,
         Year releaseYear

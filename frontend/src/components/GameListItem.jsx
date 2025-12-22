@@ -24,7 +24,7 @@ export function GameListItem({imgSrc, title, status, releaseYear, genres, gameId
       as={Link} to={`/games/${gameId}`}
       className="d-flex justify-content-between border border-secondary-subtle p-2 rounded-1 h-100 game-list-item text-decoration-none text-reset"
     >
-      {/* TODO scrape link from steam? */}
+      {/* TODO STEAM scrape link from steam? */}
       <div className="d-flex justify-content-start gap-2">
         <img
           src={imgSrc || DefaultImg}

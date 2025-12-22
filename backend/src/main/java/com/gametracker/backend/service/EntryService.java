@@ -51,7 +51,6 @@ public class EntryService {
     public Entry createReview(long id, ReviewCreationDTO dto) {
         Entry targetEntry = entryRepository.findById(id).orElseThrow(); // TODO write exception for this
 
-        targetEntry.setFullAchievements(dto.fullAchievements());
         targetEntry.setReviewText(dto.reviewText());
         targetEntry.setFinishDate(dto.finishDate());
         targetEntry.setRating(dto.rating());

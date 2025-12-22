@@ -22,10 +22,7 @@ public class User {
     private Long id;
 
     @Column(name = "steam_id", unique = true)
-    private Long steamId;
-
-    @Column(name = "last_synced")
-    private LocalDateTime lastSynced;
+    private String steamId;
 
     @Column(name = "display_name", nullable = false)
     private String displayName;
@@ -37,7 +34,7 @@ public class User {
 
     public User () {}
 
-    public User(Long steamId, String displayName) {
+    public User(String steamId, String displayName) {
         this.steamId = steamId;
         this.displayName = displayName;
     }
@@ -46,8 +43,7 @@ public class User {
         return new UserInfoDTO(
                 this.id,
                 this.steamId,
-                this.displayName,
-                this.lastSynced
+                this.displayName
         );
     }
 

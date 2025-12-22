@@ -35,8 +35,8 @@ public class Entry {
 
     private String notes;
 
-    @Column(name = "full_achievements")
-    private Integer fullAchievements;
+    @Column(name = "current_achievements")
+    private Integer currentAchievements;
 
     @Column(name = "review_text")
     private String reviewText;
@@ -71,7 +71,7 @@ public class Entry {
                 game.toDTO(),
                 status,
                 notes,
-                fullAchievements,
+                currentAchievements,
                 reviewText,
                 finishDate,
                 rating,

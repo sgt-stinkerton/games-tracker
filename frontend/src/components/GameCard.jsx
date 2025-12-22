@@ -31,12 +31,12 @@ export default function GameCard ({ imgSrc, title, status, releaseYear, genres, 
         </div>
 
         {/* image */}
-        {/* TODO scrape link from steam? */}
+        {/* TODO STEAM scrape link from steam? */}
         <div className="rounded-3 mb-1">
           <Card.Img
             src={imgSrc || DefaultImg}
             alt={"header image for " + title}
-            style={{ height: '110px', objectFit: 'cover' }}
+            style={{ width: '100%', objectFit: 'cover' }}
           />
         </div>
 
@@ -56,7 +56,7 @@ export default function GameCard ({ imgSrc, title, status, releaseYear, genres, 
       </div>
 
       {/* achievement information */}
-      {/* TODO achievement progress bar */}
+      {/* TODO STEAM achievement progress bar */}
       <Card.Footer className="px-3 py-1">
         <div className="d-flex text-end justify-content-between align-items-center my-1 small">
           <p className="m-0 small text-start">

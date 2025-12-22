@@ -4,9 +4,10 @@ import {gameService} from "../services/gameService.js";
 
 import CommonPageHeader from "../components/CommonPageHeader.jsx";
 
-// todo add a button next to the date box that says today so you can quickly fill in if you finished it today
-// todo genre stuff
+// TODO add a button next to the date box that says today so you can quickly fill in if you finished it today
+// TODO STEAM genre stuff
 // TODO finish date cannot be before game was released
+// TODO make look nicer
 
 export default function AddGame ({ setShowToast, setToastMsg }) {
   const [games, setGames] = useState(null);
@@ -70,7 +71,7 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
     let entryData = {
       status: formData.status,
       notes: formData.status === "PLAYING" ? formData.notes : null,
-      userId: 1,  // TODO need to get the user's id
+      userId: 1,
       gameId: null
     }
 
@@ -82,7 +83,6 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
     const rating = sum / 5;
 
     let reviewData = {
-      fullAchievements: null,  // TODO steam integration
       reviewText: formData.reviewText,
       finishDate: formData.finishDate,
       rating: rating,
@@ -127,14 +127,14 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
           min="0" max="10" step="0.5"
           required={isDisabled}
           disabled={isDisabled}
-          className={`h-100 ${isDisabled ? "bg-secondary bg-opacity-25 border-0" : ""}`}
+          className={`h-100 ${isDisabled ? "bg-secondary bg-opacity-25" : "shadow-sm border border-secondary-subtle"}`}
         />
       </Col>
     </Form.Group>
   );
 
   return (<>
-    <CommonPageHeader title="Add Game" sideInfo="Manually Add Game and Entry Data" />
+    <CommonPageHeader title="Add Game" sideInfo="Manually add game and entry data." />
 
     {/* TODO add alerts */}
 
@@ -145,7 +145,7 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
         <Col md={5} className="d-flex flex-column gap-4">
 
           {/* basic game data */}
-          <Card className="bg-secondary-subtle">
+          <Card className="border-secondary-subtle">
             <Card.Body>
               <h6 className="fw-bold fs-5 mb-3">Game Details</h6>
 
@@ -155,7 +155,7 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
                   <Form.Label className="fw-bold m-0">Title</Form.Label>
                 </Col>
                 <Col md={10}>
-                  <Form.Control name="title" value={formData.title} onChange={handleValueChange} required />
+                  <Form.Control className="shadow-sm border border-secondary-subtle" name="title" value={formData.title} onChange={handleValueChange} required />
                 </Col>
               </Form.Group>
 
@@ -165,7 +165,7 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
                   <Form.Label className="fw-bold m-0">Year</Form.Label>
                 </Col>
                 <Col md={5}>
-                  <Form.Control name="releaseYear" type="number" value={formData.releaseYear} onChange={handleValueChange} required/>
+                  <Form.Control className="shadow-sm border border-secondary-subtle" name="releaseYear" type="number" value={formData.releaseYear} onChange={handleValueChange} required/>
                 </Col>
               </Form.Group>
 
@@ -175,7 +175,7 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
                   <Form.Label className="fw-bold m-0">Status</Form.Label>
                 </Col>
                 <Col md={5}>
-                  <Form.Select name="status" value={formData.status} onChange={handleValueChange} required>
+                  <Form.Select className="shadow-sm border border-secondary-subtle" name="status" value={formData.status} onChange={handleValueChange} required>
                     <option value="TO_PLAY">TO PLAY</option>
                     <option value="UP_NEXT">UP NEXT</option>
                     <option value="PLAYING">PLAYING</option>
@@ -189,7 +189,7 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
           </Card>
 
           {/* Currently Playing Notes / Review Text */}
-          <Card className="bg-secondary-subtle">
+          <Card className="border-secondary-subtle">
             <Card.Body>
               <h6 className="fw-bold fs-5 mb-3">
                 {formData.status !== "COMPLETED" && formData.status !== "DROPPED"
@@ -201,7 +201,7 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
               <Form.Group>
                 <Form.Control
                   as="textarea"
-                  className={`h-100 ${isDisabled && formData.status !== "PLAYING" ? "bg-secondary bg-opacity-25 border-0" : ""}`}
+                  className={`h-100 ${isDisabled && formData.status !== "PLAYING" ? "bg-secondary bg-opacity-25" : "shadow-sm border border-secondary-subtle"}`}
                   name="notes"
                   value={formData.notes}
                   onChange={handleValueChange}
@@ -217,7 +217,7 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
 
         {/* right column - game review (for completed or dropped games) */}
         <Col md={7}>
-          <Card className="bg-secondary-subtle">
+          <Card className="border-secondary-subtle">
             <Card.Body>
               <Row>
                 <h6 className="fw-bold fs-5 mb-3">Ratings</h6>
@@ -237,7 +237,7 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
                     <Form.Control
                       type="date"
                       name="finishDate"
-                      className={`h-100 ${isDisabled ? "bg-secondary bg-opacity-25 border-0" : ""}`}
+                      className={`h-100 ${isDisabled ? "bg-secondary bg-opacity-25" : "shadow-sm border border-secondary-subtle"}`}
                       value={formData.finishDate}
                       onChange={handleValueChange}
                       disabled={isDisabled}

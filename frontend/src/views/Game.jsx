@@ -1,11 +1,12 @@
 import {useParams} from "react-router";
 import {useEffect, useState} from "react";
+import {Row, Col} from "react-bootstrap";
+import {PencilSquare, Trash} from "react-bootstrap-icons";
 import {gameService} from "../services/gameService.js";
 
-import CommonPageHeader from "../components/CommonPageHeader.jsx";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
-
-// TODO whole page
+import DefaultImg from "../assets/placeholder.jpg";
+import {getStatusColor} from "../services/utilities.js";
 
 export default function Game ({ setShowToast, setToastMsg }) {
   const [entry, setEntry] = useState(null);
@@ -22,21 +23,66 @@ export default function Game ({ setShowToast, setToastMsg }) {
 
   return (
     <>
-      <CommonPageHeader title={entry.game.title} />
+      <div className="d-flex justify-content-between align-items-baseline">
+        <div className="d-flex flex-row align-items-baseline gap-3 mt-1">  {/* do not touch the mt-1 */}
+          <h4 className="mb-1">{entry.game.title} ({entry.game.releaseYear})</h4>
+          <p className={`m-0 align-self-center fw-bold px-2 rounded-4 ${getStatusColor(entry.status)}`}>
+            {entry.status.replaceAll("_", " ")}
+          </p>
+        </div>
 
-      <p>steam app id: {entry.game.steamAppId}</p>
-      <p>year: {entry.game.releaseYear}</p>
-      <p>status: {entry.status}</p>
-      <p>notes: {entry.notes}</p>
-      <p>fullAchievements: {entry.fullAchievements}</p>
-      <p>review: {entry.reviewText}</p>
-      <p>finish date: {entry.finishDate}</p>
-      <p>rating: {entry.rating}</p>
-      <p>enjoyment: {entry.enjoyment}</p>
-      <p>gameplay: {entry.gameplay}</p>
-      <p>story: {entry.story}</p>
-      <p>visuals: {entry.visuals}</p>
-      <p>sound: {entry.sound}</p>
+        {/* TODO edit and bin */}
+        <div className="d-flex flex-row gap-3">
+          <PencilSquare size={24} />
+          <Trash size={24} />
+        </div>
+      </div>
+      <hr className="my-2"></hr>
+
+      <Row className="g-4 pt-2" style={{ height: "calc(100vh - 100px)" }}>
+
+        {/* left column */}
+        <Col md={6} className="d-flex flex-column gap-4 h-100">
+
+          {/* game image and basic info */}
+          <div className="bg-white border border-secondary-subtle p-3 rounded">
+            <img
+              src={entry.game.headerImageUrl || DefaultImg}
+              alt={"header image for " + entry.game.title}
+              className="rounded-2"
+              style={{width: "100%", objectFit: "cover"}}
+            />
+
+            <div className="mt-2">
+              <p className="m-0">{entry.game.description}</p>
+              <p className="m-0">{entry.game.tags}</p>
+            </div>
+          </div>
+
+          {/* achievement progress and notes */}
+          <div className="bg-white border border-secondary-subtle p-3 rounded h-100 overflow-auto">
+            <p className="m-0">current achievements: {entry.currentAchievements}</p>
+            <p className="m-0">max achievements: {entry.game.steamAchievements}</p>
+            <p className="m-0">notes: {entry.notes}</p>
+          </div>
+        </Col>
+
+        {/* right column - review */}
+        <Col md={6} className="h-100">
+          <div className="bg-white border border-secondary-subtle p-3 rounded h-100 overflow-auto">
+            <h5 className="fw-bold">Your Review</h5>
+            <p className="m-0">review text: {entry.reviewText}</p>
+            <p className="m-0">finish date: {entry.finishDate}</p>
+            <p className="m-0">rating: {entry.rating}</p>
+            <p className="m-0">enjoyment: {entry.enjoyment}</p>
+            <p className="m-0">gameplay: {entry.gameplay}</p>
+            <p className="m-0">story: {entry.story}</p>
+            <p className="m-0">visuals: {entry.visuals}</p>
+            <p className="m-0">sound: {entry.sound}</p>
+          </div>
+        </Col>
+
+      </Row>
     </>
   )
 }

@@ -31,6 +31,11 @@ export default function SideBar ({  }) {
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
+          <Nav.Link as={NavLink} to="/sync" className="d-flex align-items-center gap-2">
+            <PlusCircle />Sync With Steam
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
           <Nav.Link as={NavLink} to="/reviews" className="d-flex align-items-center gap-2">
             <JournalText />Reviews
           </Nav.Link>
