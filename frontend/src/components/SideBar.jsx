@@ -1,13 +1,13 @@
-import {Nav} from 'react-bootstrap';
-import {PersonCircle, Controller, JournalText, HouseDoor, PlusCircle} from 'react-bootstrap-icons';
-import {Link, NavLink} from 'react-router';
+import {Nav} from "react-bootstrap";
+import {PersonCircle, Controller, JournalText, HouseDoor, PlusCircle} from "react-bootstrap-icons";
+import {Link, NavLink} from "react-router";
 
 // TODO make nicer games tracker logo
 
 export default function SideBar ({  }) {
   return (
     <div className="d-flex flex-column p-3 border-end"
-         style={{ width: '220px', height: '100vh', position: 'fixed' }}>
+         style={{ width: "220px", height: "100vh", position: "fixed" }}>
       <Link to="/" className="link-dark text-decoration-none">
         <span className="fs-4 fw-bold">Games Tracker</span>
       </Link>

@@ -1,11 +1,13 @@
 import {useEffect, useState} from "react";
-import {Row, Col, Spinner, Button} from 'react-bootstrap';
-import {List, Grid, Search} from 'react-bootstrap-icons'
+import {Row, Col, Button} from "react-bootstrap";
+import {List, Grid, Search} from "react-bootstrap-icons"
 
 import {gameService} from "../services/gameService.js";
 import GameCard from "../components/GameCard.jsx";
 import FilterStatus from "../components/FilterStatus.jsx";
 import FilterYear from "../components/FilterYear.jsx";
+import FilterRating from "../components/FilterRating.jsx";
+import LoadingSpinner from "../components/LoadingSpinner.jsx";
 
 // TODO error alert
 
@@ -18,7 +20,7 @@ export default function Games ({  }) {
     status: [],
     genre: [],
     year: { min: null, max: null },
-    rating: []
+    rating: {}
   });
 
   const handleFilterChange = (type, newFilters) => {
@@ -26,41 +28,52 @@ export default function Games ({  }) {
   };
 
   const visibleEntries = entries.filter(e => {
+    // check if status filter is populated
     const matchesStatus = activeFilters.status.length === 0
       ? e.status !== "HIDDEN"
       : activeFilters.status.includes(e.status);
 
     // todo
-    // const matchesGenre = activeFilters.genre.length === 0
-    //   ? true
-    //   : activeFilters.genre.includes(e.game.genre);
+    const matchesGenre = true;
 
+    // get the game year and check it against min and max year filter
     const gameYear = parseInt(e.game.releaseYear);
     const {min, max} = activeFilters.year;
     const matchesYear = (!min || gameYear >= min) && (!max || gameYear <= max);
 
-    // todo
-    // const matchesRating = activeFilters.rating.length === 0
-    //   ? true
-    //   : activeFilters.rating.includes(e.game.rating);
+    // get all actively filtered rating types
+    const ratingKeys = Object.keys(activeFilters.rating);
+    const matchesRating = ratingKeys.length === 0
+      ? true
+      : ratingKeys.every(key => {
+        const {min, max} = activeFilters.rating[key];
+        const ratingValue = e[key];
 
-    // return matchesStatus && matchesGenre && matchesYear && matchesRating;
-    return matchesStatus && matchesYear;
+        // skip if the game has no rating (i.e. only shows completed or dropped games)
+        if (!ratingValue) return false;
+
+        // value must be >= min, and <= max (if value null, then only one restricting filter applied)
+        const GEMin = !min || ratingValue >= min;
+        const LEMax = !max || ratingValue <= max;
+
+        return GEMin && LEMax;
+      });
+
+    return matchesStatus && matchesGenre && matchesYear && matchesRating;
   })
 
   useEffect(() => {
     gameService.getAllEntries()
-      .then(data => setEntries(data))
+      .then(data => {
+        setEntries(data);
+        console.log(data);
+      })
       .catch(error => setError(error))
       .finally(() => setLoading(false))
   }, []);
 
   if (loading) {
-    return (
-      <div className="d-flex justify-content-center mt-5">
-        <Spinner animation="border" />
-      </div>
-    )
+    <LoadingSpinner />
   }
 
   return (<>
@@ -92,11 +105,9 @@ export default function Games ({  }) {
         {/* TODO */}
         {/*<FilterGenre onFilterChange={filters => handleFilterChange("genre", filters)}/>*/}
 
-        {/* TODO */}
         <FilterYear onFilterChange={filters => handleFilterChange("year", filters)}/>
 
-        {/* TODO */}
-        {/*<FilterRating onFilterChange={filters => handleFilterChange("rating", filters)}/>*/}
+        <FilterRating onFilterChange={filters => handleFilterChange("rating", filters)}/>
       </div>
 
       {/* TODO */}

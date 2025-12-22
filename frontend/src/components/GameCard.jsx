@@ -1,10 +1,8 @@
-import {Card} from 'react-bootstrap';
-import {Link} from 'react-router';
+import {Card} from "react-bootstrap";
+import {Link} from "react-router";
 import {getStatusColor} from "../services/utilities.js";
-import DefaultImg from '../assets/placeholder.jpg';
-import '../index.css';
-
-// TODO year doesn't work when adding game
+import DefaultImg from "../assets/placeholder.jpg";
+import "../index.css";
 
 export default function GameCard ({ imgSrc, title, status, releaseYear, genres, currentAchievements, maxAchievements, gameId }) {
 
@@ -12,7 +10,7 @@ export default function GameCard ({ imgSrc, title, status, releaseYear, genres, 
   const splitIx = title.indexOf(":");
   let renderedTitle;
   const titleClass = "d-flex flex-column justify-content-end";
-  const titleStyle = { minHeight: '2.5rem' };
+  const titleStyle = { minHeight: "2.5rem" };
 
   if (splitIx !== -1) {
     renderedTitle = (<div className={titleClass} style={titleStyle}>

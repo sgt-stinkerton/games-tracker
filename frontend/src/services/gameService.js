@@ -1,8 +1,8 @@
-import api from './api';
+import api from "./api";
 
 export const gameService = {
   getAllEntries: () =>
-    api.get('/entries')
+    api.get("/entries")
       .then(response => response.data)
       .catch(error => {
         console.error("Error fetching entries, " + error);
@@ -17,8 +17,16 @@ export const gameService = {
         throw error;
       }),
 
+  getEntryByGameId: (id) =>
+    api.get(`/entries/game/${id}`)
+      .then(response => response.data)
+      .catch(error => {
+        console.error("Error fetching entry with game id " + id + ", " + error);
+        throw error;
+      }),
+
   createEntry: (data) =>
-    api.post('/entries', data)
+    api.post("/entries", data)
       .then(response => response.data)
       .catch(error => {
         console.error("Error creating entry, " + error);
@@ -26,7 +34,7 @@ export const gameService = {
       }),
 
   createReview: (id, data) =>
-    api.put('/entries/${id}/review', data)
+    api.put(`/entries/${id}/review`, data)
       .then(response => response.data)
       .catch(error => {
         console.error("Error creating review, " + error);
@@ -34,7 +42,7 @@ export const gameService = {
       }),
 
   getAllGames: () =>
-    api.get('/games')
+    api.get("/games")
       .then(response => response.data)
       .catch(error => {
         console.error("Error fetching games, " + error);
@@ -42,7 +50,7 @@ export const gameService = {
       }),
 
   createGame: (data) =>
-    api.post('/games', data)
+    api.post("/games", data)
       .then(response => response.data)
       .catch(error => {
         console.error("Error creating game, " + error);

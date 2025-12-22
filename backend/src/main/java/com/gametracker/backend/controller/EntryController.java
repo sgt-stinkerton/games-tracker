@@ -37,6 +37,11 @@ public class EntryController {
         return ResponseEntity.status(HttpStatus.OK).body(entryService.getById(id).toDTO());
     }
 
+    @GetMapping({"/game/{id}"})
+    public ResponseEntity<EntryInfoDTO> getByGameId(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(entryService.getByGameId(id).toDTO());
+    }
+
     @PostMapping({"", "/"})
     public ResponseEntity<EntryInfoDTO> createEntry(@Valid @RequestBody EntryCreationDTO dto) {
         Entry newEntry = entryService.createEntry(dto);

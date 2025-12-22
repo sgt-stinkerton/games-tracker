@@ -1,9 +1,9 @@
 import {Toast, ToastContainer} from "react-bootstrap";
 import {CheckCircleFill} from "react-bootstrap-icons";
 
-// TODO make this also handle failure, took this from a previous project
+// TODO make this also handle failure?
 
-const ToastComponent = ({ show, onClose, message }) => {
+const ToastSuccess = ({ show, onClose, message }) => {
 
   return (
     <ToastContainer className="p-3" position="top-center" style={{ position: "fixed" }}>
@@ -20,4 +20,4 @@ const ToastComponent = ({ show, onClose, message }) => {
   );
 }
 
-export default ToastComponent;
+export default ToastSuccess;

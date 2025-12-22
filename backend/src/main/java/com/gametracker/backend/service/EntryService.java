@@ -37,6 +37,10 @@ public class EntryService {
         return entryRepository.findById(id).orElseThrow(); // TODO exception here
     }
 
+    public Entry getByGameId(Long gameId) {
+        return entryRepository.findByGameId(gameId).orElseThrow(); // TODO exception here
+    }
+
     public Entry createEntry(EntryCreationDTO dto) {
         User user = userRepository.findById(dto.userId()).orElseThrow(); // TODO exception
         Game game = gameRepository.findById(dto.gameId()).orElseThrow(); // TODO exception

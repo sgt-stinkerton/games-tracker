@@ -1,4 +1,4 @@
-import {Dropdown, Button} from 'react-bootstrap';
+import {Dropdown, Button} from "react-bootstrap";
 
 export default function FilterDropdown({ type, children, onReset }) {
   return (

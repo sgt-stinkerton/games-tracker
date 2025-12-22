@@ -1,11 +1,10 @@
-import {useState} from 'react';
-import {Row, Col, Button} from 'react-bootstrap';
-import FilterDropdown from './FilterDropdown';
+import {useState} from "react";
+import {Row, Col, Button} from "react-bootstrap";
+import FilterDropdown from "./FilterDropdown";
 
 export default function FilterStatus({ onFilterChange }) {
   const [activeFilters, setActiveFilters] = useState([]);
 
-  // list of possible statuses
   const statuses = [
     "TO_PLAY", "UP_NEXT", "PLAYING",
     "COMPLETED", "DROPPED", "HIDDEN"

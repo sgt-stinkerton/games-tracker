@@ -1,8 +1,12 @@
 import {useEffect, useState} from "react";
-import {Form, Row, Col, Card, Button} from 'react-bootstrap';
+import {Form, Row, Col, Card, Button} from "react-bootstrap";
 import {gameService} from "../services/gameService.js";
 
+import CommonPageHeader from "../components/CommonPageHeader.jsx";
+
 // todo add a button next to the date box that says today so you can quickly fill in if you finished it today
+// todo genre stuff
+// TODO finish date cannot be before game was released
 
 export default function AddGame ({ setShowToast, setToastMsg }) {
   const [games, setGames] = useState(null);
@@ -11,7 +15,7 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
 
   const [formData, setFormData] = useState({
     title: "",
-    year: "",
+    releaseYear: "",
     status: "TO_PLAY",
     notes: "",
     reviewText: "",
@@ -60,7 +64,7 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
     let gameData = {
       steamAppId: null,
       title: formData.title,
-      year: parseInt(formData.year)
+      releaseYear: parseInt(formData.releaseYear)
     }
 
     let entryData = {
@@ -105,8 +109,8 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
       })
       .then(() => {
         setSuccess(true);
-        setShowToast(true);
         setToastMsg("Game Added Successfully")
+        setShowToast(true);
       })
       .catch(error => setError(error))
   }
@@ -130,14 +134,7 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
   );
 
   return (<>
-    {/* page top */}
-    <div className="d-flex justify-content-between align-items-baseline mt-1">  {/* do not touch the mt-1 */}
-      <div className="d-flex flex-row align-items-baseline gap-3">
-        <h4 className="mb-1">Add Game</h4>
-        <p className="m-0 text-muted">Manually Add Game and Entry Data</p>
-      </div>
-    </div>
-    <hr className="my-2"></hr>
+    <CommonPageHeader title="Add Game" sideInfo="Manually Add Game and Entry Data" />
 
     {/* TODO add alerts */}
 
@@ -168,7 +165,7 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
                   <Form.Label className="fw-bold m-0">Year</Form.Label>
                 </Col>
                 <Col md={5}>
-                  <Form.Control name="year" type="number" value={formData.year} onChange={handleValueChange} required/>
+                  <Form.Control name="releaseYear" type="number" value={formData.releaseYear} onChange={handleValueChange} required/>
                 </Col>
               </Form.Group>
 
