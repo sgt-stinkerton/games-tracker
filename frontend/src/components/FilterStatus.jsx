@@ -1,9 +1,14 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Row, Col, Button} from "react-bootstrap";
 import FilterDropdown from "./FilterDropdown";
 
 export default function FilterStatus({ initialState, onFilterChange }) {
   const [activeFilters, setActiveFilters] = useState(initialState || []);
+
+  // updates menu when user removes filter by clicking on little grey button
+  useEffect(() => {
+    setActiveFilters(initialState || []);
+  }, [initialState]);
 
   const statuses = [
     "TO_PLAY", "UP_NEXT", "PLAYING",

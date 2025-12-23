@@ -1,18 +1,19 @@
 import {useEffect, useState} from "react";
 import {Form, Row, Col, Card, Button} from "react-bootstrap";
 import {gameService} from "../services/gameService.js";
+import {entryService} from "../services/entryService.js";
 
 import CommonPageHeader from "../components/CommonPageHeader.jsx";
 
 // TODO add a button next to the date box that says today so you can quickly fill in if you finished it today
 // TODO STEAM genre stuff
-// TODO finish date cannot be before game was released
 // TODO make look nicer
+// TODO make review creation allow .5 values
 
 export default function AddGame ({ setShowToast, setToastMsg }) {
   const [games, setGames] = useState(null);
   const [success, setSuccess] = useState(null); // TODO doesn't actually do anything
-  const [error, setError] = useState(null); // TODO no alert shows
+  const [error, setError] = useState(null);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -100,11 +101,11 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
     gameService.createGame(gameData)
       .then((newGame) => {
         entryData.gameId = Number(newGame.id);
-        return gameService.createEntry(entryData);
+        return entryService.createEntry(entryData);
       })
       .then((newEntry) => {
         if (["COMPLETED", "DROPPED"].includes(formData.status)) {
-          return gameService.createReview(newEntry.id, reviewData);
+          return entryService.createReview(newEntry.id, reviewData);
         }
       })
       .then(() => {

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, ProgressBar, Container, Card, Alert } from "react-bootstrap";
-import { gameService } from "../services/gameService.js"; // or wherever you put it
+import { gameService } from "../services/gameService.js";
 import { useNavigate } from "react-router-dom";
 import CommonPageHeader from "../components/CommonPageHeader.jsx";
 

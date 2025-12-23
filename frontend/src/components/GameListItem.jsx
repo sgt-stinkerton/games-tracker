@@ -3,7 +3,7 @@ import {getStatusColor} from "../services/utilities.js";
 import DefaultImg from "../assets/placeholder.jpg";
 import "../index.css";
 
-export function GameListItem({imgSrc, title, status, releaseYear, genres, gameId}) {
+export function GameListItem({imgSrc, title, status, releaseYear, tags, gameId}) {
 
   // render series section of a title smaller (if it exists)
   const splitIx = title.indexOf(":");
@@ -37,7 +37,7 @@ export function GameListItem({imgSrc, title, status, releaseYear, genres, gameId
             {renderedTitle}
           </div>
 
-          <p className="m-0 small lh-sm">{genres}</p>
+          <p className="m-0 small lh-sm">{tags}</p>
         </div>
       </div>
 

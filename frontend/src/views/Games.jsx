@@ -1,20 +1,21 @@
 import {useEffect, useState} from "react";
 import {Row, Col, Form} from "react-bootstrap";
 import {List, Grid} from "react-bootstrap-icons"
-import {gameService} from "../services/gameService.js";
+import {entryService} from "../services/entryService.js";
 import "../index.css";
 
 import GameCard from "../components/GameCard.jsx";
 import FilterStatus from "../components/FilterStatus.jsx";
 import FilterYear from "../components/FilterYear.jsx";
 import FilterRating from "../components/FilterRating.jsx";
+import FilterTags from "../components/FilterTags.jsx";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import SortDropdown from "../components/SortDropdown.jsx";
 import {GameListItem} from "../components/GameListItem.jsx";
+import FilterBadge from "../components/FilterBadge.jsx";
 
 // TODO error alert
 // TODO page scroller?
-// TODO pageinate
 
 export default function Games ({  }) {
   const [entries, setEntries] = useState([]);
@@ -33,7 +34,7 @@ export default function Games ({  }) {
     const saved = sessionStorage.getItem("games_filters");
     return saved ? JSON.parse(saved) : {
       status: [],
-      genre: [],
+      tags: [],
       year: { min: null, max: null },
       rating: {}
     }
@@ -70,8 +71,9 @@ export default function Games ({  }) {
       ? e.status !== "HIDDEN"
       : activeFilters.status.includes(e.status);
 
-    // TODO STEAM
-    const matchesGenre = true;
+    const matchesTags = activeFilters.tags.length === 0
+      ? true
+      : e.game.tags.some(tag => activeFilters.tags.includes(tag.toLowerCase()));
 
     // year
     const gameYear = parseInt(e.game.releaseYear);
@@ -96,7 +98,7 @@ export default function Games ({  }) {
         return GEMin && LEMax;
       });
 
-    return matchesSearch && matchesStatus && matchesGenre && matchesYear && matchesRating;
+    return matchesSearch && matchesStatus && matchesTags && matchesYear && matchesRating;
   })
     .sort((a, b) => {
       const [type, dir] = activeSort.split(" ");
@@ -122,8 +124,61 @@ export default function Games ({  }) {
       return dir === "DESC" ? -result : result;
     })
 
+  // logic taken out of the rendering
+  const getFilterBadges = () => {
+    const badges = [];
+
+    activeFilters.status.forEach(s => badges.push({
+      key: `status-${s}`,
+      text: `status = ${s.replace("_", " ")}`,
+      onRemove: () => setActiveFilters(prev => ({
+        ...prev, status: prev.status.filter(x => x !== s)}))
+    }));
+
+    activeFilters.tags.forEach(t => badges.push({
+      key: `tag-${t}`,
+      text: {t},
+      onRemove: () => setActiveFilters(prev => ({
+        ...prev, tags: prev.tags.filter(x => x !== t)}))
+    }));
+
+    const {min: minYear, max: maxYear} = activeFilters.year;
+    if (minYear) {badges.push({
+      key: "min-year",
+      text: `year >= ${minYear}`,
+      onRemove: () => setActiveFilters(prev => ({
+        ...prev, year: {...prev.year, min: null}}))
+    })}
+    if (maxYear) {badges.push({
+      key: "max-year",
+      text: `year <= ${maxYear}`,
+      onRemove: () => setActiveFilters(prev => ({
+        ...prev, year: {...prev.year, max: null}}))
+    })}
+
+    Object.keys(activeFilters.rating).forEach(type => {
+      const {min, max} = activeFilters.rating[type];
+      if (min) {badges.push({
+        key: `min-${type}`,
+        text: `${type} >= ${min}`,
+        onRemove: () => setActiveFilters(prev => ({
+          ...prev, rating: {...prev.rating, [type]: {...prev.rating[type], min: null}}}))
+      })}
+      if (max) {badges.push({
+        key: `max-${type}`,
+        text: `${type} <= ${max}`,
+        onRemove: () => setActiveFilters(prev => ({
+          ...prev, rating: {...prev.rating, [type]: {...prev.rating[type], max: null}}}))
+      })}
+    })
+
+    return badges;
+  }
+
+  const activeBadges = getFilterBadges();
+
   useEffect(() => {
-    gameService.getAllEntries()
+    entryService.getAllEntries()
       .then(data => {
         setEntries(data);
         console.log(data);
@@ -149,40 +204,46 @@ export default function Games ({  }) {
 
     <hr className="my-2"></hr>
 
-    <div className="d-flex justify-content-between align-items-baseline">
-      <div className="d-flex align-items-center gap-2">
-        {/* search bar */}
-        <Form.Control
-          type="text"
-          placeholder="Search game titles..."
-          className="p-1"
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-        />
+    <div className="d-flex flex-column">
+      <div className="d-flex justify-content-between align-items-baseline">
+        <div className="d-flex align-items-center gap-2">
+          {/* search bar */}
+          <Form.Control
+            type="text"
+            placeholder="Search game titles..."
+            className="px-2 p-1"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
 
-        <FilterStatus
-          initialState={activeFilters.status}
-          onFilterChange={filters => handleFilterChange("status", filters)}
-        />
+          <FilterStatus
+            initialState={activeFilters.status}
+            onFilterChange={filters => handleFilterChange("status", filters)}
+          />
+          <FilterTags
+            initialState={activeFilters.tags}
+            onFilterChange={filters => handleFilterChange("tags", filters)}
+          />
+          <FilterYear
+            initialState={activeFilters.year}
+            onFilterChange={filters => handleFilterChange("year", filters)}
+          />
+          <FilterRating
+            initialState={activeFilters.rating}
+            onFilterChange={filters => handleFilterChange("rating", filters)}
+          />
+        </div>
 
-        {/* TODO STEAM */}
-        {/*<FilterGenre*/}
-        {/*  initialState={activeFilters.genre}*/}
-        {/*  onFilterChange={filters => handleFilterChange("genre", filters)}*/}
-        {/*/>*/}
-
-        <FilterYear
-          initialState={activeFilters.year}
-          onFilterChange={filters => handleFilterChange("year", filters)}
-        />
-
-        <FilterRating
-          initialState={activeFilters.rating}
-          onFilterChange={filters => handleFilterChange("rating", filters)}
-        />
+        <SortDropdown currentSort={activeSort} onSortChange={setActiveSort} />
       </div>
 
-      <SortDropdown currentSort={activeSort} onSortChange={setActiveSort} />
+      <div className="d-flex flex-row flex-wrap">
+        {activeBadges.map(badge => (
+          <FilterBadge key={badge.key} onClick={badge.onRemove}>
+            {badge.text}
+          </FilterBadge>
+        ))}
+      </div>
     </div>
 
     <hr className="mt-2 mb-3"></hr>
@@ -198,7 +259,7 @@ export default function Games ({  }) {
               releaseYear={e.game.releaseYear}
               currentAchievements={e.currentAchievements}
               maxAchievements={e.game.steamAchievements}
-              genres={getTagsString(e.game.tags)}
+              tags={getTagsString(e.game.tags)}
               gameId={e.game.id} />
           </Col>
         ))}
@@ -212,7 +273,7 @@ export default function Games ({  }) {
               title={e.game.title}
               status={e.status}
               releaseYear={e.game.releaseYear}
-              genres={getTagsString(e.game.tags)}
+              tags={getTagsString(e.game.tags)}
               gameId={e.game.id} />
           </Col>
         ))}

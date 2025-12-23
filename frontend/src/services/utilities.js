@@ -1,3 +1,5 @@
+import {AllowedTags} from "./allowedTags.js";
+
 export const getStatusColor = (status) => {
   switch (status) {
     case "TO_PLAY":    return "bg-secondary-subtle text-dark";
@@ -9,3 +11,8 @@ export const getStatusColor = (status) => {
     default:           return "bg-light text-dark";
   }
 };
+
+export const searchTags = (query) => {
+  const tags = Object.keys(AllowedTags);
+  return tags.filter(tag => tag.includes(query.toLowerCase()));
+}

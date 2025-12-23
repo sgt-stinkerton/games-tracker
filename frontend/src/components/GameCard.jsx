@@ -4,7 +4,7 @@ import {getStatusColor} from "../services/utilities.js";
 import DefaultImg from "../assets/placeholder.jpg";
 import "../index.css";
 
-export default function GameCard ({ imgSrc, title, status, releaseYear, genres, currentAchievements, maxAchievements, gameId }) {
+export default function GameCard ({ imgSrc, title, status, releaseYear, tags, currentAchievements, maxAchievements, gameId }) {
 
   // render series section of a title smaller (if it exists)
   const splitIx = title.indexOf(":");
@@ -49,7 +49,7 @@ export default function GameCard ({ imgSrc, title, status, releaseYear, genres, 
           </div>
           <hr className="mt-1 mb-0 p-0"></hr>
           <div className="pt-1 m-0 small">
-            <p className={`m-0 small ${genres ? "fw-bold" : ""}`}>{genres ? genres : "No tags found."}</p>
+            <p className={`m-0 small ${tags ? "fw-bold" : ""}`}>{tags ? tags : "No tags found."}</p>
           </div>
         </Card.Body>
       </div>

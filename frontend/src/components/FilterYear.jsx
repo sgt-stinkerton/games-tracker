@@ -6,6 +6,12 @@ export default function FilterYear({ initialState, onFilterChange }) {
   const [minYear, setMinYear] = useState(initialState?.min || "");
   const [maxYear, setMaxYear] = useState(initialState?.max || "");
 
+  // updates menu when user removes filter by clicking on little grey button
+  useEffect(() => {
+    setMinYear(initialState?.min || "");
+    setMaxYear(initialState?.max || "");
+  }, [initialState]);
+
   useEffect(() => {
     onFilterChange({
       min: minYear ? parseInt(minYear) : null,

@@ -33,6 +33,15 @@ export default function FilterRating({ initialState, onFilterChange }) {
 
   const [filters, setFilters] = useState(getMergedFilters);
 
+  // updates menu when user removes filter by clicking on little grey button
+  useEffect(() => {
+    const incomingState = getMergedFilters();
+    // cheaply compares incoming state with current filters
+    if (JSON.stringify(incomingState) !== JSON.stringify(filters)) {
+      setFilters(incomingState);
+    }
+  }, [initialState]);
+
   // iterate through types of ratings
   useEffect(() => {
     const filtersAsNum = {};

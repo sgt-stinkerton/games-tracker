@@ -2,7 +2,7 @@ import {useParams} from "react-router";
 import {useEffect, useState} from "react";
 import {Row, Col, Dropdown} from "react-bootstrap";
 import {PencilSquare, Trash} from "react-bootstrap-icons";
-import {gameService} from "../services/gameService.js";
+import {entryService} from "../services/entryService.js";
 
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import DefaultImg from "../assets/placeholder.jpg";
@@ -14,13 +14,13 @@ export default function Game ({ setShowToast, setToastMsg }) {
   const {gameId} = useParams();
 
   useEffect(() => {
-    gameService.getEntryByGameId(gameId)
+    entryService.getEntryByGameId(gameId)
       .then(data => setEntry(data))
       .catch(error => setError(error))
   }, [gameId]);
 
   const changeStatus = (newStatus) => {
-    gameService.updateStatus(entry.id, newStatus)
+    entryService.updateStatus(entry.id, newStatus)
       .then((updatedEntry) => {
         setEntry(updatedEntry);
         setToastMsg(`Status updated to ${newStatus.replace("_", " ")}`);
@@ -44,7 +44,7 @@ export default function Game ({ setShowToast, setToastMsg }) {
         {/* TODO edit and bin */}
         <div className="d-flex flex-row gap-3 align-items-center">
           <Dropdown>
-            <Dropdown.Toggle className="px-2 py-0">
+            <Dropdown.Toggle className="px-2 py-0 m-0">
               Update Status
             </Dropdown.Toggle>
 
