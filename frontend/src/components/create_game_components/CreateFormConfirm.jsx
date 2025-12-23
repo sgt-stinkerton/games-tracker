@@ -6,32 +6,37 @@ export default function CreateFormConfirm ({ prevStep, formData, tags, confirm }
   return (
     <CreateFormBase canPrev={prevStep}>
       <FormTop title="Confirm Creation" iconName="QuestionCircle" />
-      <Card.Body className="p-2" style={{ overflow: "auto" }}>
-        <p>title {formData.title}</p>
-        <p>year {formData.releaseYear}</p>
-        <p>tags {tags}</p>
-        <p>status {formData.status}</p>
+      <Card.Body
+        className="p-3 bg-secondary-subtle rounded-3 d-flex flex-column mb-3"
+        style={{ overflow: "auto" }}
+      >
+        <span><strong>Title:</strong> {formData.title}</span>
+        <span><strong>Release Year:</strong> {formData.releaseYear || "N/A"}</span>
+        <span><strong>Tags:</strong> {tags.length ? tags : "N/A"}</span>
+        <span><strong>Status:</strong> {formData.status.replace("_", " ")}</span>
         {formData.status === "PLAYING" && (
-          <>
-            <p>notes {formData.notes}</p>
-          </>
+          <div>
+            <span><strong>Notes:</strong> {formData.notes || "N/A"}</span>
+          </div>
         )}
         {(formData.status === "COMPLETED" || formData.status === "DROPPED") && (
-          <>
-            <p>review text {formData.reviewText}</p>
-            <p>finish date {formData.finishDate}</p>
-            <p>rating {formData.rating}</p>
-            <p>enjoyment {formData.enjoyment}</p>
-            <p>gameplay {formData.gameplay}</p>
-            <p>story {formData.story}</p>
-            <p>visuals {formData.visuals}</p>
-            <p>sound {formData.sound}</p>
-          </>
+          <div className="d-flex flex-column mt-3">
+            <span><strong>Review:</strong> {formData.reviewText || "N/A"}</span>
+            <span><strong>Finish Date:</strong> {formData.finishDate || "N/A"}</span>
+            <span><strong>Rating:</strong> {formData.rating ? formData.rating + "/10 stars" : "N/A"}</span>
+            <span><strong>Enjoyment:</strong> {formData.enjoyment ? formData.enjoyment + "/10 stars" : "N/A"}</span>
+            <span><strong>Gameplay:</strong> {formData.gameplay ? formData.gameplay + "/10 stars" : "N/A"}</span>
+            <span><strong>Story:</strong> {formData.story ? formData.story + "/10 stars" : "N/A"}</span>
+            <span><strong>Visuals:</strong> {formData.visuals ? formData.visuals + "/10 stars" : "N/A"}</span>
+            <span><strong>Sound:</strong> {formData.sound ? formData.sound + "/10 stars" : "N/A"}</span>
+          </div>
         )}
       </Card.Body>
-      <Button onClick={confirm}>
-        Create Game
-      </Button>
+      <div className="d-flex justify-content-center">
+        <Button size="lg" onClick={confirm} style={{ maxWidth: "fit-content" }}>
+          Create Game
+        </Button>
+      </div>
     </CreateFormBase>
   );
 }

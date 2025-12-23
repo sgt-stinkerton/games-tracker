@@ -15,8 +15,8 @@ export default function GameReview ({ prevStep, nextStep, handleInput, formData 
   return (
     <CreateFormBase canPrev={prevStep} canNext={submitSection}>
       <FormTop title="Write Review" iconName="JournalText" />
-      <Card.Body className="p-2">
-        <Form onSubmit={submitSection}>
+      <Card.Body className="p-2 d-flex flex-column h-100">
+        <Form onSubmit={submitSection} className="d-flex flex-column flex-grow-1">
           <Form.Group>
             <Form.Label>Finish Date</Form.Label>
             <Form.Control
@@ -27,12 +27,15 @@ export default function GameReview ({ prevStep, nextStep, handleInput, formData 
             />
           </Form.Group>
 
-          <Form.Group>
-            <Form.Label>Notes</Form.Label>
+          <Form.Group className="d-flex flex-column flex-grow-1">
+            <Form.Label>Review Text</Form.Label>
             <Form.Control
               as="textarea"
               name="reviewText"
-              value={formData.notes}
+              className="flex-grow-1 border border-secondary"
+              style={{ resize: "none", overflowY: "auto" }}
+              value={formData.reviewText}
+              placeholder={"Justify the ratings you gave previously..."}
               onChange={handleInput}
             />
           </Form.Group>

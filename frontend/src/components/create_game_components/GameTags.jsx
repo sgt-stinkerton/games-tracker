@@ -18,7 +18,7 @@ export default function GameTags ({ prevStep, nextStep, handleInput, formData, t
 
   return (
     <CreateFormBase canPrev={prevStep} canNext={submitSection}>
-      <FormTop title="Add Tags" iconName="Tag" />
+      <FormTop title="Add Tags" iconName="Tags" />
       <p className="m-0">{error}</p>
       <Card.Body className="p-2">
         <FilterTags isDropdown={false} onFilterChange={setTags} initialState={tags} />

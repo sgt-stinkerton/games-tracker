@@ -36,7 +36,7 @@ export default function GameStatus ({ prevStep, nextStep, handleInput, formData 
                 name="status"
                 value={s}
                 variant={currentStatus === s ? "primary" : "secondary"}
-                className={`w-100 ${currentStatus === s ? "opacity-100 fw-bold" : "opacity-75"}`}
+                className={`w-100 fw-bold ${currentStatus === s ? "opacity-100" : "opacity-75"}`}
                 onClick={(e) => {
                   setCurrentStatus(s);
                   handleInput(e);

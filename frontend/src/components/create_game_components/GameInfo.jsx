@@ -47,10 +47,11 @@ export default function GameInfo ({ nextStep, handleInput, formData }) {
       <Card.Body className="p-2">
         <Form onSubmit={submitSection}>
           <Form.Group>
-            <Form.Label>Title</Form.Label>
+            <Form.Label>Title *</Form.Label>
             <Form.Control
               name="title"
               type="text"
+              className="bg-secondary-subtle"
               value={formData.title}
               onChange={handleInput}
             />
@@ -61,6 +62,7 @@ export default function GameInfo ({ nextStep, handleInput, formData }) {
             <Form.Control
               name="releaseYear"
               type="text"
+              className="bg-secondary-subtle"
               value={formData.releaseYear}
               onChange={handleInput}
             />
