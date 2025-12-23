@@ -2,6 +2,7 @@ package com.gametracker.backend.service;
 
 import com.gametracker.backend.dto.entry.EntryCreationDTO;
 import com.gametracker.backend.dto.entry.ReviewCreationDTO;
+import com.gametracker.backend.enums.Status;
 import com.gametracker.backend.model.Game;
 import com.gametracker.backend.model.Entry;
 import com.gametracker.backend.model.User;
@@ -46,6 +47,12 @@ public class EntryService {
         Game game = gameRepository.findById(dto.gameId()).orElseThrow(); // TODO exception
         Entry newEntry = new Entry(user, game, dto.status(), dto.notes());
         return entryRepository.save(newEntry);
+    }
+
+    public Entry updateStatus(Long id, Status newStatus) {
+        Entry toUpdate = entryRepository.findById(id).orElseThrow();
+        toUpdate.setStatus(newStatus);
+        return entryRepository.save(toUpdate);
     }
 
     public Entry createReview(long id, ReviewCreationDTO dto) {

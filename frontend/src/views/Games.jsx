@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import {Row, Col, Button, Spinner} from "react-bootstrap";
-import {List, Grid, Search, Steam} from "react-bootstrap-icons"
+import {Row, Col, Form} from "react-bootstrap";
+import {List, Grid} from "react-bootstrap-icons"
 import {gameService} from "../services/gameService.js";
 import "../index.css";
 
@@ -14,10 +14,12 @@ import {GameListItem} from "../components/GameListItem.jsx";
 
 // TODO error alert
 // TODO page scroller?
+// TODO pageinate
 
 export default function Games ({  }) {
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
   const [error, setError] = useState(null);
 
   // saved in session storage so that refreshing a page doesn't reset everything
@@ -53,13 +55,16 @@ export default function Games ({  }) {
     sessionStorage.setItem("games_filters", JSON.stringify(activeFilters));
   }, [activeFilters]);
 
-
   const handleFilterChange = (type, newFilters) => {
     setActiveFilters(prev => ({...prev, [type]: newFilters}));
   };
 
   // big filtering chunk
   const visibleEntries = entries.filter(e => {
+    // search (title)
+    const matchesSearch = search === ""
+      || e.game.title.toLowerCase().includes(search.toLowerCase());
+
     // status
     const matchesStatus = activeFilters.status.length === 0
       ? e.status !== "HIDDEN"
@@ -91,7 +96,7 @@ export default function Games ({  }) {
         return GEMin && LEMax;
       });
 
-    return matchesStatus && matchesGenre && matchesYear && matchesRating;
+    return matchesSearch && matchesStatus && matchesGenre && matchesYear && matchesRating;
   })
     .sort((a, b) => {
       const [type, dir] = activeSort.split(" ");
@@ -146,11 +151,14 @@ export default function Games ({  }) {
 
     <div className="d-flex justify-content-between align-items-baseline">
       <div className="d-flex align-items-center gap-2">
-
-        {/* TODO */}
-        <Button variant="primary" className="px-5 py-0 border me-3">
-          Search <Search size={16}/>
-        </Button>
+        {/* search bar */}
+        <Form.Control
+          type="text"
+          placeholder="Search game titles..."
+          className="p-1"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
 
         <FilterStatus
           initialState={activeFilters.status}

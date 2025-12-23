@@ -1,8 +1,6 @@
 import {Toast, ToastContainer} from "react-bootstrap";
 import {CheckCircleFill} from "react-bootstrap-icons";
 
-// TODO make this also handle failure?
-
 const ToastSuccess = ({ show, onClose, message }) => {
 
   return (

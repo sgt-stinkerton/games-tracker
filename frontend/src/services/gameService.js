@@ -33,6 +33,17 @@ export const gameService = {
         throw error;
       }),
 
+  updateStatus: (id, status) =>
+    api.patch(`/entries/${id}/status`, null, {
+      params: {
+        status: status
+      }
+    }).then(response => response.data)
+      .catch(error => {
+        console.error("Error updating status, " + error);
+        throw error;
+      }),
+
   createReview: (id, data) =>
     api.put(`/entries/${id}/review`, data)
       .then(response => response.data)
@@ -66,7 +77,7 @@ export const gameService = {
     }),
 
   getOwnedIds: () =>
-    api.get("/api/steam/ids")
+    api.get("/steam/ids")
       .then(response => response.data)
       .catch(error => {
         console.error("Error getting owned ids, " + error);

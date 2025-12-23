@@ -1,6 +1,7 @@
 package com.gametracker.backend.service;
 
 import com.gametracker.backend.dto.game.GameCreationDTO;
+import com.gametracker.backend.enums.AllowedTags;
 import com.gametracker.backend.enums.Status;
 import com.gametracker.backend.model.Entry;
 import com.gametracker.backend.model.Game;
@@ -122,7 +123,13 @@ public class GameService {
                 List<String> newTags = new ArrayList<>();
                 if (data.has("genres")) {
                     for (JsonNode g : data.get("genres")) {
-                        newTags.add(g.get("description").asText());
+                        String tag = g.get("description").asText().toUpperCase().replaceAll("-", "").replaceAll(" ", "_");
+                        try {
+                            AllowedTags check = AllowedTags.valueOf(tag);
+                            newTags.add(check.toString());
+                        } catch (Exception e) {
+                            System.err.println("Tag not allowed: " + tag);
+                        }
                     }
                 }
                 game.setTags(newTags);

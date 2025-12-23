@@ -134,7 +134,10 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
   );
 
   return (<>
-    <CommonPageHeader title="Add Game" sideInfo="Manually add game and entry data." />
+    <CommonPageHeader
+      title="Add Game"
+      sideInfo="Manually add game data. It is recommended to sync Steam game data first."
+    />
 
     {/* TODO add alerts */}
 

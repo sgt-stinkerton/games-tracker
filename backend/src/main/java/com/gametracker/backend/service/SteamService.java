@@ -1,6 +1,5 @@
 package com.gametracker.backend.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,7 @@ public class SteamService {
     }
 
     // returns basic info: appid, name, playtime
-    public JsonNode getOwnedGames(String steamId) throws JsonProcessingException {
+    public JsonNode getOwnedGames(String steamId) {
         String url = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/" +
                 "?key=" + apiKey +
                 "&steamid=" + steamId +
@@ -104,7 +103,7 @@ public class SteamService {
     }
 
     // get parsed games list
-    public List<Map<String, Object>> getOwnedGamesAsList(String steamId) throws JsonProcessingException {
+    public List<Map<String, Object>> getOwnedGamesAsList(String steamId) {
         JsonNode ownedGames = getOwnedGames(steamId);
         List<Map<String, Object>> result = new ArrayList<>();
 

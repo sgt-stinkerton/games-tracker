@@ -1,6 +1,9 @@
 import {Dropdown} from "react-bootstrap";
 import {ArrowUp, ArrowDown} from "react-bootstrap-icons";
 
+// TODO achievement completion
+// TODO anything null just gets put at the bottom
+
 export default function SortDropdown({ currentSort, onSortChange }) {
   const sortOptions = ["Title", "Year", "Rating"];
 

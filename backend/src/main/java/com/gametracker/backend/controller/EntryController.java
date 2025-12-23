@@ -3,9 +3,11 @@ package com.gametracker.backend.controller;
 import com.gametracker.backend.dto.entry.EntryCreationDTO;
 import com.gametracker.backend.dto.entry.EntryInfoDTO;
 import com.gametracker.backend.dto.entry.ReviewCreationDTO;
+import com.gametracker.backend.enums.Status;
 import com.gametracker.backend.model.Entry;
 import com.gametracker.backend.service.EntryService;
 
+import com.gametracker.backend.service.GameService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,6 +48,13 @@ public class EntryController {
     public ResponseEntity<EntryInfoDTO> createEntry(@Valid @RequestBody EntryCreationDTO dto) {
         Entry newEntry = entryService.createEntry(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(newEntry.toDTO());
+    }
+
+    @PatchMapping({"/{id}/status"})
+    public ResponseEntity<EntryInfoDTO> updateStatus(@PathVariable Long id,
+                                                     @RequestParam Status status) {
+        Entry updatedEntry = entryService.updateStatus(id, status);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedEntry.toDTO());
     }
 
     @PutMapping({"/{id}/review"})

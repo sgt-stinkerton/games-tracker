@@ -1,6 +1,6 @@
 import {useParams} from "react-router";
 import {useEffect, useState} from "react";
-import {Row, Col} from "react-bootstrap";
+import {Row, Col, Dropdown} from "react-bootstrap";
 import {PencilSquare, Trash} from "react-bootstrap-icons";
 import {gameService} from "../services/gameService.js";
 
@@ -19,6 +19,16 @@ export default function Game ({ setShowToast, setToastMsg }) {
       .catch(error => setError(error))
   }, [gameId]);
 
+  const changeStatus = (newStatus) => {
+    gameService.updateStatus(entry.id, newStatus)
+      .then((updatedEntry) => {
+        setEntry(updatedEntry);
+        setToastMsg(`Status updated to ${newStatus.replace("_", " ")}`);
+        setShowToast(true);
+      })
+      .catch(err => setError(err));
+  };
+
   if (entry === null) return <LoadingSpinner />
 
   return (
@@ -32,7 +42,34 @@ export default function Game ({ setShowToast, setToastMsg }) {
         </div>
 
         {/* TODO edit and bin */}
-        <div className="d-flex flex-row gap-3">
+        <div className="d-flex flex-row gap-3 align-items-center">
+          <Dropdown>
+            <Dropdown.Toggle className="px-2 py-0">
+              Update Status
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => changeStatus("TO_PLAY")}>
+                TO PLAY
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => changeStatus("UP_NEXT")}>
+                UP NEXT
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => changeStatus("PLAYING")}>
+                PLAYING
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => changeStatus("COMPLETED")}>
+                COMPLETED
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => changeStatus("DROPPED")}>
+                DROPPED
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => changeStatus("HIDDEN")}>
+                HIDDEN
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+          
           <PencilSquare size={24} />
           <Trash size={24} />
         </div>
@@ -61,8 +98,7 @@ export default function Game ({ setShowToast, setToastMsg }) {
 
           {/* achievement progress and notes */}
           <div className="bg-white border border-secondary-subtle p-3 rounded h-100 overflow-auto">
-            <p className="m-0">current achievements: {entry.currentAchievements}</p>
-            <p className="m-0">max achievements: {entry.game.steamAchievements}</p>
+            <p className="m-0">achievements: {entry.currentAchievements}/{entry.game.steamAchievements}</p>
             <p className="m-0">notes: {entry.notes}</p>
           </div>
         </Col>
