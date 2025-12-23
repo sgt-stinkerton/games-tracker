@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {Form, ListGroup} from "react-bootstrap";
-import {searchTags} from "../services/utilities.js";
-import FilterDropdown from "./FilterDropdown";
+import {searchTags} from "../../services/utilities.js";
+import FilterDropdown from "./FilterDropdown.jsx";
 
 export default function FilterTags({ initialState, onFilterChange }) {
   const [search, setSearch] = useState("");

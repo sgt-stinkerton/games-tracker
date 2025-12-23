@@ -5,14 +5,14 @@ import {entryService} from "../services/entryService.js";
 import "../index.css";
 
 import GameCard from "../components/GameCard.jsx";
-import FilterStatus from "../components/FilterStatus.jsx";
-import FilterYear from "../components/FilterYear.jsx";
-import FilterRating from "../components/FilterRating.jsx";
-import FilterTags from "../components/FilterTags.jsx";
+import FilterBadge from "../components/FilterComponents/FilterBadge.jsx";
+import FilterStatus from "../components/FilterComponents/FilterStatus.jsx";
+import FilterYear from "../components/FilterComponents/FilterYear.jsx";
+import FilterRating from "../components/FilterComponents/FilterRating.jsx";
+import FilterTags from "../components/FilterComponents/FilterTags.jsx";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import SortDropdown from "../components/SortDropdown.jsx";
 import {GameListItem} from "../components/GameListItem.jsx";
-import FilterBadge from "../components/FilterBadge.jsx";
 
 // TODO error alert
 // TODO page scroller?

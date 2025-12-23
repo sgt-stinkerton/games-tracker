@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {Row, Col, Button} from "react-bootstrap";
-import FilterDropdown from "./FilterDropdown";
+import FilterDropdown from "./FilterDropdown.jsx";
 
 export default function FilterStatus({ initialState, onFilterChange }) {
   const [activeFilters, setActiveFilters] = useState(initialState || []);
