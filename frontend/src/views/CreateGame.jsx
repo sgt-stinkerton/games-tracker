@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 
 import CommonPageHeader from "../components/CommonPageHeader.jsx";
-import MultiPartGameForm from "../components/MultiPartGameForm.jsx";
+import MainCreateForm from "../components/create_game_components/MainCreateForm.jsx";
 
 export default function CreateGame({ setShowToast, setToastMsg }) {
   const [success, setSuccess] = useState(null);
@@ -20,6 +20,6 @@ export default function CreateGame({ setShowToast, setToastMsg }) {
       sideInfo="Manually add game data. It is recommended to sync Steam game data first."
     />
 
-    <MultiPartGameForm setSuccess={setSuccess} />
+    <MainCreateForm setSuccess={setSuccess} />
   </>);
 }

@@ -1,11 +1,10 @@
-import {useState, useEffect} from 'react';
-import {gameService} from "../services/gameService.js";
-import {Form, Button, Card, Col} from 'react-bootstrap';
+import CreateFormBase from "./CreateFormBase.jsx";
+import {Card, Form} from "react-bootstrap";
+import {useEffect, useState} from "react";
+import {gameService} from "../../services/gameService.js";
 
-import FilterTags from "./filter_components/FilterTags.jsx";
-
-export default function GameFormBasic ({ nextStep, handleInput, formData, tags, setGameTags }) {
-  const [error, setError] = useState(null);
+export default function GameInfo ({ nextStep, handleInput, formData }) {
+  const [error, setError] = useState(null); // TODO
   const [existingTitles, setExistingTitles] = useState([]);
 
   // get existing titles so there are no exact duplicates
@@ -18,10 +17,16 @@ export default function GameFormBasic ({ nextStep, handleInput, formData, tags, 
       .catch(error => setError(error))
   }, []);
 
-  const submit = (e) => {
+  const submitSection = (e) => {
     e.preventDefault();
-    // You can add validation logic here before moving to next step
     setError(null);
+
+    // todo validation of year
+
+    if (formData.title === "") {
+      setError("You must enter a title.");
+      return;
+    }
 
     // cannot have the same title as an existing game
     const titleExists = existingTitles?.some(t => (
@@ -32,41 +37,35 @@ export default function GameFormBasic ({ nextStep, handleInput, formData, tags, 
     }
 
     nextStep();
-  };
+  }
 
   return (
-    <Card>
-      <Card.Body>
-        <Card.Title>Step 1: Basic Info</Card.Title>
-        <Form onSubmit={submit}>
+    <CreateFormBase canNext={submitSection}>
+      <h4>Game Information</h4>
+      <p className="m-0">{error}</p>
+      <Card.Body className="p-2">
+        <Form onSubmit={submitSection}>
           <Form.Group>
-            <Form.Label>Game Title</Form.Label>
+            <Form.Label>Title</Form.Label>
             <Form.Control
-              type="text"
               name="title"
+              type="text"
               value={formData.title}
               onChange={handleInput}
-              required
             />
           </Form.Group>
 
           <Form.Group>
             <Form.Label>Release Year</Form.Label>
             <Form.Control
-              type="number"
               name="releaseYear"
+              type="text"
               value={formData.releaseYear}
               onChange={handleInput}
             />
           </Form.Group>
-
-          <FilterTags isDropdown={false} onFilterChange={setGameTags} initialState={tags} />
-
-          <Button variant="primary" type="submit">
-            Next
-          </Button>
         </Form>
       </Card.Body>
-    </Card>
+    </CreateFormBase>
   );
-};
+}
