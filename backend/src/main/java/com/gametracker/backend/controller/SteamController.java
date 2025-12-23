@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -59,6 +60,9 @@ public class SteamController {
 
             // fetch and parse owned games
             List<Map<String, Object>> games = steamService.getOwnedGamesAsList(user.getSteamId());
+
+            user.setLastSynced(LocalDateTime.now());
+            userRepository.save(user);
             return ResponseEntity.ok(games);
         } catch (Exception e) {
             return ResponseEntity.status(500).build();

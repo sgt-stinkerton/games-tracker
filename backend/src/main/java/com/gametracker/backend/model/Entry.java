@@ -44,14 +44,14 @@ public class Entry {
     @Column(name = "finish_date")
     private LocalDate finishDate;
 
-    private Integer rating;
+    private Double rating;
 
     // 5 types of sub-rating
-    private Integer enjoyment;
-    private Integer gameplay;
-    private Integer story;
-    private Integer visuals;
-    private Integer sound;
+    private Double enjoyment;
+    private Double gameplay;
+    private Double story;
+    private Double visuals;
+    private Double sound;
 
     // --- methods ---
 

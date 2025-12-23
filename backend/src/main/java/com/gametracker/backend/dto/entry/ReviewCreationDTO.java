@@ -8,10 +8,10 @@ import java.time.LocalDate;
 public record ReviewCreationDTO(
         String reviewText,
         LocalDate finishDate,
-        Integer rating,
-        Integer enjoyment,
-        Integer gameplay,
-        Integer story,
-        Integer visuals,
-        Integer sound
+        Double rating,
+        Double enjoyment,
+        Double gameplay,
+        Double story,
+        Double visuals,
+        Double sound
 ) {}

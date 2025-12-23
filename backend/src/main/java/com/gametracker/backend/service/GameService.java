@@ -101,14 +101,13 @@ public class GameService {
             if (storeData != null && storeData.has(appId) && storeData.get(appId).get("success").asBoolean()) {
                 JsonNode data = storeData.get(appId).get("data");
 
-                // set game title
-                if (data.has("name")) {
-                    game.setTitle(data.get("name").asText());
-                }
-
                 // set description (steam page short description)
                 if (data.has("short_description")) {
-                    game.setDescription(data.get("short_description").asText());
+                    if (game.getDescription() == null) {
+                        game.setDescription(data.get("short_description").asText());
+                    } else {
+                        System.out.println("not replacing description");
+                    }
                 }
 
                 // set release year
@@ -120,19 +119,23 @@ public class GameService {
                 }
 
                 // set tags
-                List<String> newTags = new ArrayList<>();
-                if (data.has("genres")) {
-                    for (JsonNode g : data.get("genres")) {
-                        String tag = g.get("description").asText().toUpperCase().replaceAll("-", "").replaceAll(" ", "_");
-                        try {
-                            AllowedTags check = AllowedTags.valueOf(tag);
-                            newTags.add(check.toString());
-                        } catch (Exception e) {
-                            System.err.println("Tag not allowed: " + tag);
+                if (game.getTags().isEmpty()) {
+                    List<String> newTags = new ArrayList<>();
+                    if (data.has("genres")) {
+                        for (JsonNode g : data.get("genres")) {
+                            String tag = g.get("description").asText();
+                            try {
+                                AllowedTags check = AllowedTags.valueOf(tag.toUpperCase().replaceAll("-", "").replaceAll(" ", "_"));
+                                newTags.add(g.get("description").asText());
+                            } catch (Exception e) {
+                                System.err.println("Tag not allowed: " + tag);
+                            }
                         }
                     }
+                    game.setTags(newTags);
+                } else {
+                    System.out.println("not replacing tags");
                 }
-                game.setTags(newTags);
 
                 // set game's number of achievements
                 if (data.has("achievements")) {

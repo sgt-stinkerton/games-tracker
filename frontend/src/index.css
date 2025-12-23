@@ -8,6 +8,7 @@
     cursor: pointer;
 }
 
+/* view button expands when you hover over it */
 .view-hover {
     transition: transform 0.2s ease-in-out;
 }
@@ -16,6 +17,7 @@
     cursor: pointer;
 }
 
+/* list item background changes colour when hovered */
 .game-list-item {
     background-color: var(--bs-white);
     transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;

@@ -5,10 +5,10 @@ import {entryService} from "../services/entryService.js";
 import {searchTags} from "../services/utilities.js";
 
 import CommonPageHeader from "../components/CommonPageHeader.jsx";
+import StarRating from "../components/StarRating.jsx";
 
 // TODO add a button next to the date box that says today so you can quickly fill in if you finished it today
 // TODO make look nicer
-// TODO make review creation allow .5 values
 
 export default function AddGame ({ setShowToast, setToastMsg }) {
   const [games, setGames] = useState(null);
@@ -167,20 +167,25 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
       .catch(error => setError(error))
   }
 
+  const handleRatingChange = (type, value) => {
+    setFormData(prev => ({ ...prev, [type]: value }))
+  }
+
   const RatingRow = ({ label, name }) => (
     <Form.Group as={Row} className="mb-3">
-      <Form.Label column sm={3} className="small fw-bold">{label}</Form.Label>
+      <Form.Label column sm={3} className="small fw-bold">
+        {label}
+      </Form.Label>
       <Col sm={9}>
-        <Form.Control
-          type="number"
-          name={name}
-          value={formData[name]}
-          onChange={handleValueChange}
-          min="0" max="10" step="0.5"
-          required={isDisabled}
-          disabled={isDisabled}
-          className={`h-100 ${isDisabled ? "bg-secondary bg-opacity-25" : "shadow-sm border border-secondary-subtle"}`}
-        />
+        {isDisabled ? (
+          <p>no rating here!</p>
+        ) : (
+          <StarRating
+            type={name}
+            defaultRating={formData[name]}
+            getCurrentRating={handleRatingChange}
+          />
+        )}
       </Col>
     </Form.Group>
   );
