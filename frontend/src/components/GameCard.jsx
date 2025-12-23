@@ -1,7 +1,7 @@
 import {Card, ProgressBar} from "react-bootstrap";
 import {Link} from "react-router";
 import {getStatusColor} from "../services/utilities.js";
-import DefaultImg from "../assets/placeholder.jpg";
+import DefaultImg from "../assets/placeholder.svg";
 import "../index.css";
 
 export default function GameCard ({ imgSrc, title, status, releaseYear, tags, currentAchievements, maxAchievements, gameId }) {
@@ -71,7 +71,7 @@ export default function GameCard ({ imgSrc, title, status, releaseYear, tags, cu
             {maxAchievements !== 0 && maxAchievements > currentAchievements && (
               `${currentAchievements}/${maxAchievements} Achievements`
             )}
-            {maxAchievements !== 0 && maxAchievements === currentAchievements && (
+            {maxAchievements !== 0 && currentAchievements !== null && maxAchievements === currentAchievements && (
               `Unlocked all ${maxAchievements} achievements.`
             )}
             {!maxAchievements && (

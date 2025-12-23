@@ -3,10 +3,10 @@ import {useEffect, useState} from "react";
 import {Row, Col, Dropdown} from "react-bootstrap";
 import {PencilSquare, Trash} from "react-bootstrap-icons";
 import {entryService} from "../services/entryService.js";
+import {getStatusColor} from "../services/utilities.js";
 
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
-import DefaultImg from "../assets/placeholder.jpg";
-import {getStatusColor} from "../services/utilities.js";
+import DefaultImg from "../assets/placeholder.svg";
 
 export default function Game ({ setShowToast, setToastMsg }) {
   const [entry, setEntry] = useState(null);

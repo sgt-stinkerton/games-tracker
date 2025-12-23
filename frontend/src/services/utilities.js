@@ -14,5 +14,5 @@ export const getStatusColor = (status) => {
 
 export const searchTags = (query) => {
   const tags = Object.keys(AllowedTags);
-  return tags.filter(tag => tag.includes(query.toLowerCase()));
+  return tags.filter(tag => tag.toLowerCase().includes(query.toLowerCase()));
 }

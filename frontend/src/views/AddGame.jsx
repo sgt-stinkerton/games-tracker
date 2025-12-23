@@ -1,23 +1,27 @@
 import {useEffect, useState} from "react";
-import {Form, Row, Col, Card, Button} from "react-bootstrap";
+import {Form, Row, Col, Card, Button, ListGroup} from "react-bootstrap";
 import {gameService} from "../services/gameService.js";
 import {entryService} from "../services/entryService.js";
+import {searchTags} from "../services/utilities.js";
 
 import CommonPageHeader from "../components/CommonPageHeader.jsx";
 
 // TODO add a button next to the date box that says today so you can quickly fill in if you finished it today
-// TODO STEAM genre stuff
 // TODO make look nicer
 // TODO make review creation allow .5 values
 
 export default function AddGame ({ setShowToast, setToastMsg }) {
   const [games, setGames] = useState(null);
+  const [tags, setTags] = useState([]);
+  const [search, setSearch] = useState("");
+  const [searchResults, setSearchResults] = useState(null);
   const [success, setSuccess] = useState(null); // TODO doesn't actually do anything
   const [error, setError] = useState(null);
 
   const [formData, setFormData] = useState({
     title: "",
     releaseYear: "",
+    tags: "",
     status: "TO_PLAY",
     notes: "",
     reviewText: "",
@@ -45,6 +49,52 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
       [name]: value
     }));
   };
+
+  const handleTagReset = () => {
+    setSearchResults(null);
+    setSearch("");
+    setTags([]);
+  };
+
+  const onSearchInput = (e) => {
+    const query = e.target.value.trim();
+    setSearch(query);
+
+    if (!query) {
+      setSearchResults(null);
+      return;
+    }
+
+    setSearchResults(searchTags(query.trim()));
+  }
+
+  const addTag = (tag) => {
+    if (!tags.includes(tag)) {
+      const list = [...tags, tag];
+      setTags(list);
+    }
+    setSearchResults(null);
+    setSearch("");
+  }
+
+  const renderSearchList = () => {
+    if (!searchResults) return;
+
+    // don't include tags that are already in list
+    const res = searchResults.filter(x => !tags.includes(x));
+
+    if (!res.length) return (<p className="mt-2 ms-1 m-0">No results.</p>);
+
+    return (
+      <ListGroup className="rounded-2" style={{ maxHeight: "35vh", overflowY: "scroll" }}>
+        {res.map(tag => (
+          <ListGroup.Item action key={tag} type="button" onClick={() => addTag(tag)}>
+            {tag}
+          </ListGroup.Item>
+        ))}
+      </ListGroup>
+    )
+  }
   
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -66,7 +116,8 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
     let gameData = {
       steamAppId: null,
       title: formData.title,
-      releaseYear: parseInt(formData.releaseYear)
+      releaseYear: parseInt(formData.releaseYear),
+      tags: tags // TODO should probably do more validation on this
     }
 
     let entryData = {
@@ -217,6 +268,32 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
               </Form.Group>
             </Card.Body>
           </Card>
+
+          <Form.Group>
+            <Form.Control
+              type="text"
+              placeholder={tags.length >= 3 ? "Cannot add more than 3 tags." : "Search game tags..."}
+              className="px-2 p-1"
+              value={search}
+              onChange={onSearchInput}
+              disabled={tags.length >= 3}
+            />
+            {renderSearchList()}
+
+            {tags.length > 0 && (
+              <div className="d-flex flex-wrap gap-1 mt-3">
+                {tags.map(t => (
+                  <span
+                    key={t}
+                    className="badge bg-secondary"
+                    onClick={() => setTags(prev => prev.filter(x => x !== t))}
+                    style={{cursor: 'pointer'}}>
+                      {t} &times;
+                      </span>
+                ))}
+              </div>
+            )}
+          </Form.Group>
         </Col>
 
         {/* right column - game review (for completed or dropped games) */}

@@ -44,7 +44,7 @@ public class GameService {
     }
 
     public Game createGame(GameCreationDTO dto) {
-        Game newGame = new Game(dto.steamAppId(), dto.title(), dto.releaseYear());
+        Game newGame = new Game(dto.steamAppId(), dto.title(), dto.releaseYear(), dto.tags());
         return gameRepository.save(newGame);
     }
 

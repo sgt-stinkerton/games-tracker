@@ -73,7 +73,7 @@ export default function Games ({  }) {
 
     const matchesTags = activeFilters.tags.length === 0
       ? true
-      : e.game.tags.some(tag => activeFilters.tags.includes(tag.toLowerCase()));
+      : e.game.tags.some(tag => activeFilters.tags.includes(tag));
 
     // year
     const gameYear = parseInt(e.game.releaseYear);
@@ -137,7 +137,7 @@ export default function Games ({  }) {
 
     activeFilters.tags.forEach(t => badges.push({
       key: `tag-${t}`,
-      text: {t},
+      text: t,
       onRemove: () => setActiveFilters(prev => ({
         ...prev, tags: prev.tags.filter(x => x !== t)}))
     }));

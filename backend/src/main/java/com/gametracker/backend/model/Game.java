@@ -46,10 +46,11 @@ public class Game {
 
     public Game() {}
 
-    public Game(String steamAppId, String title, Year releaseYear) {
+    public Game(String steamAppId, String title, Year releaseYear, List<String> tags) {
         this.steamAppId = steamAppId;
         this.title = title;
         this.releaseYear = releaseYear;
+        this.tags = tags;
     }
 
     public GameInfoDTO toDTO() {
