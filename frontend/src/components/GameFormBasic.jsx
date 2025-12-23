@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import {gameService} from "../services/gameService.js";
 import {Form, Button, Card, Col} from 'react-bootstrap';
 
-import FilterTags from "./filterComponents/FilterTags.jsx";
+import FilterTags from "./filter_components/FilterTags.jsx";
 
 export default function GameFormBasic ({ nextStep, handleInput, formData, tags, setGameTags }) {
   const [error, setError] = useState(null);
