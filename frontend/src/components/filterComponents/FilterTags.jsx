@@ -3,24 +3,24 @@ import {Form, ListGroup} from "react-bootstrap";
 import {searchTags} from "../../services/utilities.js";
 import FilterDropdown from "./FilterDropdown.jsx";
 
-export default function FilterTags({ initialState, onFilterChange }) {
+export default function FilterTags({ initialState=null, onFilterChange, isDropdown=true }) {
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState(null);
-  const [activeFilters, setActiveFilters] = useState(initialState || []);
+  const [tags, setTags] = useState(initialState || []);
 
   // updates menu when user removes filter by clicking on little grey button
   useEffect(() => {
-    setActiveFilters(initialState || []);
+    setTags(initialState || []);
   }, [initialState]);
 
   useEffect(() => {
-    onFilterChange(activeFilters);
-  }, [activeFilters]);
+    onFilterChange(tags);
+  }, [tags]);
 
   const handleReset = () => {
     setSearchResults(null);
     setSearch("");
-    setActiveFilters([]);
+    setTags([]);
   };
 
   const onSearchInput = (e) => {
@@ -36,9 +36,9 @@ export default function FilterTags({ initialState, onFilterChange }) {
   }
 
   const addTag = (tag) => {
-    if (!activeFilters.includes(tag)) {
-      const list = [...activeFilters, tag];
-      setActiveFilters(list);
+    if (!tags.includes(tag)) {
+      const list = [...tags, tag];
+      setTags(list);
     }
     setSearchResults(null);
     setSearch("");
@@ -47,8 +47,8 @@ export default function FilterTags({ initialState, onFilterChange }) {
   const renderSearchList = () => {
     if (!searchResults) return;
 
-    // don't include tags that are already in filtered list
-    const res = searchResults.filter(x => !activeFilters.includes(x));
+    // don't include tags that are already in list
+    const res = searchResults.filter(x => !tags.includes(x));
 
     if (!res.length) return (<p className="mt-2 ms-1 m-0">No results.</p>);
 
@@ -63,8 +63,8 @@ export default function FilterTags({ initialState, onFilterChange }) {
     )
   }
 
-  return (
-    <FilterDropdown type="Tags" onReset={handleReset}>
+  const renderBody = () => {
+    return (<>
       <Form.Control
         type="text"
         placeholder="Search game tags..."
@@ -74,19 +74,29 @@ export default function FilterTags({ initialState, onFilterChange }) {
       />
       {renderSearchList()}
 
-      {activeFilters.length > 0 && (
+      {tags.length > 0 && (
         <div className="d-flex flex-wrap gap-1 mt-3">
-          {activeFilters.map(t => (
+          {tags.map(t => (
             <span
               key={t}
               className="badge bg-secondary"
-              onClick={() => setActiveFilters(prev => prev.filter(x => x !== t))}
+              onClick={() => setTags(prev => prev.filter(x => x !== t))}
               style={{cursor: 'pointer'}}>
               {t} &times;
             </span>
           ))}
         </div>
       )}
+    </>)
+  }
+
+  return isDropdown ? (
+    <FilterDropdown type="Tags" onReset={handleReset}>
+      {renderBody()}
     </FilterDropdown>
+  ) : (
+    <div>
+      {renderBody()}
+    </div>
   );
 }

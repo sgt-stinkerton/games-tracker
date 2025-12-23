@@ -38,7 +38,10 @@ export default function AddGame ({ setShowToast, setToastMsg }) {
 
   useEffect(() => {
     gameService.getAllGames()
-      .then(data => setGames(data))
+      .then(data => {
+        setGames(data);
+        console.log(data);
+      })
       .catch(error => setError(error))
   }, [success, error]);
 

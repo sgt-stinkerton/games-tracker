@@ -8,7 +8,6 @@ import java.util.List;
 // TODO validation
 
 public record GameCreationDTO (
-        String steamAppId,
         @NotBlank(message = "Title cannot be empty")
         String title,
         Year releaseYear,

@@ -10,6 +10,7 @@ import Reviews from "./views/Reviews.jsx";
 import Profile from "./views/Profile.jsx";
 import SideBar from "./components/SideBar.jsx";
 import ToastSuccess from "./components/ToastSuccess.jsx";
+import CreateGame from "./views/CreateGame.jsx";
 
 // TODO light mode / dark mode in user table
 
@@ -29,7 +30,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/games" element={<Games />} />
           <Route path="/games/:gameId" element={<Game setShowToast={setShowToast} setToastMsg={setToastMsg} />} />
-          <Route path="/add" element={<AddGame setShowToast={setShowToast} setToastMsg={setToastMsg} />} />
+          <Route path="/add" element={<CreateGame setShowToast={setShowToast} setToastMsg={setToastMsg} />} />
           <Route path="/sync" element={<SyncGames />} />
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/profile" element={<Profile />} />

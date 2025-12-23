@@ -46,8 +46,7 @@ public class Game {
 
     public Game() {}
 
-    public Game(String steamAppId, String title, Year releaseYear, List<String> tags) {
-        this.steamAppId = steamAppId;
+    public Game(String title, Year releaseYear, List<String> tags) {
         this.title = title;
         this.releaseYear = releaseYear;
         this.tags = tags;

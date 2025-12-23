@@ -5,11 +5,11 @@ import {entryService} from "../services/entryService.js";
 import "../index.css";
 
 import GameCard from "../components/GameCard.jsx";
-import FilterBadge from "../components/FilterComponents/FilterBadge.jsx";
-import FilterStatus from "../components/FilterComponents/FilterStatus.jsx";
-import FilterYear from "../components/FilterComponents/FilterYear.jsx";
-import FilterRating from "../components/FilterComponents/FilterRating.jsx";
-import FilterTags from "../components/FilterComponents/FilterTags.jsx";
+import FilterBadge from "../components/filterComponents/FilterBadge.jsx";
+import FilterStatus from "../components/filterComponents/FilterStatus.jsx";
+import FilterYear from "../components/filterComponents/FilterYear.jsx";
+import FilterRating from "../components/filterComponents/FilterRating.jsx";
+import FilterTags from "../components/filterComponents/FilterTags.jsx";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import SortDropdown from "../components/SortDropdown.jsx";
 import {GameListItem} from "../components/GameListItem.jsx";
