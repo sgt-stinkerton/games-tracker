@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, ProgressBar, Container, Card, Alert } from "react-bootstrap";
 import { gameService } from "../services/gameService.js"; // or wherever you put it
 import { useNavigate } from "react-router-dom";
+import CommonPageHeader from "../components/CommonPageHeader.jsx";
 
 export default function SyncGames() {
   const [status, setStatus] = useState("idle"); // idle, fetching_list, syncing, complete, error
@@ -67,57 +68,64 @@ export default function SyncGames() {
   };
 
   return (
-    <Container className="mt-5" style={{ maxWidth: "600px" }}>
-      <Card className="p-4 shadow-sm">
-        <h3 className="mb-3">Library Synchronization</h3>
-        <p className="text-muted">
-          This process will fetch your Steam games and their related data.
-          Please keep this window open.
-        </p>
+    <>
+      <CommonPageHeader
+        title="Synchronise Steam Data"
+        sideInfo="Import or update game data using your Steam data."
+      />
 
-        {status === "idle" && (
-          <Button onClick={startSync} variant="primary" size="lg">
-            Start Sync
-          </Button>
-        )}
+      <Container className="mt-5" style={{ maxWidth: "600px" }}>
+        <Card className="p-4 shadow-sm">
+          <h3 className="mb-3">Library Synchronization</h3>
+          <p className="text-muted">
+            This process will fetch your Steam games and their related data.
+            Please keep this window open.
+          </p>
 
-        {(status === "fetching_list" || status === "syncing") && (
-          <div>
-            <ProgressBar
-              animated
-              now={(progress / total) * 100}
-              label={`${Math.round((progress / total) * 100)}%`}
-              className="mb-3"
-            />
-            <div className="d-flex justify-content-between text-muted small">
-              <span>Processed: {progress} / {total}</span>
-              <span>Current AppID: {currentGameId}</span>
+          {status === "idle" && (
+            <Button onClick={startSync} variant="primary" size="lg">
+              Start Sync
+            </Button>
+          )}
+
+          {(status === "fetching_list" || status === "syncing") && (
+            <div>
+              <ProgressBar
+                animated
+                now={(progress / total) * 100}
+                label={`${Math.round((progress / total) * 100)}%`}
+                className="mb-3"
+              />
+              <div className="d-flex justify-content-between text-muted small">
+                <span>Processed: {progress} / {total}</span>
+                <span>Current AppID: {currentGameId}</span>
+              </div>
             </div>
+          )}
+
+          {status === "complete" && (
+            <Alert variant="success">
+              <Alert.Heading>Success!</Alert.Heading>
+              <p>Your library has been successfully updated.</p>
+              <hr />
+              <div className="d-flex justify-content-end">
+                <Button variant="outline-success" onClick={() => navigate("/")}>
+                  Go to Library
+                </Button>
+              </div>
+            </Alert>
+          )}
+
+          {status === "error" && (
+            <Alert variant="danger">Something went wrong. Check console.</Alert>
+          )}
+
+          {/* mini console */}
+          <div className="mt-4 p-2 bg-light border rounded" style={{ fontFamily: 'monospace', fontSize: '0.85rem' }}>
+            {logs.map((log, idx) => <div key={idx}>{log}</div>)}
           </div>
-        )}
-
-        {status === "complete" && (
-          <Alert variant="success">
-            <Alert.Heading>Success!</Alert.Heading>
-            <p>Your library has been successfully updated.</p>
-            <hr />
-            <div className="d-flex justify-content-end">
-              <Button variant="outline-success" onClick={() => navigate("/")}>
-                Go to Library
-              </Button>
-            </div>
-          </Alert>
-        )}
-
-        {status === "error" && (
-          <Alert variant="danger">Something went wrong. Check console.</Alert>
-        )}
-
-        {/* mini console */}
-        <div className="mt-4 p-2 bg-light border rounded" style={{ fontFamily: 'monospace', fontSize: '0.85rem' }}>
-          {logs.map((log, idx) => <div key={idx}>{log}</div>)}
-        </div>
-      </Card>
-    </Container>
+        </Card>
+      </Container>
+    </>
   );
 }
