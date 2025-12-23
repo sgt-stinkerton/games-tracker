@@ -2,6 +2,7 @@ import CreateFormBase from "./CreateFormBase.jsx";
 import {Card, Form} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import {gameService} from "../../services/gameService.js";
+import FormTop from "./FormTop.jsx";
 
 export default function GameInfo ({ nextStep, handleInput, formData }) {
   const [error, setError] = useState(null); // TODO
@@ -41,7 +42,7 @@ export default function GameInfo ({ nextStep, handleInput, formData }) {
 
   return (
     <CreateFormBase canNext={submitSection}>
-      <h4>Game Information</h4>
+      <FormTop title="Game Info" iconName="Controller" />
       <p className="m-0">{error}</p>
       <Card.Body className="p-2">
         <Form onSubmit={submitSection}>

@@ -1,5 +1,6 @@
 import {Card, Form} from "react-bootstrap";
 import CreateFormBase from "./CreateFormBase.jsx";
+import FormTop from "./FormTop.jsx";
 
 export default function GamePlayNotes ({ prevStep, nextStep, handleInput, formData }) {
   const submitSection = (e) => {
@@ -12,7 +13,7 @@ export default function GamePlayNotes ({ prevStep, nextStep, handleInput, formDa
 
   return (
     <CreateFormBase canPrev={prevStep} canNext={submitSection}>
-      <h4>Game Notes</h4>
+      <FormTop title="Gameplay Notes" iconName="Tag" />
       <Card.Body className="p-2">
         <Form onSubmit={submitSection}>
           <Form.Group>

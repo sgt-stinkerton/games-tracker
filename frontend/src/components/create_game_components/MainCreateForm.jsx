@@ -227,5 +227,13 @@ export default function MainCreateForm ({ setSuccess }) {
           error={error}
         />
       )
+    default:
+      return (
+        <CreateFormError
+          nextStep={nextStep}
+          handleInput={handleInput}
+          error={error}
+        />
+      )
   }
 }

@@ -1,6 +1,7 @@
 import CreateFormBase from "./CreateFormBase.jsx";
 import {Card, Form} from "react-bootstrap";
 import StarRating from "../StarRating.jsx";
+import FormTop from "./FormTop.jsx";
 
 export default function GameRatings ({ prevStep, nextStep, handleInput, formData }) {
 
@@ -14,14 +15,14 @@ export default function GameRatings ({ prevStep, nextStep, handleInput, formData
 
   const RatingRow = ({ name, type }) => (
     <Form.Group>
-      <Form.Label column sm={3}>{name}</Form.Label>
+      <Form.Label>{name}</Form.Label>
       <StarRating type={type} defaultRating={formData[type]} getCurrentRating={handleInput} />
     </Form.Group>
   );
 
   return (
     <CreateFormBase canPrev={prevStep} canNext={submitSection}>
-      <h4>Ratings</h4>
+      <FormTop title="Rate Game" iconName="Star" />
       <Card.Body className="p-2">
         <RatingRow name="Enjoyment" type="enjoyment" />
         <RatingRow name="Gameplay" type="gameplay" />

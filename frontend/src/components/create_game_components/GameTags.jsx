@@ -3,6 +3,7 @@ import CreateFormBase from "./CreateFormBase.jsx";
 import {useState} from "react";
 
 import FilterTags from "../filter_components/FilterTags.jsx";
+import FormTop from "./FormTop.jsx";
 
 export default function GameTags ({ prevStep, nextStep, handleInput, formData, tags, setTags }) {
   const [error, setError] = useState(null); // TODO
@@ -17,7 +18,7 @@ export default function GameTags ({ prevStep, nextStep, handleInput, formData, t
 
   return (
     <CreateFormBase canPrev={prevStep} canNext={submitSection}>
-      <h4>Add Tags</h4>
+      <FormTop title="Add Tags" iconName="Tag" />
       <p className="m-0">{error}</p>
       <Card.Body className="p-2">
         <FilterTags isDropdown={false} onFilterChange={setTags} initialState={tags} />

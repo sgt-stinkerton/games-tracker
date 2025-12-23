@@ -1,6 +1,7 @@
 import {Button, Card, Col, Row} from "react-bootstrap";
 import CreateFormBase from "./CreateFormBase.jsx";
 import {useState} from "react";
+import FormTop from "./FormTop.jsx";
 
 export default function GameStatus ({ prevStep, nextStep, handleInput, formData }) {
   const [error, setError] = useState(null); // TODO
@@ -25,7 +26,7 @@ export default function GameStatus ({ prevStep, nextStep, handleInput, formData 
 
   return (
     <CreateFormBase canPrev={prevStep} canNext={submitSection}>
-      <h4>Set Game Status</h4>
+      <FormTop title="Set Game Status" iconName="Clipboard" />
       <p className="m-0">{error}</p>
       <Card.Body className="p-2">
         <Row md={2} className="g-3">

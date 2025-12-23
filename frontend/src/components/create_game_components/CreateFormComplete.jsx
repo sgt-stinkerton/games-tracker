@@ -1,11 +1,12 @@
 import {Button, Card} from "react-bootstrap";
 import {Link} from "react-router";
 import CreateFormBase from "./CreateFormBase.jsx";
+import FormTop from "./FormTop.jsx";
 
 export default function CreateFormComplete ({ nextStep, recentId }) {
   return (
     <CreateFormBase>
-      <h4>Game Created</h4>
+      <FormTop title="Game Created" iconName="CheckCircle" />
       <Card.Body className="p-2">
         <p>game successfully created</p>
       </Card.Body>

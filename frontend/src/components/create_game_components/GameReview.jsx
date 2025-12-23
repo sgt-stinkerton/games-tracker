@@ -1,5 +1,6 @@
 import CreateFormBase from "./CreateFormBase.jsx";
 import {Card, Form} from "react-bootstrap";
+import FormTop from "./FormTop.jsx";
 
 export default function GameReview ({ prevStep, nextStep, handleInput, formData }) {
 
@@ -13,7 +14,7 @@ export default function GameReview ({ prevStep, nextStep, handleInput, formData 
 
   return (
     <CreateFormBase canPrev={prevStep} canNext={submitSection}>
-      <h4>Review</h4>
+      <FormTop title="Write Review" iconName="JournalText" />
       <Card.Body className="p-2">
         <Form onSubmit={submitSection}>
           <Form.Group>

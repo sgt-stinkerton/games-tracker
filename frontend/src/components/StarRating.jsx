@@ -37,12 +37,12 @@ export default function StarRating ({ numStars = 10, getCurrentRating, defaultRa
     const iconStyle = { pointerEvents: "none" };
 
     if (displayValue >= value) {
-      return <StarFill size={24} className="text-warning" style={iconStyle} />
+      return <StarFill size={30} className="text-warning" style={iconStyle} />
     }
     if (displayValue >= value - 0.5) {
-      return <StarHalf size={24} className="text-warning" style={iconStyle} />
+      return <StarHalf size={30} className="text-warning" style={iconStyle} />
     }
-    return <Star size={24} className="text-warning" style={iconStyle} />
+    return <Star size={30} className="text-warning" style={iconStyle} />
   }
 
   return (

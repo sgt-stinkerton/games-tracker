@@ -1,10 +1,11 @@
 import {Button, Card} from "react-bootstrap";
 import CreateFormBase from "./CreateFormBase.jsx";
+import FormTop from "./FormTop.jsx";
 
 export default function CreateFormConfirm ({ prevStep, formData, tags, confirm }) {
   return (
     <CreateFormBase canPrev={prevStep}>
-      <h4>Confirm Data</h4>
+      <FormTop title="Confirm Creation" iconName="QuestionCircle" />
       <Card.Body className="p-2" style={{ overflow: "auto" }}>
         <p>title {formData.title}</p>
         <p>year {formData.releaseYear}</p>

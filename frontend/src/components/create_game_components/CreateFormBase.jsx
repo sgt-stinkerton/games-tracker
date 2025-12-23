@@ -1,4 +1,5 @@
 import {Col, Row, Button, Card} from "react-bootstrap";
+import "../../index.css";
 
 export default function CreateFormBase ({ canPrev=null, canNext=null, children }) {
   return (
@@ -12,7 +13,7 @@ export default function CreateFormBase ({ canPrev=null, canNext=null, children }
       </Col>
 
       <Col md={6} className="d-flex flex-row justify-content-center align-items-center">
-        <Card className="p-4 h-75 w-100 shadow">
+        <Card className="p-3 pt-2 w-100 shadow floating-card" style={{ overflow: "visible", height: "60vh" }}>
           {children}
         </Card>
       </Col>

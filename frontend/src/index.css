@@ -26,3 +26,9 @@
     background-color: var(--bs-secondary-bg-subtle);
     cursor: pointer;
 }
+
+.floating-card {
+    overflow: visible !important;
+    position: relative;
+    background: white;
+}
