@@ -55,7 +55,7 @@ export default function GameCard ({ imgSrc, title, status, releaseYear, genres, 
       </div>
 
       {/* achievement progress bar */}
-      {maxAchievements && currentAchievements > 0 && (
+      {maxAchievements !== 0 && currentAchievements > 0 && (
         <ProgressBar
           now={(currentAchievements/maxAchievements)*100}
           variant="info"
@@ -68,10 +68,10 @@ export default function GameCard ({ imgSrc, title, status, releaseYear, genres, 
       <Card.Footer className="pb-1 p-0">
         <div className="px-3 d-flex text-end justify-content-between align-items-center mt-1 small">
           <p className="m-0 small text-start">
-            {maxAchievements && maxAchievements > currentAchievements && (
+            {maxAchievements !== 0 && maxAchievements > currentAchievements && (
               `${currentAchievements}/${maxAchievements} Achievements`
             )}
-            {maxAchievements && maxAchievements === currentAchievements && (
+            {maxAchievements !== 0 && maxAchievements === currentAchievements && (
               `Unlocked all ${maxAchievements} achievements.`
             )}
             {!maxAchievements && (
