@@ -36,7 +36,7 @@ export default function Game ({ setShowToast, setToastMsg }) {
       <div className="d-flex justify-content-between align-items-baseline">
         <div className="d-flex flex-row align-items-baseline gap-3 mt-1">  {/* do not touch the mt-1 */}
           <h4 className="mb-1">{entry.game.title} ({entry.game.releaseYear})</h4>
-          <p className={`m-0 align-self-center fw-bold px-2 rounded-4 ${getStatusColor(entry.status)}`}>
+          <p className={`m-0 align-self-center fs-6 badge fw-bold px-3 rounded-4 ${getStatusColor(entry.status)}`}>
             {entry.status.replaceAll("_", " ")}
           </p>
         </div>

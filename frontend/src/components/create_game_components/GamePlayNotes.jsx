@@ -8,7 +8,7 @@ export default function GamePlayNotes ({ prevStep, nextStep, handleInput, formDa
   const submitSection = (e) => {
     e.preventDefault();
 
-    // validation
+    // TODO charlimit
 
     nextStep();
   }
@@ -22,7 +22,7 @@ export default function GamePlayNotes ({ prevStep, nextStep, handleInput, formDa
             <Form.Control
               as="textarea"
               name="notes"
-              className="flex-grow-1 border border-secondary"
+              className="bg-white flex-grow-1 border border-secondary"
               style={{ resize: "none", overflowY: "auto" }}
               value={formData.notes}
               placeholder={"Enter any thoughts you've had whilst playing..."}

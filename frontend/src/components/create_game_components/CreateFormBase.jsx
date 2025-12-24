@@ -1,5 +1,5 @@
 import {Col, Row, Button, Card} from "react-bootstrap";
-import "../../index.css";
+import "../../App.css";
 
 export default function CreateFormBase ({ canPrev=null, canNext=null, children }) {
   return (

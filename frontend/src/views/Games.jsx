@@ -2,7 +2,8 @@ import {useEffect, useState} from "react";
 import {Row, Col, Form} from "react-bootstrap";
 import {List, Grid} from "react-bootstrap-icons"
 import {entryService} from "../services/entryService.js";
-import "../index.css";
+import {getTagsString} from "../services/utilities.js";
+import "../App.css";
 
 import GameCard from "../components/GameCard.jsx";
 import FilterBadge from "../components/filter_components/FilterBadge.jsx";
@@ -39,10 +40,6 @@ export default function Games ({  }) {
       rating: {}
     }
   })
-
-  const getTagsString = (tags) => {
-    return tags && tags.length > 0 ? tags.slice(0, 3).join(", ") : "";
-  };
 
   useEffect(() => {
     sessionStorage.setItem("games_view", view);

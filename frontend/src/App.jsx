@@ -4,7 +4,6 @@ import {Route, Routes} from "react-router-dom";
 import Home from "./views/Home.jsx";
 import Games from "./views/Games.jsx";
 import Game from "./views/Game.jsx";
-import AddGame from "./views/AddGame.jsx";
 import SyncGames from "./views/SyncGames.jsx";
 import Reviews from "./views/Reviews.jsx";
 import Profile from "./views/Profile.jsx";
@@ -23,14 +22,14 @@ export default function App() {
       <ToastSuccess show={showToast} onClose={() => setShowToast(false)} message={toastMsg} />
       <SideBar />
       <main
-        className="p-4 bg-light"
+        className="p-4 bg-white"
         style={{ marginLeft: '220px', minHeight: '100vh', width: 'calc(100vw - 220px)' }}
       >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/games" element={<Games />} />
           <Route path="/games/:gameId" element={<Game setShowToast={setShowToast} setToastMsg={setToastMsg} />} />
-          <Route path="/add" element={<CreateGame setShowToast={setShowToast} setToastMsg={setToastMsg} />} />
+          <Route path="/add" element={<CreateGame />} />
           <Route path="/sync" element={<SyncGames />} />
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/profile" element={<Profile />} />

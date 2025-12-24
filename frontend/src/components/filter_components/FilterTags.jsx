@@ -3,7 +3,7 @@ import {Form, ListGroup} from "react-bootstrap";
 import {searchTags} from "../../services/utilities.js";
 import FilterDropdown from "./FilterDropdown.jsx";
 
-export default function FilterTags({ initialState=null, onFilterChange, isDropdown=true }) {
+export default function FilterTags({ initialState=null, onFilterChange }) {
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState(null);
   const [tags, setTags] = useState(initialState || []);
@@ -37,8 +37,7 @@ export default function FilterTags({ initialState=null, onFilterChange, isDropdo
 
   const addTag = (tag) => {
     if (!tags.includes(tag)) {
-      const list = [...tags, tag];
-      setTags(list);
+      setTags([...tags, tag]);
     }
     setSearchResults(null);
     setSearch("");
@@ -63,8 +62,8 @@ export default function FilterTags({ initialState=null, onFilterChange, isDropdo
     )
   }
 
-  const renderBody = () => {
-    return (<>
+  return (
+    <FilterDropdown type="Tags" onReset={handleReset}>
       <Form.Control
         type="text"
         placeholder="Search game tags..."
@@ -87,16 +86,6 @@ export default function FilterTags({ initialState=null, onFilterChange, isDropdo
           ))}
         </div>
       )}
-    </>)
-  }
-
-  return isDropdown ? (
-    <FilterDropdown type="Tags" onReset={handleReset}>
-      {renderBody()}
     </FilterDropdown>
-  ) : (
-    <div>
-      {renderBody()}
-    </div>
   );
 }

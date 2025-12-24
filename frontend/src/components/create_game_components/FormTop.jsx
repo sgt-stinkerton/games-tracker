@@ -20,7 +20,7 @@ export default function FormTop ({ title, iconName }) {
     <div className="d-flex flex-column align-items-center">
       <div
         className="bg-primary-subtle text-primary"
-        style={{ marginTop: "-40px", marginBottom: "10px", borderRadius: "50%", padding: "12px" }}
+        style={{ marginTop: "-40px", marginBottom: "5px", borderRadius: "50%", padding: "12px" }}
       >
         {getIcon(iconName)}
       </div>

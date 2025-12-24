@@ -1,3 +1,5 @@
+import "../../App.css";
+
 export default function FilterBadge ({ children, onClick }) {
   return (
     <span

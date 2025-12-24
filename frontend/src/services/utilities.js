@@ -2,13 +2,13 @@ import {AllowedTags} from "./allowedTags.js";
 
 export const getStatusColor = (status) => {
   switch (status) {
-    case "TO_PLAY":    return "bg-secondary-subtle text-dark";
-    case "UP_NEXT":    return "bg-info"
-    case "PLAYING":    return "bg-primary-subtle text-primary";
-    case "COMPLETED":  return "bg-success-subtle text-success";
-    case "DROPPED":    return "bg-danger-subtle text-danger";
-    case "HIDDEN":     return "bg-secondary text-light";
-    default:           return "bg-light text-dark";
+    case "TO_PLAY":    return "bg-light";
+    case "UP_NEXT":    return "bg-info-subtle"
+    case "PLAYING":    return "bg-primary-subtle";
+    case "COMPLETED":  return "bg-success-subtle";
+    case "DROPPED":    return "bg-danger-subtle";
+    case "HIDDEN":     return "bg-secondary";
+    default:           return "bg-light";
   }
 };
 
@@ -16,3 +16,7 @@ export const searchTags = (query) => {
   const tags = Object.keys(AllowedTags);
   return tags.filter(tag => tag.toLowerCase().includes(query.toLowerCase()));
 }
+
+export const getTagsString = (tags) => {
+  return tags && tags.length > 0 ? tags.slice(0, 3).join(", ") : "";
+};

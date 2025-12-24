@@ -3,9 +3,10 @@ import {Card, Form} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import {gameService} from "../../services/gameService.js";
 import FormTop from "./FormTop.jsx";
+import FormAlert from "./FormAlert.jsx";
 
 export default function GameInfo ({ nextStep, handleInput, formData }) {
-  const [error, setError] = useState(null); // TODO
+  const [error, setError] = useState(null);
   const [existingTitles, setExistingTitles] = useState([]);
 
   // get existing titles so there are no exact duplicates
@@ -22,7 +23,15 @@ export default function GameInfo ({ nextStep, handleInput, formData }) {
     e.preventDefault();
     setError(null);
 
-    // todo validation of year
+    if (formData.releaseYear && !Number.isInteger(parseInt(formData.releaseYear))) {
+      setError("Release year must be a number.");
+      return;
+    }
+
+    if (formData.releaseYear && parseInt(formData.releaseYear) < 1970) {
+      setError("Release year must be after 1970.");
+      return;
+    }
 
     if (formData.title === "") {
       setError("You must enter a title.");
@@ -33,7 +42,7 @@ export default function GameInfo ({ nextStep, handleInput, formData }) {
     const titleExists = existingTitles?.some(t => (
       t.toLowerCase() === formData.title.trim().toLowerCase()));
     if (titleExists) {
-      setError(`Game with title ${formData.title} already exists.`);
+      setError(`Game with title '${formData.title}' already exists.`);
       return;
     }
 
@@ -43,28 +52,31 @@ export default function GameInfo ({ nextStep, handleInput, formData }) {
   return (
     <CreateFormBase canNext={submitSection}>
       <FormTop title="Game Info" iconName="Controller" />
-      <p className="m-0">{error}</p>
-      <Card.Body className="p-2">
+      <FormAlert error={error} />
+
+      <Card.Body className="p-3">
         <Form onSubmit={submitSection}>
-          <Form.Group>
-            <Form.Label>Title *</Form.Label>
+          <Form.Group className="mb-4">
+            <Form.Label className="fs-5 mb-1">Game Title <span className="text-danger">*</span></Form.Label>
             <Form.Control
               name="title"
               type="text"
-              className="bg-secondary-subtle"
+              className="bg-white"
               value={formData.title}
               onChange={handleInput}
+              placeholder="Enter game title..."
             />
           </Form.Group>
 
           <Form.Group>
-            <Form.Label>Release Year</Form.Label>
+            <Form.Label className="fs-5 mb-1">Release Year</Form.Label>
             <Form.Control
               name="releaseYear"
               type="text"
-              className="bg-secondary-subtle"
+              className="bg-white"
               value={formData.releaseYear}
               onChange={handleInput}
+              placeholder="Enter release year..."
             />
           </Form.Group>
         </Form>

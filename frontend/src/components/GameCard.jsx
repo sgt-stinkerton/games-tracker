@@ -2,7 +2,7 @@ import {Card, ProgressBar} from "react-bootstrap";
 import {Link} from "react-router";
 import {getStatusColor} from "../services/utilities.js";
 import DefaultImg from "../assets/placeholder.svg";
-import "../index.css";
+import "../App.css";
 
 export default function GameCard ({ imgSrc, title, status, releaseYear, tags, currentAchievements, maxAchievements, gameId }) {
 

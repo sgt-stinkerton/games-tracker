@@ -12,7 +12,7 @@ import CreateFormError from "./CreateFormError.jsx";
 import GameTags from "./GameTags.jsx";
 import CreateFormComplete from "./CreateFormComplete.jsx";
 
-export default function MainCreateForm ({ setSuccess }) {
+export default function MainCreateForm ({ }) {
   const [error, setError] = useState("");
   const [stage, setStage] = useState("info");
   const [gameTags, setGameTags] = useState([]);  // tags stay between steps
@@ -138,7 +138,6 @@ export default function MainCreateForm ({ setSuccess }) {
       })
       .then(() => {
         setFormData(initEmptyForm());
-        setSuccess(true);
         setStage("complete");
       })
       .catch(error => {

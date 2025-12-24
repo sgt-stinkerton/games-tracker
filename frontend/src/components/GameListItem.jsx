@@ -1,7 +1,7 @@
 import {Link} from "react-router";
 import {getStatusColor} from "../services/utilities.js";
 import DefaultImg from "../assets/placeholder.svg";
-import "../index.css";
+import "../App.css";
 
 export function GameListItem({imgSrc, title, status, releaseYear, tags, gameId}) {
 
@@ -22,7 +22,7 @@ export function GameListItem({imgSrc, title, status, releaseYear, tags, gameId})
   return (
     <Link
       as={Link} to={`/games/${gameId}`}
-      className="d-flex justify-content-between border border-secondary-subtle p-2 rounded-1 h-100 game-list-item text-decoration-none text-reset"
+      className="d-flex bg-body justify-content-between border border-secondary-subtle p-2 rounded-1 h-100 game-list-item text-decoration-none text-reset"
     >
       <div className="d-flex justify-content-start gap-2">
         <img

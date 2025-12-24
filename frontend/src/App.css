@@ -1,0 +1,124 @@
+html[data-bs-theme] .btn-primary {
+    --bs-btn-bg: var(--bs-primary);
+    --bs-btn-border-color: var(--bs-primary);
+
+    --bs-btn-hover-bg: color-mix(in srgb, var(--bs-primary), black 10%);
+    --bs-btn-hover-border-color: color-mix(in srgb, var(--bs-primary), black 10%);
+    --bs-btn-active-bg: color-mix(in srgb, var(--bs-primary), black 20%);
+    --bs-btn-active-border-color: color-mix(in srgb, var(--bs-primary), black 20%);
+
+    --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
+}
+
+html[data-bs-theme] .btn-light {
+    --bs-btn-bg: var(--bs-light);
+    --bs-btn-border-color: var(--bs-light);
+
+    --bs-btn-hover-bg: color-mix(in srgb, var(--bs-light), white 15%);
+    --bs-btn-hover-border-color: color-mix(in srgb, var(--bs-light), white 15%);
+    --bs-btn-active-bg: color-mix(in srgb, var(--bs-light), white 20%);
+    --bs-btn-active-border-color: color-mix(in srgb, var(--bs-light), white 20%);
+
+    --bs-btn-color: var(--bs-dark);
+}
+
+html[data-bs-theme] .badge.bg-primary-subtle {
+    color: color-mix(in srgb, var(--bs-primary-bg-subtle), var(--bs-primary) 100%) !important;
+}
+html[data-bs-theme] .badge.bg-info-subtle           {
+    color: color-mix(in srgb, var(--bs-info), black 40%) !important;
+}
+html[data-bs-theme] .badge.bg-success-subtle {
+    color: color-mix(in srgb, var(--bs-success-bg-subtle), var(--bs-success) 100%) !important;
+}
+html[data-bs-theme] .badge.bg-danger-subtle  {
+    color: color-mix(in srgb, var(--bs-danger-bg-subtle), var(--bs-danger) 100%) !important;
+}
+html[data-bs-theme] .badge.bg-light          {
+    color: color-mix(in srgb, var(--bs-light), var(--bs-dark) 80%) !important; }
+
+html[data-bs-theme] .badge.bg-secondary      {
+    color: color-mix(in srgb, var(--bs-secondary), black 80%) !important;
+}
+
+html[data-bs-theme="light"] {
+    --bs-body-bg: #f8f8f8;  /* generic body */
+    --bs-body-bg-rgb: 248, 248, 248;
+    --bs-body-color: #000000;  /* dark text */
+
+    --bs-secondary: #A8A8A8;
+    --bs-secondary-rgb: 168, 168, 168;
+    --bs-secondary-color: #2e2e2e;
+
+    --bs-light: #e1e1e1;
+    --bs-light-rgb: 225, 225, 225;
+    --bs-light-color: #f7ff00;
+    --bs-light-color-rgb: 247, 255, 0;
+
+    --bs-border-color: #a8a8a8;  /* outlines on stuff */
+}
+
+html[data-bs-theme="cute"] {
+    --bs-body-bg: #fff0f5;  /* generic body */
+    --bs-body-bg-rgb: 255, 240, 245;
+    --bs-body-color: #7c046a;  /* dark text */
+    --bs-border-color: #f1c0c0;
+
+    --bs-primary: #d63384;
+    --bs-primary-rgb: 214, 51, 132;
+    --bs-primary-color: #fff;
+
+    --bs-secondary: #61EAFF;
+    --bs-secondary-rgb: 97, 234, 255;
+    --bs-secondary-color: #fff;
+
+    --bs-light: #9e61ff;
+    --bs-light-rgb: 158, 97, 255;
+    --bs-light-color: #fff;
+
+    --bs-link-color: #d63384;
+    --bs-link-hover-color: color-mix(in srgb, #d63384, #9e61ff 20%);
+
+    --bs-dark: #f7ff00;
+}
+
+/* card expands and shadow gets darker when hovered */
+.card-hover {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.card-hover:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    cursor: pointer;
+}
+
+/* view button expands when you hover over it */
+.view-hover {
+    transition: transform 0.2s ease-in-out;
+}
+.view-hover:hover {
+    transform: scale(1.15);
+    cursor: pointer;
+}
+
+/* list item background changes colour when hovered */
+.game-list-item {
+    background-color: var(--bs-body-bg);
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+.game-list-item:hover {
+    background-color: var(--bs-secondary-bg-subtle);
+    cursor: pointer;
+}
+
+.floating-card {
+    overflow: visible !important;
+    position: relative;
+    background: white;
+}
+
+/* for create game form status section */
+.hover-shadow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}

@@ -2,8 +2,11 @@ import CreateFormBase from "./CreateFormBase.jsx";
 import {Card, Form} from "react-bootstrap";
 import StarRating from "../StarRating.jsx";
 import FormTop from "./FormTop.jsx";
+import FormAlert from "./FormAlert.jsx";
+import {useState} from "react";
 
 export default function GameRatings ({ prevStep, nextStep, handleInput, formData }) {
+  const [error, setError] = useState(null);
 
   const submitSection = (e) => {
     e.preventDefault();
@@ -23,6 +26,8 @@ export default function GameRatings ({ prevStep, nextStep, handleInput, formData
   return (
     <CreateFormBase canPrev={prevStep} canNext={submitSection}>
       <FormTop title="Rate Game" iconName="Star" />
+      <FormAlert error={error} />
+
       <Card.Body className="p-2">
         <RatingRow name="Enjoyment" type="enjoyment" />
         <RatingRow name="Gameplay" type="gameplay" />
