@@ -1,4 +1,4 @@
-import {Card, ProgressBar} from "react-bootstrap";
+import {Badge, Card, ProgressBar} from "react-bootstrap";
 import {Link} from "react-router";
 import {getStatusColor} from "../services/utilities.js";
 import DefaultImg from "../assets/placeholder.svg";
@@ -47,9 +47,17 @@ export default function GameCard ({ imgSrc, title, status, releaseYear, tags, cu
             </p>
             <p className="m-0 small fw-bold">{releaseYear}</p>
           </div>
-          <hr className="mt-1 mb-0 p-0"></hr>
-          <div className="pt-1 m-0 small">
-            <p className={`m-0 small ${tags ? "fw-bold" : ""}`}>{tags ? tags : "No tags found."}</p>
+          <hr className="mt-1 mb-1 p-0"></hr>
+          <div className="pt-1 m-0 small d-flex gap-1 overflow-hidden mb-1">
+            {tags.length > 0 ? (
+              tags.map(tag => (
+                <Badge key={tag} bg="light" text="dark" className="border">
+                  {tag}
+                </Badge>
+              ))
+            ) : (
+              <span className="text-muted small fst-italic">No tags found.</span>
+            )}
           </div>
         </Card.Body>
       </div>
@@ -68,13 +76,13 @@ export default function GameCard ({ imgSrc, title, status, releaseYear, tags, cu
       <Card.Footer className="pb-1 p-0">
         <div className="px-3 d-flex text-end justify-content-between align-items-center mt-1 small">
           <p className="m-0 small text-start">
-            {maxAchievements !== 0 && maxAchievements > currentAchievements && (
+            {(maxAchievements !== 0 && maxAchievements > currentAchievements && currentAchievements !== null) && (
               `${currentAchievements}/${maxAchievements} Achievements`
             )}
             {maxAchievements !== 0 && currentAchievements !== null && maxAchievements === currentAchievements && (
               `Unlocked all ${maxAchievements} achievements.`
             )}
-            {!maxAchievements && (
+            {(!maxAchievements || currentAchievements === null) && (
               `No Steam achievement data found.`
             )}
           </p>

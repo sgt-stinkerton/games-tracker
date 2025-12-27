@@ -48,8 +48,13 @@ public class GameService {
         return gameRepository.save(newGame);
     }
 
+    public void delete(long id) {
+        gameRepository.deleteById(id);
+    }
+
     public void syncGame(String appId, String nameFromSteam) {
         // find existing game with steam app id
+        boolean creatingNew = false;
         Game game = gameRepository.findBySteamAppId(appId).orElse(null);
 
         // if game with steam app id doesn't exist, then find game with equivalent title
@@ -59,6 +64,7 @@ public class GameService {
 
         // if no game with the given id and title exist, then make a new game
         if (game == null) {
+            creatingNew = true;
             game = new Game();
             game.setTitle(nameFromSteam != null ? nameFromSteam : "Unknown Game " + appId);
         }
@@ -70,7 +76,7 @@ public class GameService {
 
         // try-catch used so that program doesn't halt on a steam store error
         try {
-            fetchGameDetails(game, appId);
+            fetchGameDetails(game, appId, creatingNew);
             game = gameRepository.save(game);
         } catch (Exception e) {
             System.err.println("Failed to fetch store details for " + appId);
@@ -94,7 +100,7 @@ public class GameService {
         entryRepository.save(entry);
     }
 
-    private void fetchGameDetails(Game game, String appId) {
+    private void fetchGameDetails(Game game, String appId, boolean creatingNew) {
         try {
             JsonNode storeData = steamService.getStoreDetails(appId);
 
@@ -103,7 +109,7 @@ public class GameService {
 
                 // set description (steam page short description)
                 if (data.has("short_description")) {
-                    if (game.getDescription() == null) {
+                    if (creatingNew || (game.getDescription() == null)) {
                         game.setDescription(data.get("short_description").asText());
                     } else {
                         System.out.println("not replacing description");
@@ -119,14 +125,17 @@ public class GameService {
                 }
 
                 // set tags
-                if (game.getTags().isEmpty()) {
+                if (creatingNew || (game.getTags().isEmpty())) {
                     List<String> newTags = new ArrayList<>();
                     if (data.has("genres")) {
+                        int count = 0;
                         for (JsonNode g : data.get("genres")) {
+                            if (count >= 3) break;
                             String tag = g.get("description").asText();
                             try {
                                 AllowedTags check = AllowedTags.valueOf(tag.toUpperCase().replaceAll("-", "").replaceAll(" ", "_"));
                                 newTags.add(g.get("description").asText());
+                                count++;
                             } catch (Exception e) {
                                 System.err.println("Tag not allowed: " + tag);
                             }

@@ -20,7 +20,7 @@ export default function MainCreateForm ({ }) {
 
   const initEmptyForm = () => {
     return {
-      title: "", releaseYear: "", tags: "",
+      title: "", releaseYear: "", tags: "", description: "",
       status: "", notes: "",
       reviewText: "", finishDate: "", rating: "",
       enjoyment: "", gameplay: "", story: "", visuals: "", sound: ""
@@ -94,7 +94,8 @@ export default function MainCreateForm ({ }) {
     const gameData = {
       title: formData.title,
       releaseYear: formData.releaseYear !== "" ? parseInt(formData.releaseYear) : null,
-      tags: gameTags
+      tags: gameTags,
+      description: formData.description !== "" ? formData.description : null,
     };
 
     const entryData = {

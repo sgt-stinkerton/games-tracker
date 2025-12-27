@@ -56,8 +56,8 @@ export default function GameInfo ({ nextStep, handleInput, formData }) {
 
       <Card.Body className="p-3">
         <Form onSubmit={submitSection}>
-          <Form.Group className="mb-4">
-            <Form.Label className="fs-5 mb-1">Game Title <span className="text-danger">*</span></Form.Label>
+          <Form.Group className="mb-3">
+            <Form.Label className="fs-5 mb-1 lh-1">Game Title <span className="text-danger">*</span></Form.Label>
             <Form.Control
               name="title"
               type="text"
@@ -68,8 +68,8 @@ export default function GameInfo ({ nextStep, handleInput, formData }) {
             />
           </Form.Group>
 
-          <Form.Group>
-            <Form.Label className="fs-5 mb-1">Release Year</Form.Label>
+          <Form.Group className="mb-3">
+            <Form.Label className="fs-5 mb-1 lh-1">Release Year</Form.Label>
             <Form.Control
               name="releaseYear"
               type="text"
@@ -77,6 +77,19 @@ export default function GameInfo ({ nextStep, handleInput, formData }) {
               value={formData.releaseYear}
               onChange={handleInput}
               placeholder="Enter release year..."
+            />
+          </Form.Group>
+
+          <Form.Group className="d-flex flex-column flex-grow-1">
+            <Form.Label className="fs-5 mb-1 lh-1">Short Description</Form.Label>
+            <Form.Control
+              as="textarea"
+              name="description"
+              className="bg-white flex-grow-1 border border-secondary"
+              style={{ resize: "none", overflowY: "auto" }}
+              value={formData.description}
+              placeholder={"Enter a short description..."} // TODO (max 500 chars)
+              onChange={handleInput}
             />
           </Form.Group>
         </Form>

@@ -2,7 +2,9 @@ package com.gametracker.backend.controller;
 
 import com.gametracker.backend.dto.game.GameCreationDTO;
 import com.gametracker.backend.dto.game.GameInfoDTO;
+import com.gametracker.backend.model.Entry;
 import com.gametracker.backend.model.Game;
+import com.gametracker.backend.service.EntryService;
 import com.gametracker.backend.service.GameService;
 
 import jakarta.validation.Valid;
@@ -17,10 +19,12 @@ import java.util.List;
 @RequestMapping("/games")
 public class GameController {
     private final GameService gameService;
+    private final EntryService entryService;
 
     @Autowired
-    public GameController(GameService gameService) {
+    public GameController(GameService gameService, EntryService entryService) {
         this.gameService = gameService;
+        this.entryService = entryService;
     }
 
     /**
@@ -54,6 +58,19 @@ public class GameController {
     public ResponseEntity<GameInfoDTO> createGame(@Valid @RequestBody GameCreationDTO dto) {
         Game newGame = gameService.createGame(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(newGame.toDTO());
+    }
+
+    @DeleteMapping({ "/{id}"})
+    public ResponseEntity<Void> deleteGame(@PathVariable Long id) {
+        if (gameService.getById(id) != null) {
+            Entry entry = entryService.getByGameId(id);
+            if (entry != null) {
+                entryService.delete(entry.getId());
+            }
+            gameService.delete(id);
+        }
+
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/sync")

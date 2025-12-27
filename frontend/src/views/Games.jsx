@@ -256,7 +256,7 @@ export default function Games ({  }) {
               releaseYear={e.game.releaseYear}
               currentAchievements={e.currentAchievements}
               maxAchievements={e.game.steamAchievements}
-              tags={getTagsString(e.game.tags)}
+              tags={e.game.tags}
               gameId={e.game.id} />
           </Col>
         ))}
@@ -270,7 +270,7 @@ export default function Games ({  }) {
               title={e.game.title}
               status={e.status}
               releaseYear={e.game.releaseYear}
-              tags={getTagsString(e.game.tags)}
+              tags={e.game.tags}
               gameId={e.game.id} />
           </Col>
         ))}

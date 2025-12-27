@@ -17,6 +17,13 @@ export const gameService = {
         throw error;
       }),
 
+  deleteGame: (id) =>
+    api.delete(`/games/${id}`)
+      .catch(error => {
+        console.error("Error deleting game, " + error);
+        throw error;
+      }),
+
   syncGame: (appId, name) =>
     api.post("/games/sync", null, {
       params: {

@@ -42,6 +42,10 @@ public class EntryService {
         return entryRepository.findByGameId(gameId).orElseThrow(); // TODO exception here
     }
 
+    public void delete(Long id) {
+        entryRepository.deleteById(id);
+    }
+
     public Entry createEntry(EntryCreationDTO dto) {
         User user = userRepository.findById(dto.userId()).orElseThrow(); // TODO exception
         Game game = gameRepository.findById(dto.gameId()).orElseThrow(); // TODO exception

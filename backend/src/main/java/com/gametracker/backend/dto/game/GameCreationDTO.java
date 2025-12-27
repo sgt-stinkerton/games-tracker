@@ -11,5 +11,6 @@ public record GameCreationDTO (
         @NotBlank(message = "Title cannot be empty")
         String title,
         Year releaseYear,
-        List<String> tags
+        List<String> tags,
+        String description
 ) {}

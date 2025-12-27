@@ -2,6 +2,7 @@ import {Link} from "react-router";
 import {getStatusColor} from "../services/utilities.js";
 import DefaultImg from "../assets/placeholder.svg";
 import "../App.css";
+import {Badge} from "react-bootstrap";
 
 export function GameListItem({imgSrc, title, status, releaseYear, tags, gameId}) {
 
@@ -37,7 +38,17 @@ export function GameListItem({imgSrc, title, status, releaseYear, tags, gameId})
             {renderedTitle}
           </div>
 
-          <p className="m-0 small lh-sm">{tags}</p>
+          <div className="pt-1 m-0 small d-flex gap-1 overflow-hidden">
+            {tags.length > 0 ? (
+              tags.map(tag => (
+                <Badge key={tag} bg="light" text="dark" className="border">
+                  {tag}
+                </Badge>
+              ))
+            ) : (
+              <span className="text-muted small fst-italic">No tags found.</span>
+            )}
+          </div>
         </div>
       </div>
 
