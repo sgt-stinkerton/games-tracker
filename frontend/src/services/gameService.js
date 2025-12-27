@@ -17,6 +17,14 @@ export const gameService = {
         throw error;
       }),
 
+  updateGame: (id, data) =>
+    api.put(`/games/${id}`, data)
+      .then(response => response.data)
+      .catch(error => {
+        console.error("Error updating game, " + error);
+        throw error;
+      }),
+
   deleteGame: (id) =>
     api.delete(`/games/${id}`)
       .catch(error => {

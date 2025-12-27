@@ -1,17 +1,18 @@
 import {useParams} from "react-router";
 import {useEffect, useState} from "react";
 import {Row, Col, Dropdown, Button, Modal, ProgressBar, Card, Badge} from "react-bootstrap";
-import {Check, Controller, PencilSquare, Trash, TrophyFill, StarFill} from "react-bootstrap-icons";
+import {Controller, PencilSquare, Trash, TrophyFill, StarFill, CalendarEvent} from "react-bootstrap-icons";
 import {gameService} from "../services/gameService.js";
 import {entryService} from "../services/entryService.js";
 import {getStatusColor} from "../services/utilities.js";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import DefaultImg from "../assets/placeholder.svg";
+import GameEditModal from "../components/GameEditModal.jsx";
 
 // TODO if error occurs when adding game, just... delete everything that you tried to make? lol?
+// TODO hoverable dropdown (shows you can interact better)
 
 export default function Game ({ setShowToast, setToastMsg }) {
-  const [mode, setMode] = useState("view");
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [entry, setEntry] = useState(null);
@@ -20,10 +21,7 @@ export default function Game ({ setShowToast, setToastMsg }) {
 
   useEffect(() => {
     entryService.getEntryByGameId(gameId)
-      .then(data => {
-        setEntry(data);
-        console.log(data);
-      })
+      .then(data => setEntry(data))
       .catch(error => setError(error))
   }, [gameId]);
 
@@ -47,6 +45,9 @@ export default function Game ({ setShowToast, setToastMsg }) {
       .catch(err => setError(err));
   };
 
+  const statuses = ["TO_PLAY", "UP_NEXT", "PLAYING", "COMPLETED", "DROPPED", "HIDDEN"];
+  const isHidden = entry?.status === "HIDDEN";
+
   const StatBar = ({ label, value }) => (
     <div className="mb-2">
       <div className="d-flex justify-content-between small mb-1">
@@ -61,7 +62,7 @@ export default function Game ({ setShowToast, setToastMsg }) {
     </div>
   )
 
-  if (entry === null) return <LoadingSpinner />
+  if (!entry) return <LoadingSpinner />
 
   return (
     <>
@@ -69,53 +70,31 @@ export default function Game ({ setShowToast, setToastMsg }) {
       <div className="d-flex justify-content-between align-items-baseline">
         <div className="d-flex flex-row align-items-baseline gap-3 mt-1">  {/* do not touch the mt-1 */}
           <h4 className="mb-1">{entry.game.title} ({entry.game.releaseYear})</h4>
-          <p className={`m-0 align-self-center fs-6 badge fw-bold px-3 rounded-4 ${getStatusColor(entry.status)}`}>
-            {entry.status.replaceAll("_", " ")}
-          </p>
-        </div>
-
-        {/* TODO edit */}
-        <div className="d-flex flex-row gap-3 align-items-center">
           <Dropdown>
-            <Dropdown.Toggle className="px-2 py-0 m-0">
-              Update Status
+            <Dropdown.Toggle className={`m-0 border-0 align-self-center fs-6 badge fw-bold px-3 rounded-4 ${getStatusColor(entry.status)}`}>
+              {entry.status.replaceAll("_", " ")}
             </Dropdown.Toggle>
-
             <Dropdown.Menu>
-              <Dropdown.Item onClick={() => changeStatus("TO_PLAY")}>
-                TO PLAY
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => changeStatus("UP_NEXT")}>
-                UP NEXT
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => changeStatus("PLAYING")}>
-                PLAYING
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => changeStatus("COMPLETED")}>
-                COMPLETED
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => changeStatus("DROPPED")}>
-                DROPPED
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => changeStatus("HIDDEN")}>
-                HIDDEN
-              </Dropdown.Item>
+              {statuses.map(s => (
+                <Dropdown.Item key={s} onClick={() => changeStatus(s)}>
+                  {s.replaceAll("_", " ")}
+                </Dropdown.Item>
+              ))}
             </Dropdown.Menu>
           </Dropdown>
+        </div>
 
-          {mode === "view" && (
+        <div className="d-flex flex-row gap-3 align-items-center">
+          {!isHidden && (
             <PencilSquare
               className="view-hover"
-              onClick={() => setMode("edit")}
+              onClick={() => setShowEditModal(true)}
               size={24} />
           )}
-          {mode === "edit" && (
-            <Check
-              className="view-hover"
-              onClick={() => setMode("view")}
-              size={24} />
-          )}
-          <Trash className="view-hover" onClick={() => setShowDeleteModal(true)} size={24} />
+          <Trash
+            className="view-hover"
+            onClick={() => setShowDeleteModal(true)}
+            size={24} />
         </div>
       </div>
       <hr className="my-2"></hr>
@@ -192,7 +171,7 @@ export default function Game ({ setShowToast, setToastMsg }) {
         {/* right column - review */}
         <Col lg={8}>
           <Card className="border-0 shadow-sm h-100">
-            <Card.Body className="p-4">
+            <Card.Body className="p-4 d-flex flex-column gap-4">
               <div className="d-flex justify-content-between align-items-start mb-4">
                 <h4 className="fw-bold mb-0">Review</h4>
                 {/* Finish Date Badge */}
@@ -241,8 +220,9 @@ export default function Game ({ setShowToast, setToastMsg }) {
             </Card.Body>
           </Card>
         </Col>
-
       </Row>
+
+      <GameEditModal show={showEditModal} setShow={setShowEditModal} entry={entry} setEntry={setEntry} setToastMsg={setToastMsg} setShowToast={setShowToast} />
 
       <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered>
         <Modal.Header closeButton>

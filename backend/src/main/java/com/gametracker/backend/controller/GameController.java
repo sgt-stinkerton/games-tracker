@@ -73,6 +73,13 @@ public class GameController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping({"/{id}"})
+    public ResponseEntity<GameInfoDTO> updateGame(@PathVariable Long id,
+                                                  @Valid @RequestBody GameCreationDTO dto) {
+        Game updatedGame = gameService.updateGame(id, dto);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedGame.toDTO());
+    }
+
     @PostMapping("/sync")
     public ResponseEntity<Void> syncGame(@RequestParam String appId,
                                          @RequestParam(required = false) String name) {

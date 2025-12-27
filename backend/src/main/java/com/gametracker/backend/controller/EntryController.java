@@ -7,7 +7,6 @@ import com.gametracker.backend.enums.Status;
 import com.gametracker.backend.model.Entry;
 import com.gametracker.backend.service.EntryService;
 
-import com.gametracker.backend.service.GameService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,6 +56,13 @@ public class EntryController {
         return ResponseEntity.status(HttpStatus.OK).body(updatedEntry.toDTO());
     }
 
+    @PatchMapping({"/{id}/notes"})
+    public ResponseEntity<EntryInfoDTO> updateNotes(@PathVariable Long id,
+                                                    @Valid @RequestBody EntryCreationDTO dto) {
+        Entry updatedEntry = entryService.updateNotes(id, dto);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedEntry.toDTO());
+    }
+
     @PutMapping({"/{id}/review"})
     public ResponseEntity<EntryInfoDTO> createReview(@PathVariable long id,
                                                      @Valid @RequestBody ReviewCreationDTO dto) {
@@ -64,4 +70,10 @@ public class EntryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newReview.toDTO());
     }
 
+    @PutMapping({"/{id}"})
+    public ResponseEntity<EntryInfoDTO> updateReview(@PathVariable Long id,
+                                                     @Valid @RequestBody ReviewCreationDTO dto) {
+        Entry updatedEntry = entryService.updateReview(id, dto);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedEntry.toDTO());
+    }
 }

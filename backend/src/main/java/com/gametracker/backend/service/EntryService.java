@@ -54,13 +54,21 @@ public class EntryService {
     }
 
     public Entry updateStatus(Long id, Status newStatus) {
-        Entry toUpdate = entryRepository.findById(id).orElseThrow();
+        Entry toUpdate = getById(id);
         toUpdate.setStatus(newStatus);
         return entryRepository.save(toUpdate);
     }
 
+    public Entry updateNotes(Long id, EntryCreationDTO dto) {
+        Entry toUpdate = getById(id);
+        if (dto.notes() != null) {
+            toUpdate.setNotes(dto.notes());
+        }
+        return entryRepository.save(toUpdate);
+    }
+
     public Entry createReview(long id, ReviewCreationDTO dto) {
-        Entry targetEntry = entryRepository.findById(id).orElseThrow(); // TODO write exception for this
+        Entry targetEntry = getById(id);
 
         targetEntry.setReviewText(dto.reviewText());
         targetEntry.setFinishDate(dto.finishDate());
@@ -74,4 +82,17 @@ public class EntryService {
         return entryRepository.save(targetEntry);
     }
 
+    public Entry updateReview(long id, ReviewCreationDTO dto) {
+        Entry toUpdate = getById(id);
+
+        if (dto.reviewText() != null) { toUpdate.setReviewText(dto.reviewText()); }
+        if (dto.finishDate() != null) { toUpdate.setFinishDate(dto.finishDate()); }
+        if (dto.rating() != null) { toUpdate.setRating(dto.rating()); }
+        if (dto.enjoyment() != null) { toUpdate.setEnjoyment(dto.enjoyment()); }
+        if (dto.gameplay() != null) { toUpdate.setGameplay(dto.gameplay()); }
+        if (dto.story() != null) { toUpdate.setStory(dto.story()); }
+        if (dto.visuals() != null) { toUpdate.setVisuals(dto.visuals()); }
+
+        return entryRepository.save(toUpdate);
+    }
 }

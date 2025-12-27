@@ -44,11 +44,27 @@ export const entryService = {
         throw error;
       }),
 
+  updateNotes: (id, data) =>
+    api.patch(`/entries/${id}/notes`, data)
+      .then(response => response.data)
+      .catch(error => {
+        console.error("Error updating notes, " + error);
+        throw error;
+      }),
+
   createReview: (id, data) =>
     api.put(`/entries/${id}/review`, data)
       .then(response => response.data)
       .catch(error => {
         console.error("Error creating review, " + error);
         throw error;
-      })
+      }),
+
+  updateReview: (id, data) =>
+    api.put(`/entries/${id}`, data)
+      .then(response => response.data)
+      .catch(error => {
+        console.error("Error updating review, " + error);
+        throw error;
+      }),
 };

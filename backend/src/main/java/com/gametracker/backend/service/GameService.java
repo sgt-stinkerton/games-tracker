@@ -52,6 +52,21 @@ public class GameService {
         gameRepository.deleteById(id);
     }
 
+    public Game updateGame(long id, GameCreationDTO dto) {
+        Game updatedGame = getById(id);
+        updatedGame.setTitle(dto.title());
+        if (dto.releaseYear() != null) {
+            updatedGame.setReleaseYear(dto.releaseYear());
+        }
+        if (dto.tags() != null) {
+            updatedGame.setTags(dto.tags());
+        }
+        if (dto.description() != null) {
+            updatedGame.setDescription(dto.description());
+        }
+        return gameRepository.save(updatedGame);
+    }
+
     public void syncGame(String appId, String nameFromSteam) {
         // find existing game with steam app id
         boolean creatingNew = false;
