@@ -58,13 +58,5 @@ export const entryService = {
       .catch(error => {
         console.error("Error creating review, " + error);
         throw error;
-      }),
-
-  updateReview: (id, data) =>
-    api.put(`/entries/${id}`, data)
-      .then(response => response.data)
-      .catch(error => {
-        console.error("Error updating review, " + error);
-        throw error;
-      }),
+      })
 };

@@ -19,6 +19,9 @@ export default function GameInfo ({ nextStep, handleInput, formData }) {
       .catch(error => setError(error))
   }, []);
 
+  const isWithinCharLimit =
+    formData.description.trim().length <= 350;
+
   const submitSection = (e) => {
     e.preventDefault();
     setError(null);
@@ -45,6 +48,14 @@ export default function GameInfo ({ nextStep, handleInput, formData }) {
       setError(`Game with title '${formData.title}' already exists.`);
       return;
     }
+
+    if (!isWithinCharLimit) {
+      setError("Description must be less than 350 characters.");
+      return;
+    }
+
+    formData.title = formData.title.trim();
+    formData.description = formData.description?.trim();
 
     nextStep();
   }
@@ -91,6 +102,10 @@ export default function GameInfo ({ nextStep, handleInput, formData }) {
               placeholder={"Enter a short description..."} // TODO (max 500 chars)
               onChange={handleInput}
             />
+
+            <div className="text-muted small">
+              {formData.description.length}/350 characters.
+            </div>
           </Form.Group>
         </Form>
       </Card.Body>

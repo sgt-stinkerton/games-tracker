@@ -3,7 +3,7 @@ import {Form} from "react-bootstrap";
 // TODO whole page
 
 import SteamLoginButton from "../components/SteamLoginButton.jsx";
-import CommonPageHeader from "../components/CommonPageHeader.jsx";
+import CommonPageHeader from "../components/common/CommonPageHeader.jsx";
 import {useTheme} from "../ThemeProvider.jsx";
 
 export default function Profile ({  }) {

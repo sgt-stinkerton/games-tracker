@@ -1,6 +1,6 @@
 // TODO whole page
 
-import CommonPageHeader from "../components/CommonPageHeader.jsx";
+import CommonPageHeader from "../components/common/CommonPageHeader.jsx";
 
 export default function Reviews ({  }) {
   return (<>

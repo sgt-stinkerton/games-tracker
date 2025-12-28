@@ -10,6 +10,13 @@ export default function GameEditModal({ entry, setEntry, show, setShow, setToast
   const [error, setError] = useState(null);
   const [existingTitles, setExistingTitles] = useState([]);
 
+  const isWithinCharLimit = (type) => {
+    if (type === "description") return formData.description?.length <= 350;
+    if (type === "notes") return formData.notes?.length <= 1024;
+    if (type === "reviewText") return formData.reviewText?.length <= 8192;
+    return true;
+  }
+
   // get existing titles so there are no exact duplicates
   useEffect(() => {
     gameService.getAllGames()
@@ -43,7 +50,6 @@ export default function GameEditModal({ entry, setEntry, show, setShow, setToast
       // review data
       reviewText: entry.reviewText || "",
       finishDate: entry.finishDate || "",
-      rating: entry.rating ?? "",
       enjoyment: entry.enjoyment ?? "",
       gameplay: entry.gameplay ?? "",
       story: entry.story ?? "",
@@ -64,6 +70,8 @@ export default function GameEditModal({ entry, setEntry, show, setShow, setToast
     e.preventDefault();
     setError(null);
 
+    formData.title = formData.title.trim();
+
     if (formData.releaseYear && !Number.isInteger(parseInt(formData.releaseYear))) {
       setError("Release year must be a number.");
       return;
@@ -81,9 +89,28 @@ export default function GameEditModal({ entry, setEntry, show, setShow, setToast
 
     // cannot have the same title as an existing game
     const titleExists = existingTitles?.some(t => (
-      t.toLowerCase() === formData.title.trim().toLowerCase()));
-    if (titleExists && formData.title.trim().toLowerCase() !== entry.game.title.toLowerCase()) {
+      t.toLowerCase() === formData.title.toLowerCase()));
+    if (titleExists && formData.title.toLowerCase() !== entry.game.title.toLowerCase()) {
       setError(`Game with title '${formData.title}' already exists.`);
+      return;
+    }
+
+
+    formData.description = formData.description?.trim();
+    if (!isWithinCharLimit("description")) {
+      setError("Description must be less than 350 characters.");
+      return;
+    }
+
+    formData.notes = formData.notes?.trim();
+    if (!isWithinCharLimit("notes")) {
+      setError("Notes must be less than 1024 characters.");
+      return;
+    }
+
+    formData.reviewText = formData.reviewText?.trim();
+    if (!isWithinCharLimit("reviewText")) {
+      setError("Review text must be less than 8192 characters.");
       return;
     }
 
@@ -105,15 +132,9 @@ export default function GameEditModal({ entry, setEntry, show, setShow, setToast
       gameId: entry.game.id
     };
 
-    const getScore = val => val === "" ? 0 : Number(val);
-    const scores = [formData.enjoyment, formData.gameplay, formData.story, formData.visuals, formData.sound];
-    const sum = scores.reduce((a, c) => a + getScore(c), "");
-    const rating = sum / 5;
-
     const reviewData = {
       reviewText: formData.reviewText,
       finishDate: formData.finishDate,
-      rating: rating || null,
       enjoyment: formatScore(formData.enjoyment),
       gameplay: formatScore(formData.gameplay),
       story: formatScore(formData.story),
@@ -134,7 +155,7 @@ export default function GameEditModal({ entry, setEntry, show, setShow, setToast
       })
       .then(() => {
         if (canEditReview) {
-          return entryService.updateReview(entry.id, reviewData);
+          return entryService.createReview(entry.id, reviewData);
         }
       })
       .then(() => {
@@ -234,6 +255,10 @@ export default function GameEditModal({ entry, setEntry, show, setShow, setToast
               className="bg-white"
               value={formData.description || ""}
               onChange={onFormChange} />
+
+            <div className="text-muted small">
+              {formData.description.length}/350 characters.
+            </div>
           </Form.Group>
 
           {/* TAGS (Always Editable) */}
@@ -286,6 +311,10 @@ export default function GameEditModal({ entry, setEntry, show, setShow, setToast
                   value={formData.notes || ""}
                   onChange={onFormChange}
                 />
+
+                <div className="text-muted small">
+                  {formData.notes.length}/1024 characters.
+                </div>
               </Form.Group>
             </>
           )}
@@ -320,6 +349,10 @@ export default function GameEditModal({ entry, setEntry, show, setShow, setToast
                   value={formData.reviewText || ""}
                   onChange={onFormChange}
                 />
+
+                <div className="text-muted small">
+                  {formData.reviewText.length}/8192 characters.
+                </div>
               </Form.Group>
 
               <Row>
@@ -328,8 +361,6 @@ export default function GameEditModal({ entry, setEntry, show, setShow, setToast
                 <EditScoreInput label="Story" name="story" />
                 <EditScoreInput label="Visuals" name="visuals" />
                 <EditScoreInput label="Sound" name="sound" />
-                {/* Overall Rating is usually calculated, but adding input here if manual */}
-                <EditScoreInput label="Overall" name="rating" />
               </Row>
             </>
           )}

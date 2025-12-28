@@ -69,11 +69,4 @@ public class EntryController {
         Entry newReview = entryService.createReview(id, dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(newReview.toDTO());
     }
-
-    @PutMapping({"/{id}"})
-    public ResponseEntity<EntryInfoDTO> updateReview(@PathVariable Long id,
-                                                     @Valid @RequestBody ReviewCreationDTO dto) {
-        Entry updatedEntry = entryService.updateReview(id, dto);
-        return ResponseEntity.status(HttpStatus.OK).body(updatedEntry.toDTO());
-    }
 }

@@ -72,27 +72,26 @@ public class EntryService {
 
         targetEntry.setReviewText(dto.reviewText());
         targetEntry.setFinishDate(dto.finishDate());
-        targetEntry.setRating(dto.rating());
         targetEntry.setEnjoyment(dto.enjoyment());
         targetEntry.setGameplay(dto.gameplay());
         targetEntry.setStory(dto.story());
         targetEntry.setVisuals(dto.visuals());
         targetEntry.setSound(dto.sound());
 
-        return entryRepository.save(targetEntry);
+        Entry savedEntry = entryRepository.save(targetEntry);
+        double rating = calculateRating(savedEntry);
+        if (rating != -1) { savedEntry.setRating(rating); }
+
+        return entryRepository.save(savedEntry);
     }
 
-    public Entry updateReview(long id, ReviewCreationDTO dto) {
-        Entry toUpdate = getById(id);
-
-        if (dto.reviewText() != null) { toUpdate.setReviewText(dto.reviewText()); }
-        if (dto.finishDate() != null) { toUpdate.setFinishDate(dto.finishDate()); }
-        if (dto.rating() != null) { toUpdate.setRating(dto.rating()); }
-        if (dto.enjoyment() != null) { toUpdate.setEnjoyment(dto.enjoyment()); }
-        if (dto.gameplay() != null) { toUpdate.setGameplay(dto.gameplay()); }
-        if (dto.story() != null) { toUpdate.setStory(dto.story()); }
-        if (dto.visuals() != null) { toUpdate.setVisuals(dto.visuals()); }
-
-        return entryRepository.save(toUpdate);
+    private Double calculateRating(Entry entry) {
+        if (entry.getEnjoyment() != null && entry.getGameplay() != null && entry.getStory() != null
+                && entry.getVisuals() != null && entry.getSound() != null) {
+            double sum = entry.getEnjoyment() + entry.getGameplay() + entry.getStory()
+                    + entry.getVisuals() + entry.getSound();
+            return sum / 5.0;
+        }
+        return -1.0;
     }
 }

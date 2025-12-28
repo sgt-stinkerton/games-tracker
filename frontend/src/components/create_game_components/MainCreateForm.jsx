@@ -22,7 +22,7 @@ export default function MainCreateForm ({ }) {
     return {
       title: "", releaseYear: "", tags: "", description: "",
       status: "", notes: "",
-      reviewText: "", finishDate: "", rating: "",
+      reviewText: "", finishDate: "",
       enjoyment: "", gameplay: "", story: "", visuals: "", sound: ""
     }
   }
@@ -105,15 +105,9 @@ export default function MainCreateForm ({ }) {
       gameId: null
     };
 
-    const getScore = val => val === "" ? 0 : Number(val);
-    const scores = [formData.enjoyment, formData.gameplay, formData.story, formData.visuals, formData.sound];
-    const sum = scores.reduce((a, c) => a + getScore(c), 0);
-    const rating = sum / 5;
-
     const reviewData = {
       reviewText: formData.reviewText,
       finishDate: formData.finishDate,
-      rating: rating,
       enjoyment: formData.enjoyment,
       gameplay: formData.gameplay,
       story: formData.story,

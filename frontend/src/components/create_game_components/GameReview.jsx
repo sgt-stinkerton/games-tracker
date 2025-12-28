@@ -2,10 +2,25 @@ import CreateFormBase from "./CreateFormBase.jsx";
 import {Card, Form} from "react-bootstrap";
 import FormTop from "./FormTop.jsx";
 import SetTodayDate from "../SetTodayDate.jsx";
+import {useState} from "react";
 
 export default function GameReview ({ prevStep, nextStep, handleInput, formData }) {
+  const [error, setError] = useState(null); // todo
+
+  const isWithinCharLimit =
+    formData.reviewText.trim().length <= 8192;
+
   const submitSection = (e) => {
     e.preventDefault();
+    setError(null)
+
+    if (!isWithinCharLimit) {
+      setError("Review must be less than 8192 characters.");
+      return;
+    }
+
+    formData.reviewText = formData.reviewText?.trim();
+
     nextStep();
   }
 
@@ -40,6 +55,10 @@ export default function GameReview ({ prevStep, nextStep, handleInput, formData 
               placeholder={"Justify your ratings..."}
               onChange={handleInput}
             />
+
+            <div className="text-muted small">
+              {formData.reviewText.length}/8192 characters.
+            </div>
           </Form.Group>
         </Form>
       </Card.Body>

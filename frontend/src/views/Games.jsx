@@ -11,7 +11,7 @@ import FilterStatus from "../components/filter_components/FilterStatus.jsx";
 import FilterYear from "../components/filter_components/FilterYear.jsx";
 import FilterRating from "../components/filter_components/FilterRating.jsx";
 import FilterTags from "../components/filter_components/FilterTags.jsx";
-import LoadingSpinner from "../components/LoadingSpinner.jsx";
+import LoadingSpinner from "../components/common/LoadingSpinner.jsx";
 import SortDropdown from "../components/SortDropdown.jsx";
 import {GameListItem} from "../components/GameListItem.jsx";
 

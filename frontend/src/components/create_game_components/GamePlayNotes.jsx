@@ -1,14 +1,24 @@
 import {Card, Form} from "react-bootstrap";
 import CreateFormBase from "./CreateFormBase.jsx";
 import FormTop from "./FormTop.jsx";
-
-// todo update notes and review backend to have char limit of like 16000 or something idk (i need a lot...)
+import {useState} from "react";
 
 export default function GamePlayNotes ({ prevStep, nextStep, handleInput, formData }) {
+  const [error, setError] = useState(null); // todo
+
+  const isWithinCharLimit =
+    formData.notes.trim().length <= 1024;
+
   const submitSection = (e) => {
     e.preventDefault();
+    setError(null);
 
-    // TODO charlimit
+    if (!isWithinCharLimit) {
+      setError("Notes must be less than 1024 characters.");
+      return;
+    }
+
+    formData.notes = formData.notes?.trim();
 
     nextStep();
   }
@@ -28,6 +38,10 @@ export default function GamePlayNotes ({ prevStep, nextStep, handleInput, formDa
               placeholder={"Enter any thoughts you've had whilst playing..."}
               onChange={handleInput}
             />
+
+            <div className="text-muted small">
+              {formData.notes.length}/1024 characters.
+            </div>
           </Form.Group>
         </Form>
       </Card.Body>

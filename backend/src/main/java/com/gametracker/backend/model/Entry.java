@@ -33,12 +33,13 @@ public class Entry {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Column(length = 1024)
     private String notes;
 
     @Column(name = "current_achievements")
     private Integer currentAchievements;
 
-    @Column(name = "review_text")
+    @Column(name = "review_text", length = 8192)
     private String reviewText;
 
     @Column(name = "finish_date")

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, ProgressBar, Container, Card, Alert } from "react-bootstrap";
 import { gameService } from "../services/gameService.js";
 import { useNavigate } from "react-router-dom";
-import CommonPageHeader from "../components/CommonPageHeader.jsx";
+import CommonPageHeader from "../components/common/CommonPageHeader.jsx";
 
 export default function SyncGames() {
   const [status, setStatus] = useState("idle"); // idle, fetching_list, syncing, complete, error

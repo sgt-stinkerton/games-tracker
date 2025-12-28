@@ -25,7 +25,7 @@ public class Game {
 
     private String title;
 
-    @Column(length = 400)
+    @Column(length = 350)
     private String description;
 
     @Column(name = "release_year")
