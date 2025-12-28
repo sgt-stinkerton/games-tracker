@@ -6,13 +6,13 @@ import {getTagsString} from "../services/utilities.js";
 import "../App.css";
 
 import GameCard from "../components/game_overviews/GameCard.jsx";
-import FilterBadge from "../components/filter_components/FilterBadge.jsx";
-import FilterStatus from "../components/filter_components/FilterStatus.jsx";
-import FilterYear from "../components/filter_components/FilterYear.jsx";
-import FilterRating from "../components/filter_components/FilterRating.jsx";
-import FilterTags from "../components/filter_components/FilterTags.jsx";
+import FilterBadge from "../components/filters/FilterBadge.jsx";
+import FilterStatus from "../components/filters/FilterStatus.jsx";
+import FilterYear from "../components/filters/FilterYear.jsx";
+import FilterRating from "../components/filters/FilterRating.jsx";
+import FilterTags from "../components/filters/FilterTags.jsx";
 import LoadingSpinner from "../components/common/LoadingSpinner.jsx";
-import SortDropdown from "../components/filter_components/SortDropdown.jsx";
+import SortDropdown from "../components/filters/SortDropdown.jsx";
 import {GameListItem} from "../components/game_overviews/GameListItem.jsx";
 
 // TODO error alert
