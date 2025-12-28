@@ -6,7 +6,6 @@ import CreateFormBase from "./CreateFormBase.jsx";
 import FormTop from "./FormTop.jsx";
 import FormAlert from "./FormAlert.jsx";
 
-// TODO extract desc to different section
 // TODO add image link
 
 export default function GameInfo ({ nextStep, handleInput, formData }) {
@@ -54,7 +53,7 @@ export default function GameInfo ({ nextStep, handleInput, formData }) {
     }
 
     if (!isWithinCharLimit) {
-      setError("Description must be less than 350 characters.");
+      setError("Description must be fewer than 350 characters.");
       return;
     }
 
@@ -103,7 +102,7 @@ export default function GameInfo ({ nextStep, handleInput, formData }) {
               className="bg-white flex-grow-1 border border-secondary"
               style={{ resize: "none", overflowY: "auto" }}
               value={formData.description}
-              placeholder={"Enter a short description..."} // TODO (max 500 chars)
+              placeholder={"Enter a short description..."}
               onChange={handleInput}
             />
 

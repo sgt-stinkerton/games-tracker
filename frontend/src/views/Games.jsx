@@ -270,7 +270,8 @@ export default function Games ({  }) {
               status={e.status}
               releaseYear={e.game.releaseYear}
               tags={e.game.tags}
-              gameId={e.game.id} />
+              gameId={e.game.id}
+            />
           </Col>
         ))}
       </Row>

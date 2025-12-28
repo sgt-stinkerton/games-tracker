@@ -1,25 +1,15 @@
 import {Card, Form} from "react-bootstrap";
 import CreateFormBase from "./CreateFormBase.jsx";
 import FormTop from "./FormTop.jsx";
-import {useState} from "react";
-
-// TODO char limit error
 
 export default function GamePlayNotes ({ prevStep, nextStep, handleInput, formData }) {
-  const [error, setError] = useState(null);
-
   const isWithinCharLimit =
     formData.notes.trim().length <= 1024;
 
   const submitSection = (e) => {
     e.preventDefault();
-    setError(null);
 
-    if (!isWithinCharLimit) {
-      setError("Notes must be less than 1024 characters.");
-      return;
-    }
-
+    if (!isWithinCharLimit) return;
     formData.notes = formData.notes?.trim();
 
     nextStep();
@@ -41,7 +31,7 @@ export default function GamePlayNotes ({ prevStep, nextStep, handleInput, formDa
               onChange={handleInput}
             />
 
-            <div className="text-muted small">
+            <div className={`small ${formData.notes.length > 1024 ? "text-danger" : "text-muted"}`}>
               {formData.notes.length}/1024 characters.
             </div>
           </Form.Group>

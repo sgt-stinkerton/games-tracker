@@ -12,7 +12,7 @@ export default function GameListItem ({imgSrc, title, status, releaseYear, tags,
       as={Link} to={`/games/${gameId}`}
       className="d-flex bg-body justify-content-between border border-secondary-subtle p-2 rounded-1 h-100 game-list-item text-decoration-none text-reset"
     >
-      <div className="d-flex justify-content-start gap-2">
+      <div className="d-flex justify-content-start gap-2 flex-grow-1 min-width-0" style={{ minWidth: 0 }}>
         <img
           src={imgSrc || DefaultImg}
           alt={"header image for " + title}
@@ -20,8 +20,8 @@ export default function GameListItem ({imgSrc, title, status, releaseYear, tags,
           style={{height: "65px", objectFit: "cover"}}
         />
 
-        <div className="d-flex flex-column justify-content-between">
-          <div className="d-flex flex-column justify-content-start">
+        <div className="d-flex flex-column justify-content-between overflow-hidden w-100">
+          <div className="d-flex flex-column justify-content-start w-100">
             <SplitTitle title={title} />
           </div>
 
@@ -31,7 +31,7 @@ export default function GameListItem ({imgSrc, title, status, releaseYear, tags,
         </div>
       </div>
 
-      <div className="d-flex flex-column justify-content-between">
+      <div className="d-flex flex-column justify-content-between align-items-end flex-shrink-0 ms-2">
         <p className={`m-0 fw-bold badge rounded-3 ${getStatusColor(status)}`}
            style={{ maxWidth: "fit-content" }}>
           {status.replaceAll("_", " ")}

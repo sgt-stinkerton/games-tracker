@@ -2,6 +2,7 @@ import {useState} from "react";
 import {Button, Col, Form, Modal, Row} from "react-bootstrap";
 import {entryService} from "../../services/entryService.js";
 import SetTodayDate from "../SetTodayDate.jsx";
+import ClearDate from "../ClearDate.jsx";
 
 // todo make prettier
 // todo error
@@ -33,6 +34,10 @@ export default function GameEditModal({ entry, setEntry, show, setShow, setToast
     if (val === "" || val === null || val === undefined) return null;
     return Number(val);
   };
+
+  const resetDate = () => {
+    handleInput({ target: {name: "finishDate", value: "" }});
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -115,6 +120,7 @@ export default function GameEditModal({ entry, setEntry, show, setShow, setToast
               size="sm" style={{width: "140px"}}
             />
             <SetTodayDate handleInput={onFormChange} />
+            <ClearDate handleInput={resetDate} />
           </div>
 
           <Form.Group className="mb-3">

@@ -2,8 +2,6 @@ import {Nav} from "react-bootstrap";
 import {PersonCircle, Controller, JournalText, HouseDoor, PlusCircle, ArrowRepeat} from "react-bootstrap-icons";
 import {Link, NavLink} from "react-router";
 
-// TODO make nicer games tracker logo
-
 export default function SideBar ({  }) {
   return (
     <div className="d-flex flex-column p-3 border-end"

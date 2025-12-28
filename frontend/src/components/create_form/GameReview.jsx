@@ -1,26 +1,21 @@
-import CreateFormBase from "./CreateFormBase.jsx";
 import {Card, Form} from "react-bootstrap";
+import CreateFormBase from "./CreateFormBase.jsx";
 import FormTop from "./FormTop.jsx";
 import SetTodayDate from "../SetTodayDate.jsx";
-import {useState} from "react";
-
-// TODO charlimit error
+import ClearDate from "../ClearDate.jsx";
 
 export default function GameReview ({ prevStep, nextStep, handleInput, formData }) {
-  const [error, setError] = useState(null);
-
   const isWithinCharLimit =
     formData.reviewText.trim().length <= 8192;
 
+  const resetDate = () => {
+    handleInput({ target: {name: "finishDate", value: "" }});
+  }
+
   const submitSection = (e) => {
     e.preventDefault();
-    setError(null)
 
-    if (!isWithinCharLimit) {
-      setError("Review must be less than 8192 characters.");
-      return;
-    }
-
+    if (!isWithinCharLimit) return;
     formData.reviewText = formData.reviewText?.trim();
 
     nextStep();
@@ -44,6 +39,7 @@ export default function GameReview ({ prevStep, nextStep, handleInput, formData 
                 style={{ maxWidth: "160px" }}
               />
               <SetTodayDate handleInput={handleInput} />
+              <ClearDate handleInput={resetDate} />
             </div>
           </Form.Group>
 
@@ -58,7 +54,7 @@ export default function GameReview ({ prevStep, nextStep, handleInput, formData 
               onChange={handleInput}
             />
 
-            <div className="text-muted small">
+            <div className={`small ${formData.reviewText.length > 8192 ? "text-danger" : "text-muted"}`}>
               {formData.reviewText.length}/8192 characters.
             </div>
           </Form.Group>

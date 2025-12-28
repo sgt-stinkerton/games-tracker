@@ -130,8 +130,8 @@ export default function GamePage({ setShowToast, setToastMsg }) {
   return (
     <>
       {/* header */}
-      <div className="d-flex justify-content-between align-items-baseline">
-        <div className="d-flex flex-row align-items-baseline gap-3 mt-1">  {/* do not touch the mt-1 */}
+      <div className="d-flex justify-content-between align-items-center">
+        <div className="d-flex flex-row align-items-start gap-3 mt-1">  {/* do not touch the mt-1 */}
 
           {/* title, year, and status (updatable) */}
           <h4 className="mb-1">{entry.game.title} ({entry.game.releaseYear})</h4>
@@ -150,7 +150,7 @@ export default function GamePage({ setShowToast, setToastMsg }) {
         </div>
 
         {/* interactive icons to sync, edit, delete */}
-        <div className="d-flex flex-row gap-3 align-items-center">
+        <div className="d-flex flex-row gap-3 align-items-baseline">
           <ArrowRepeat
             className={isSyncing ? "spin-active text-secondary" : "view-hover"}
             style={{cursor: isSyncing ? "" : "pointer"}}

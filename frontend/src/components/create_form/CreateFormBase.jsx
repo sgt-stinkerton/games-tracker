@@ -1,14 +1,12 @@
 import {Col, Row, Button, Card} from "react-bootstrap";
 import "../../App.css";
 
-// TODO make the buttons better
-
 export default function CreateFormBase ({ canPrev=null, canNext=null, children }) {
   return (
     <Row className="mt-3" style={{ height: "calc(100vh - 110px)" }}>
       <Col md={3} className="d-flex flex-row justify-content-center align-items-center">
         {canPrev && (
-          <Button size="lg" onClick={e => canPrev(e)}>
+          <Button className="shadow" size="lg" onClick={e => canPrev(e)}>
             Go Back
           </Button>
         )}
@@ -22,7 +20,7 @@ export default function CreateFormBase ({ canPrev=null, canNext=null, children }
 
       <Col md={3} className="d-flex flex-row justify-content-center align-items-center">
         {canNext && (
-          <Button size="lg" onClick={e => canNext(e)}>
+          <Button className="shadow" size="lg" onClick={e => canNext(e)}>
             Continue
           </Button>
         )}
