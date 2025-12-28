@@ -2,12 +2,11 @@ import {Dropdown} from "react-bootstrap";
 import {ArrowUp, ArrowDown} from "react-bootstrap-icons";
 import "../../App.css";
 
-// TODO achievement completion
 // TODO anything null just gets put at the bottom
 // todo uneven menu size between changes
 
 export default function SortDropdown({ currentSort, onSortChange }) {
-  const sortOptions = ["Title", "Year", "Rating"];
+  const sortOptions = ["Title", "Year", "Rating", "Finish-Date", "Achievement-%"];
 
   const getArrow = (type) => {
     return type === "ASC" ? <ArrowUp /> : <ArrowDown />
@@ -23,7 +22,7 @@ export default function SortDropdown({ currentSort, onSortChange }) {
         className={`${isActive ? "" : "status-item"} d-flex justify-content-between align-items-center`}
         active={isActive}
       >
-        {type} {getArrow(sort)}
+        {type.replace("-", " ")} {getArrow(sort)}
       </Dropdown.Item>
     )
   }
@@ -33,10 +32,10 @@ export default function SortDropdown({ currentSort, onSortChange }) {
   return (
     <Dropdown autoClose="outside">
       <Dropdown.Toggle variant="light" className="fw-bold px-2 py-0 d-flex align-items-center gap-1">
-        Sort By: {type} {getArrow(dir)}
+        Sort By: {type.replace("-", " ")} {getArrow(dir)}
       </Dropdown.Toggle>
 
-      <Dropdown.Menu className="py-2 shadow-lg" style={{ minWidth: 'auto' }}>
+      <Dropdown.Menu className="py-2 shadow-lg" style={{ minWidth: 'fit' }}>
         {sortOptions.map(type => (<>
           <div className="m-0 p-0" key={type}>
             {renderItem(type, "ASC")}

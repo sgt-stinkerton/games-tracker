@@ -15,12 +15,10 @@ import SortDropdown from "../components/filters/SortDropdown.jsx";
 import GameListItem from "../components/game_overviews/GameListItem.jsx";
 
 // TODO error alert
-// todo go back doesn't reset search or position on page
 
 export default function Games ({  }) {
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
   const [error, setError] = useState(null);
 
   // saved in session storage so that refreshing a page doesn't reset everything
@@ -29,6 +27,9 @@ export default function Games ({  }) {
   });
   const [activeSort, setActiveSort] = useState(() => {
     return sessionStorage.getItem("games_sort") || "Title ASC";
+  });
+  const [search, setSearch] = useState(() => {
+    return sessionStorage.getItem("games_search") || "";
   });
   const [activeFilters, setActiveFilters] = useState(() => {
     const saved = sessionStorage.getItem("games_filters");
@@ -47,6 +48,10 @@ export default function Games ({  }) {
   useEffect(() => {
     sessionStorage.setItem("games_sort", activeSort);
   }, [activeSort]);
+
+  useEffect(() => {
+    sessionStorage.setItem("games_search", search);
+  }, [search]);
 
   useEffect(() => {
     sessionStorage.setItem("games_filters", JSON.stringify(activeFilters));
@@ -98,26 +103,36 @@ export default function Games ({  }) {
   })
     .sort((a, b) => {
       const [type, dir] = activeSort.split(" ");
-      let result = 0;
+      const isDesc = dir === "DESC";
 
-      if (type === "Year") {
-        const yearA = parseInt(a.game.releaseYear) || 0;
-        const yearB = parseInt(b.game.releaseYear) || 0;
-        result = yearA - yearB;
+      const getValue = (entry) => {
+        switch (type) {
+          case "Year":
+            return parseInt(entry.game.releaseYear) || null;
+          case "Rating":
+            return entry.rating || null;
+          case "Finish-Date":
+            return entry.finishDate ? new Date(entry.finishDate).getTime() : null;
+          case "Achievement-%":
+            const max = parseInt(entry.game.steamAchievements) || 0;
+            return max > 0 ? (parseInt(entry.currentAchievements) || 0) / max : null;
+          default: // title
+            return entry.game.title.toLowerCase();
+        }
+      };
 
-      } else if (type === "Rating") {
-        const rateA = a.rating || 0;
-        const rateB = b.rating || 0;
-        result = rateA - rateB;
+      const valA = getValue(a);
+      const valB = getValue(b);
 
-      } else {
-        // default to title
-        const titleA = a.game.title.toLowerCase();
-        const titleB = b.game.title.toLowerCase();
-        result = titleA.localeCompare(titleB);
+      if (type.includes("Title")) {
+        return isDesc ? valB.localeCompare(valA) : valA.localeCompare(valB);
       }
 
-      return dir === "DESC" ? -result : result;
+      if (valA === null && valB !== null) return 1;
+      if (valA !== null && valB === null) return -1;
+      if (valA === null && valB === null) return 0;
+
+      return isDesc ? valB - valA : valA - valB;
     })
 
   // logic taken out of the rendering
@@ -245,7 +260,7 @@ export default function Games ({  }) {
     <hr className="mt-2 mb-3"></hr>
 
     {view === "grid" ? (
-      <Row xs={1} md={4} className="g-4">
+      <Row xs={1} sm={2} md={3} lg={4} className="g-4">
         {visibleEntries.map(e => (
           <Col key={e.id}>
             <GameCard
@@ -261,7 +276,7 @@ export default function Games ({  }) {
         ))}
       </Row>
     ) : (
-      <Row md={2} className="g-3">
+      <Row sm={1} md={2} className="g-3">
         {visibleEntries.map(e => (
           <Col key={e.id}>
             <GameListItem
