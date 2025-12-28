@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 
 import CommonPageHeader from "../components/common/CommonPageHeader.jsx";
-import MainCreateForm from "../components/create_game_components/MainCreateForm.jsx";
+import MainCreateForm from "../components/create_components/MainCreateForm.jsx";
 
 export default function CreateGame({ }) {
   return (<>

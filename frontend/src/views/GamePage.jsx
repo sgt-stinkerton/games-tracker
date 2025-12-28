@@ -8,9 +8,10 @@ import {getStatusColor} from "../services/utilities.js";
 import DefaultImg from "../assets/placeholder.svg";
 
 import LoadingSpinner from "../components/common/LoadingSpinner.jsx";
-import GameEditModal from "../components/GameEditModal.jsx";
-import GameDeleteModal from "../components/GameDeleteModal.jsx";
-import GameReviewModal from "../components/GameReviewModal.jsx";
+import GameEditModal from "../components/modals/GameEditModal.jsx";
+import GameDeleteModal from "../components/modals/GameDeleteModal.jsx";
+import GameReviewModal from "../components/modals/GameReviewModal.jsx";
+import TagBadges from "../components/game_overviews/TagBadges.jsx";
 
 // todo you can remove individual ratings, but you shouldn't be able to and it messes with the overall score
 // todo also if you add one indiv rating, you should have to add all of them
@@ -166,13 +167,7 @@ export default function GamePage({ setShowToast, setToastMsg }) {
               <div className="px-3 pb-3 pt-2">
                 {/* tags */}
                 <div className="d-flex flex-wrap gap-1 mb-3">
-                  {entry.game.tags.length > 0 ? (
-                    entry.game.tags.map(tag => (
-                      <Badge key={tag} bg="light" text="dark" className="border">
-                        {tag}
-                      </Badge>
-                    ))
-                  ) : (<span className="text-muted small fst-italic">No tags</span>)}
+                  <TagBadges tags={entry.game.tags} />
                 </div>
 
                 <hr className="m-0"></hr>

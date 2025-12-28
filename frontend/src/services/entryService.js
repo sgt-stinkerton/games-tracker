@@ -9,6 +9,22 @@ export const entryService = {
         throw error;
       }),
 
+  getAllPlaying: () =>
+    api.get("/entries/playing")
+      .then(response => response.data)
+      .catch(error => {
+        console.error("Error fetching entries, " + error);
+        throw error;
+      }),
+
+  getAllNext: () =>
+    api.get("/entries/next")
+      .then(response => response.data)
+      .catch(error => {
+        console.error("Error fetching entries, " + error);
+        throw error;
+      }),
+
   getEntryById: (id) =>
     api.get(`/entries/${id}`)
       .then(response => response.data)

@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
-import {gameService} from "../services/gameService.js";
-import {entryService} from "../services/entryService.js";
-import {searchTags} from "../services/utilities.js";
+import {gameService} from "../../services/gameService.js";
+import {entryService} from "../../services/entryService.js";
+import {searchTags} from "../../services/utilities.js";
 import {Badge, Button, Col, Form, InputGroup, ListGroup, Modal, Row} from "react-bootstrap";
 import {Search, TagFill, XCircleFill} from "react-bootstrap-icons";
-import SetTodayDate from "./SetTodayDate.jsx";
+import SetTodayDate from "../SetTodayDate.jsx";
 
 export default function GameEditModal({ entry, setEntry, show, setShow, setToastMsg, setShowToast }) {
   const [error, setError] = useState(null);

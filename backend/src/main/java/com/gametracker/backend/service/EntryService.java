@@ -34,6 +34,14 @@ public class EntryService {
         return entryRepository.findAll();
     }
 
+    public List<Entry> getAllPlaying() {
+        return entryRepository.findByStatus(Status.PLAYING);
+    }
+
+    public List<Entry> getAllNext() {
+        return entryRepository.findByStatus(Status.UP_NEXT);
+    }
+
     public Entry getById(Long id) {
         return entryRepository.findById(id).orElseThrow(); // TODO exception here
     }

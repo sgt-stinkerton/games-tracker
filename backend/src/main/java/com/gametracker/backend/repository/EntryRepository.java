@@ -1,5 +1,6 @@
 package com.gametracker.backend.repository;
 
+import com.gametracker.backend.enums.Status;
 import com.gametracker.backend.model.Entry;
 import com.gametracker.backend.model.Game;
 import com.gametracker.backend.model.User;
@@ -10,4 +11,5 @@ import java.util.Optional;
 
 public interface EntryRepository extends JpaRepository<Entry, Long> {
     Optional<Entry> findByGameId(Long gameId);
+    List<Entry> findByStatus(Status status);
 }

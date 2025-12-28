@@ -1,25 +1,12 @@
 import {Link} from "react-router";
-import {getStatusColor} from "../services/utilities.js";
-import DefaultImg from "../assets/placeholder.svg";
-import "../App.css";
-import {Badge} from "react-bootstrap";
+import {getStatusColor} from "../../services/utilities.js";
+import DefaultImg from "../../assets/placeholder.svg";
+import "../../App.css";
+
+import SplitTitle from "./SplitTitle.jsx";
+import TagBadges from "./TagBadges.jsx";
 
 export function GameListItem({imgSrc, title, status, releaseYear, tags, gameId}) {
-
-  // render series section of a title smaller (if it exists)
-  const splitIx = title.indexOf(":");
-  let renderedTitle;
-  if (splitIx !== -1) {
-    renderedTitle = (<>
-      <h5 className="text-uppercase fw-bold lh-1 m-0">{title.substring(0, splitIx + 1)}</h5>
-      <p className="text-uppercase fw-bold lh-1 m-0">{title.substring(splitIx + 1).trim()}</p>
-    </>)
-  } else {
-    renderedTitle = <>
-      <h5 className="text-uppercase fw-bold lh-1 m-0">{title}</h5>
-    </>
-  }
-
   return (
     <Link
       as={Link} to={`/games/${gameId}`}
@@ -35,19 +22,11 @@ export function GameListItem({imgSrc, title, status, releaseYear, tags, gameId})
 
         <div className="d-flex flex-column justify-content-between">
           <div className="d-flex flex-column justify-content-start">
-            {renderedTitle}
+            <SplitTitle title={title} />
           </div>
 
           <div className="pt-1 m-0 small d-flex gap-1 overflow-hidden">
-            {tags.length > 0 ? (
-              tags.map(tag => (
-                <Badge key={tag} bg="light" text="dark" className="border">
-                  {tag}
-                </Badge>
-              ))
-            ) : (
-              <span className="text-muted small fst-italic">No tags found.</span>
-            )}
+            <TagBadges tags={tags} />
           </div>
         </div>
       </div>

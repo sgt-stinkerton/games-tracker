@@ -33,6 +33,22 @@ public class EntryController {
                 .toList());
     }
 
+    @GetMapping({"/playing"})
+    public ResponseEntity<List<EntryInfoDTO>> getAllPlaying() {
+        return ResponseEntity.status(HttpStatus.OK).body(entryService.getAllPlaying()
+                .stream()
+                .map(Entry::toDTO)
+                .toList());
+    }
+
+    @GetMapping({"/next"})
+    public ResponseEntity<List<EntryInfoDTO>> getAllNext() {
+        return ResponseEntity.status(HttpStatus.OK).body(entryService.getAllNext()
+                .stream()
+                .map(Entry::toDTO)
+                .toList());
+    }
+
     @GetMapping({"/{id}"})
     public ResponseEntity<EntryInfoDTO> getById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(entryService.getById(id).toDTO());

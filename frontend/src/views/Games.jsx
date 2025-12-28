@@ -5,15 +5,15 @@ import {entryService} from "../services/entryService.js";
 import {getTagsString} from "../services/utilities.js";
 import "../App.css";
 
-import GameCard from "../components/GameCard.jsx";
+import GameCard from "../components/game_overviews/GameCard.jsx";
 import FilterBadge from "../components/filter_components/FilterBadge.jsx";
 import FilterStatus from "../components/filter_components/FilterStatus.jsx";
 import FilterYear from "../components/filter_components/FilterYear.jsx";
 import FilterRating from "../components/filter_components/FilterRating.jsx";
 import FilterTags from "../components/filter_components/FilterTags.jsx";
 import LoadingSpinner from "../components/common/LoadingSpinner.jsx";
-import SortDropdown from "../components/SortDropdown.jsx";
-import {GameListItem} from "../components/GameListItem.jsx";
+import SortDropdown from "../components/filter_components/SortDropdown.jsx";
+import {GameListItem} from "../components/game_overviews/GameListItem.jsx";
 
 // TODO error alert
 // TODO page scroller?
@@ -189,7 +189,7 @@ export default function Games ({  }) {
   return (<>
     <div className="d-flex justify-content-between align-items-baseline">
       <div className="d-flex flex-row align-items-baseline gap-3 mt-1">  {/* do not touch the mt-1 */}
-        <h4 className="mb-1">Your Games List</h4>
+        <h4 className="mb-1">Your Games</h4>
         <p className="m-0 text-muted">Showing {visibleEntries.length} {visibleEntries.length === 1 ? " game." : " games."}</p>
       </div>
 

@@ -1,7 +1,7 @@
 import {useState} from "react";
-import {entryService} from "../services/entryService.js";
+import {entryService} from "../../services/entryService.js";
 import {Button, Col, Form, Modal, Row} from "react-bootstrap";
-import SetTodayDate from "./SetTodayDate.jsx";
+import SetTodayDate from "../SetTodayDate.jsx";
 
 export default function GameEditModal({ entry, setEntry, show, setShow, setToastMsg, setShowToast }) {
   const [error, setError] = useState(null);
