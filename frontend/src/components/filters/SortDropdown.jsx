@@ -1,8 +1,10 @@
 import {Dropdown} from "react-bootstrap";
 import {ArrowUp, ArrowDown} from "react-bootstrap-icons";
+import "../../App.css";
 
 // TODO achievement completion
 // TODO anything null just gets put at the bottom
+// todo uneven menu size between changes
 
 export default function SortDropdown({ currentSort, onSortChange }) {
   const sortOptions = ["Title", "Year", "Rating"];
@@ -18,7 +20,7 @@ export default function SortDropdown({ currentSort, onSortChange }) {
       <Dropdown.Item
         key={`${type}-${sort}`}
         onClick={() => onSortChange(`${type} ${sort}`)}
-        className="d-flex justify-content-between align-items-center"
+        className={`${isActive ? "" : "status-item"} d-flex justify-content-between align-items-center`}
         active={isActive}
       >
         {type} {getArrow(sort)}

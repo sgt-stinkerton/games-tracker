@@ -1,7 +1,12 @@
 import {useState} from "react";
-import {entryService} from "../../services/entryService.js";
 import {Button, Col, Form, Modal, Row} from "react-bootstrap";
+import {entryService} from "../../services/entryService.js";
 import SetTodayDate from "../SetTodayDate.jsx";
+
+// todo make prettier
+// todo error
+// todo if you add one indiv rating, you should have to add all of them
+
 
 export default function GameEditModal({ entry, setEntry, show, setShow, setToastMsg, setShowToast }) {
   const [error, setError] = useState(null);

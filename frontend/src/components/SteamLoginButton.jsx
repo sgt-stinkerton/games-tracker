@@ -1,3 +1,5 @@
+// todo make prettier
+
 export default function SteamLoginButton ({ }) {
 
   const handleLink = () => {

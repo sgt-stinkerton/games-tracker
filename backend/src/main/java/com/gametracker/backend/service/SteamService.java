@@ -46,7 +46,7 @@ public class SteamService {
 
     // 3. Get Store Tags for ONE Game (No API Key needed)
     public JsonNode getStoreDetails(String appId) {
-        String url = "https://store.steampowered.com/api/appdetails?appids=" + appId;
+        String url = "https://store.steampowered.com/api/appdetails?appids=" + appId +"&l=english";
         return fetchFromSteam(url);
     }
 

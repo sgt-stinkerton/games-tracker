@@ -11,8 +11,6 @@ import ToastSuccess from "./components/ToastSuccess.jsx";
 import CreateGame from "./views/CreateGame.jsx";
 import GamePage from "./views/GamePage.jsx";
 
-// TODO light mode / dark mode in user table
-
 export default function App() {
   const [showToast, setShowToast] = useState(false);
   const [toastMsg, setToastMsg] = useState("");

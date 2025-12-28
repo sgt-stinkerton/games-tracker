@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import FilterDropdown from "./FilterDropdown.jsx";
 
+// TODO swap number inputs to text w restriction
+
 export default function FilterRating({ initialState, onFilterChange }) {
   const ratingTypes = [
     "rating", "enjoyment", "gameplay",

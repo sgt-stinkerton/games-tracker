@@ -1,9 +1,12 @@
-import CreateFormBase from "./CreateFormBase.jsx";
+import {useState} from "react";
 import {Card, Form} from "react-bootstrap";
-import StarRating from "../StarRating.jsx";
+
+import CreateFormBase from "./CreateFormBase.jsx";
 import FormTop from "./FormTop.jsx";
 import FormAlert from "./FormAlert.jsx";
-import {useState} from "react";
+import StarRating from "../StarRating.jsx";
+
+// TODO redo this section
 
 export default function GameRatings ({ prevStep, nextStep, handleInput, formData }) {
   const [error, setError] = useState(null);

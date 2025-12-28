@@ -1,9 +1,13 @@
-import CreateFormBase from "./CreateFormBase.jsx";
-import {Card, Form} from "react-bootstrap";
 import {useEffect, useState} from "react";
+import {Card, Form} from "react-bootstrap";
 import {gameService} from "../../services/gameService.js";
+
+import CreateFormBase from "./CreateFormBase.jsx";
 import FormTop from "./FormTop.jsx";
 import FormAlert from "./FormAlert.jsx";
+
+// TODO extract desc to different section
+// TODO add image link
 
 export default function GameInfo ({ nextStep, handleInput, formData }) {
   const [error, setError] = useState(null);

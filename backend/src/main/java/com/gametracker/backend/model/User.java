@@ -31,8 +31,6 @@ public class User {
     @Column(name = "last_synced")
     private LocalDateTime lastSynced;
 
-    private Theme theme;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Entry> gameEntries;
 
@@ -43,7 +41,6 @@ public class User {
     public User(String steamId, String displayName) {
         this.steamId = steamId;
         this.displayName = displayName;
-        this.theme = Theme.LIGHT;
     }
 
     public UserInfoDTO toDTO() {
@@ -51,8 +48,7 @@ public class User {
                 this.id,
                 this.steamId,
                 this.displayName,
-                this.lastSynced,
-                this.theme
+                this.lastSynced
         );
     }
 

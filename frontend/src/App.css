@@ -1,50 +1,31 @@
-html[data-bs-theme] .btn-primary {
-    --bs-btn-bg: var(--bs-primary);
-    --bs-btn-border-color: var(--bs-primary);
-
-    --bs-btn-hover-bg: color-mix(in srgb, var(--bs-primary), black 10%);
-    --bs-btn-hover-border-color: color-mix(in srgb, var(--bs-primary), black 10%);
-    --bs-btn-active-bg: color-mix(in srgb, var(--bs-primary), black 20%);
-    --bs-btn-active-border-color: color-mix(in srgb, var(--bs-primary), black 20%);
-
-    --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
-}
-
-html[data-bs-theme] .btn-light {
+html[data-bs-theme="light"] .btn-light {
     --bs-btn-bg: var(--bs-light);
     --bs-btn-border-color: var(--bs-light);
-
-    --bs-btn-hover-bg: color-mix(in srgb, var(--bs-light), white 15%);
-    --bs-btn-hover-border-color: color-mix(in srgb, var(--bs-light), white 15%);
-    --bs-btn-active-bg: color-mix(in srgb, var(--bs-light), white 20%);
-    --bs-btn-active-border-color: color-mix(in srgb, var(--bs-light), white 20%);
-
     --bs-btn-color: var(--bs-dark);
 }
 
-html[data-bs-theme] .badge.bg-primary-subtle {
+html[data-bs-theme="light"] .badge.bg-primary-subtle {
     color: color-mix(in srgb, var(--bs-primary-bg-subtle), var(--bs-primary) 100%) !important;
 }
-html[data-bs-theme] .badge.bg-info-subtle           {
+html[data-bs-theme="light"] .badge.bg-info-subtle {
     color: color-mix(in srgb, var(--bs-info), black 40%) !important;
 }
-html[data-bs-theme] .badge.bg-success-subtle {
+html[data-bs-theme="light"] .badge.bg-success-subtle {
     color: color-mix(in srgb, var(--bs-success-bg-subtle), var(--bs-success) 100%) !important;
 }
-html[data-bs-theme] .badge.bg-danger-subtle  {
+html[data-bs-theme="light"] .badge.bg-danger-subtle {
     color: color-mix(in srgb, var(--bs-danger-bg-subtle), var(--bs-danger) 100%) !important;
 }
-html[data-bs-theme] .badge.bg-light          {
+html[data-bs-theme="light"] .badge.bg-light {
     color: color-mix(in srgb, var(--bs-light), var(--bs-dark) 80%) !important; }
 
-html[data-bs-theme] .badge.bg-secondary      {
+html[data-bs-theme="light"] .badge.bg-secondary {
     color: color-mix(in srgb, var(--bs-secondary), black 80%) !important;
 }
 
 html[data-bs-theme="light"] {
     --bs-body-bg: #f8f8f8;  /* generic body */
     --bs-body-bg-rgb: 248, 248, 248;
-    --bs-body-color: #000000;  /* dark text */
 
     --bs-secondary: #A8A8A8;
     --bs-secondary-rgb: 168, 168, 168;
@@ -56,30 +37,6 @@ html[data-bs-theme="light"] {
     --bs-light-color-rgb: 247, 255, 0;
 
     --bs-border-color: #a8a8a8;  /* outlines on stuff */
-}
-
-html[data-bs-theme="cute"] {
-    --bs-body-bg: #fff0f5;  /* generic body */
-    --bs-body-bg-rgb: 255, 240, 245;
-    --bs-body-color: #7c046a;  /* dark text */
-    --bs-border-color: #f1c0c0;
-
-    --bs-primary: #d63384;
-    --bs-primary-rgb: 214, 51, 132;
-    --bs-primary-color: #fff;
-
-    --bs-secondary: #61EAFF;
-    --bs-secondary-rgb: 97, 234, 255;
-    --bs-secondary-color: #fff;
-
-    --bs-light: #9e61ff;
-    --bs-light-rgb: 158, 97, 255;
-    --bs-light-color: #fff;
-
-    --bs-link-color: #d63384;
-    --bs-link-hover-color: color-mix(in srgb, #d63384, #9e61ff 20%);
-
-    --bs-dark: #f7ff00;
 }
 
 /* card expands and shadow gets darker when hovered */
@@ -121,4 +78,20 @@ html[data-bs-theme="cute"] {
 .hover-shadow:hover {
     transform: translateY(-2px);
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+
+/* for status dropdown on game page */
+.status-dropdown:hover {
+    filter: brightness(0.85);
+}
+
+/* individual items hover in my terrible dropdown */
+.status-item {
+    transition: background-color 0.1s ease-in-out;
+}
+.status-item:hover,
+.status-item:focus {
+    background-color: var(--bs-secondary-bg-subtle) !important;
+    color: var(--bs-dark) !important;
+    cursor: pointer;
 }

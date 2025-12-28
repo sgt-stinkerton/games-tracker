@@ -1,11 +1,12 @@
 import {useEffect, useState} from "react";
 import {useParams} from "react-router";
-import {Badge, Card, Col, Dropdown, ProgressBar, Row} from "react-bootstrap";
+import {Card, Col, Dropdown, ProgressBar, Row} from "react-bootstrap";
 import {ArrowRepeat, PencilSquare, StarFill, Trash, TrophyFill} from "react-bootstrap-icons";
 import {entryService} from "../services/entryService.js";
 import {gameService} from "../services/gameService.js";
 import {getStatusColor} from "../services/utilities.js";
 import DefaultImg from "../assets/placeholder.svg";
+import "../App.css";
 
 import LoadingSpinner from "../components/common/LoadingSpinner.jsx";
 import GameEditModal from "../components/modals/GameEditModal.jsx";
@@ -13,14 +14,16 @@ import GameDeleteModal from "../components/modals/GameDeleteModal.jsx";
 import GameReviewModal from "../components/modals/GameReviewModal.jsx";
 import TagBadges from "../components/game_overviews/TagBadges.jsx";
 
-// todo you can remove individual ratings, but you shouldn't be able to and it messes with the overall score
-// todo also if you add one indiv rating, you should have to add all of them
+// TODO error
+// todo make review and text scroll prettier
+// todo make expand button for play notes
 
 export default function GamePage({ setShowToast, setToastMsg }) {
   const { gameId } = useParams();
-  const [error, setError] = useState(null); // TODO toast probably
+  const [error, setError] = useState(null);
   const [entry, setEntry] = useState(null);
 
+  const [isSyncing, setIsSyncing] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -45,6 +48,25 @@ export default function GamePage({ setShowToast, setToastMsg }) {
         setShowToast(true);
       })
   };
+
+  const handleSync = () => {
+    if (isSyncing) return;
+    setIsSyncing(true);
+
+    // prevent steam rate-limiting
+    const timer = new Promise(resolve => setTimeout(resolve, 3000));
+
+    const syncRequest = gameService.syncGame(entry.game.steamAppId, entry.game.title)
+      .then(() => { return entryService.getEntryByGameId(gameId); })
+      .then((updatedData) => setEntry(updatedData))
+      .catch(error => setError(error));
+
+    Promise.all([timer, syncRequest]).then(() => {
+      setIsSyncing(false);
+      setToastMsg("Game synced successfully");
+      setShowToast(true);
+    });
+  }
 
   const changeStatus = (newStatus) => {
     entryService.updateStatus(entry.id, newStatus)
@@ -114,13 +136,12 @@ export default function GamePage({ setShowToast, setToastMsg }) {
           {/* title, year, and status (updatable) */}
           <h4 className="mb-1">{entry.game.title} ({entry.game.releaseYear})</h4>
           <Dropdown>
-            {/* TODO make this button react when hovered over */}
-            <Dropdown.Toggle className={`m-0 border-0 align-self-center fs-6 badge fw-bold px-3 rounded-4 ${getStatusColor(entry.status)}`}>
+            <Dropdown.Toggle className={`status-dropdown border-0 fs-6 badge fw-bold px-3 rounded-pill ${getStatusColor(entry.status)}`}>
               {entry.status.replaceAll("_", " ")}
             </Dropdown.Toggle>
             <Dropdown.Menu>
               {statuses.map(s => (
-                <Dropdown.Item key={s} onClick={() => changeStatus(s)}>
+                <Dropdown.Item key={s} onClick={() => changeStatus(s)} className="status-item">
                   {s.replaceAll("_", " ")}
                 </Dropdown.Item>
               ))}
@@ -130,7 +151,12 @@ export default function GamePage({ setShowToast, setToastMsg }) {
 
         {/* interactive icons to sync, edit, delete */}
         <div className="d-flex flex-row gap-3 align-items-center">
-          <ArrowRepeat size={26} className="view-hover" />  {/* TODO steam indiv. game sync button */}
+          <ArrowRepeat
+            className={isSyncing ? "spin-active text-secondary" : "view-hover"}
+            style={{cursor: isSyncing ? "" : "pointer"}}
+            onClick={isSyncing ? null : handleSync}
+            size={26}
+          />
           {entry.status !== "HIDDEN" && (
             <PencilSquare
               className="view-hover"
@@ -293,6 +319,19 @@ export default function GamePage({ setShowToast, setToastMsg }) {
         show={showDeleteModal} setShow={setShowDeleteModal}
         title={entry.game.title}
         handleDelete={handleDelete} />
+
+      <style type="text/css">
+        {`
+          @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+          }
+          .spin-active {
+            animation: spin 1s linear infinite;
+            opacity: 0.5;
+          }
+        `}
+      </style>
     </>
   )
 }

@@ -6,7 +6,7 @@ import "../../App.css";
 import SplitTitle from "./SplitTitle.jsx";
 import TagBadges from "./TagBadges.jsx";
 
-export function GameListItem({imgSrc, title, status, releaseYear, tags, gameId}) {
+export default function GameListItem ({imgSrc, title, status, releaseYear, tags, gameId}) {
   return (
     <Link
       as={Link} to={`/games/${gameId}`}

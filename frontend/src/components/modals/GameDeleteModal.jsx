@@ -1,5 +1,7 @@
 import {Button, Modal} from "react-bootstrap";
 
+// todo make prettier
+
 export default function GameDeleteModal({ show, setShow, title, handleDelete }) {
   return (
     <Modal show={show} onHide={() => setShow(false)} centered>

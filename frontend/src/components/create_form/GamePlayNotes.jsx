@@ -3,8 +3,10 @@ import CreateFormBase from "./CreateFormBase.jsx";
 import FormTop from "./FormTop.jsx";
 import {useState} from "react";
 
+// TODO char limit error
+
 export default function GamePlayNotes ({ prevStep, nextStep, handleInput, formData }) {
-  const [error, setError] = useState(null); // todo
+  const [error, setError] = useState(null);
 
   const isWithinCharLimit =
     formData.notes.trim().length <= 1024;

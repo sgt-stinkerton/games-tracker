@@ -13,7 +13,7 @@ export default function Home() {
   const [playing, setPlaying] = useState([]);
   const [next, setNext] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // todo
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     userService.getUserInfo()
@@ -40,6 +40,8 @@ export default function Home() {
     };
     fetchData();
   }, []);
+
+  if (error) return <p>An error has occurred :( Try refreshing the page.</p>
 
   if (!user || loading) return <LoadingSpinner />
 

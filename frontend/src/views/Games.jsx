@@ -2,7 +2,6 @@ import {useEffect, useState} from "react";
 import {Row, Col, Form} from "react-bootstrap";
 import {List, Grid} from "react-bootstrap-icons"
 import {entryService} from "../services/entryService.js";
-import {getTagsString} from "../services/utilities.js";
 import "../App.css";
 
 import GameCard from "../components/game_overviews/GameCard.jsx";
@@ -13,10 +12,10 @@ import FilterRating from "../components/filters/FilterRating.jsx";
 import FilterTags from "../components/filters/FilterTags.jsx";
 import LoadingSpinner from "../components/common/LoadingSpinner.jsx";
 import SortDropdown from "../components/filters/SortDropdown.jsx";
-import {GameListItem} from "../components/game_overviews/GameListItem.jsx";
+import GameListItem from "../components/game_overviews/GameListItem.jsx";
 
 // TODO error alert
-// TODO page scroller?
+// todo go back doesn't reset search or position on page
 
 export default function Games ({  }) {
   const [entries, setEntries] = useState([]);

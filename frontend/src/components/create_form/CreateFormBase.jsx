@@ -1,6 +1,8 @@
 import {Col, Row, Button, Card} from "react-bootstrap";
 import "../../App.css";
 
+// TODO make the buttons better
+
 export default function CreateFormBase ({ canPrev=null, canNext=null, children }) {
   return (
     <Row className="mt-3" style={{ height: "calc(100vh - 110px)" }}>

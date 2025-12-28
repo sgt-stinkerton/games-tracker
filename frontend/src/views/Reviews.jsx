@@ -1,6 +1,6 @@
-// TODO whole page
-
 import CommonPageHeader from "../components/common/CommonPageHeader.jsx";
+
+// TODO whole page
 
 export default function Reviews ({  }) {
   return (<>

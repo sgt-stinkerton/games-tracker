@@ -8,6 +8,5 @@ public record UserInfoDTO (
     Long id,
     String steamId,
     String displayName,
-    LocalDateTime lastSynced,
-    Theme theme
+    LocalDateTime lastSynced
 ) {}

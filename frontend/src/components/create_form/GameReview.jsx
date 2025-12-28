@@ -4,8 +4,10 @@ import FormTop from "./FormTop.jsx";
 import SetTodayDate from "../SetTodayDate.jsx";
 import {useState} from "react";
 
+// TODO charlimit error
+
 export default function GameReview ({ prevStep, nextStep, handleInput, formData }) {
-  const [error, setError] = useState(null); // todo
+  const [error, setError] = useState(null);
 
   const isWithinCharLimit =
     formData.reviewText.trim().length <= 8192;

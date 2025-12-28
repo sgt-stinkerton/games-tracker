@@ -11,7 +11,7 @@ const ToastSuccess = ({ show, onClose, message }) => {
       >
         <Toast.Body className="d-flex align-items-center gap-2 rounded-2 text-white px-3 py-2">
           <CheckCircleFill size={20} />
-          <strong className="me-auto fs-5">{message}</strong>
+          <strong className="me-auto" style={{ fontSize: "18px" }}>{message}</strong>
         </Toast.Body>
       </Toast>
     </ToastContainer>

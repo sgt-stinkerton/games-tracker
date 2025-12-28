@@ -1,10 +1,16 @@
 import {useEffect, useState} from "react";
+import {Badge, Button, Col, Form, InputGroup, ListGroup, Modal, Row} from "react-bootstrap";
+import {Search, TagFill, XCircleFill} from "react-bootstrap-icons";
 import {gameService} from "../../services/gameService.js";
 import {entryService} from "../../services/entryService.js";
 import {searchTags} from "../../services/utilities.js";
-import {Badge, Button, Col, Form, InputGroup, ListGroup, Modal, Row} from "react-bootstrap";
-import {Search, TagFill, XCircleFill} from "react-bootstrap-icons";
 import SetTodayDate from "../SetTodayDate.jsx";
+
+// todo make prettier
+// todo error
+// todo you can remove individual ratings, but you shouldn't be able to and it messes with the overall score
+// todo also if you add one indiv rating, you should have to add all of them
+// todo update when data changes due to sync or somethign
 
 export default function GameEditModal({ entry, setEntry, show, setShow, setToastMsg, setShowToast }) {
   const [error, setError] = useState(null);
@@ -220,6 +226,7 @@ export default function GameEditModal({ entry, setEntry, show, setShow, setToast
     <Modal show={show} onHide={() => setShow(false)} size="lg" backdrop="static">
       <Modal.Header closeButton>
         <Modal.Title>Edit Game Details</Modal.Title>
+        <p>{error}</p>
       </Modal.Header>
       <Modal.Body className="px-4">
         <Form>
