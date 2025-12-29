@@ -4,7 +4,7 @@ import {Card, Col, Dropdown, ProgressBar, Row} from "react-bootstrap";
 import {ArrowRepeat, PencilSquare, StarFill, Trash, TrophyFill} from "react-bootstrap-icons";
 import {entryService} from "../services/entryService.js";
 import {gameService} from "../services/gameService.js";
-import {getStatusColor, getRatingColour} from "../services/utilities.js";
+import {getStatusColor, getRatingColor} from "../services/utilities.js";
 import DefaultImg from "../assets/placeholder.svg";
 import "../App.css";
 
@@ -78,14 +78,6 @@ export default function GamePage({ setShowToast, setToastMsg }) {
       })
       .catch(err => setError(err));
   };
-
-  const getRatingColour = (value) => {
-    if (!value) return "secondary"
-    if (value < 5) return "danger";
-    if (value < 7) return "warning";
-    if (value < 10) return "success";
-    return "info";
-  }
 
   if (!entry) return <LoadingSpinner />
 
@@ -259,7 +251,7 @@ export default function GamePage({ setShowToast, setToastMsg }) {
                 {/* overall score circle */}
                 <Col md={3} className="d-flex flex-column align-items-center justify-content-center border-end">
                   <div
-                    className={`d-flex align-items-center justify-content-center text-white fw-bold rounded-circle shadow-sm bg-${getRatingColour(entry.rating)}`}
+                    className={`d-flex align-items-center justify-content-center text-white fw-bold rounded-circle shadow-sm bg-${getRatingColor(entry.rating)}`}
                     style={{ width: "90px", height: "90px", fontSize: "36px" }}
                   >
                     {entry.rating || "-"}

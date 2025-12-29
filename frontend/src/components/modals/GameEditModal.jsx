@@ -3,7 +3,7 @@ import {Button, Col, Form, Modal, Tabs, Tab, Row} from "react-bootstrap";
 import {ArrowCounterclockwise} from "react-bootstrap-icons";
 import {gameService} from "../../services/gameService.js";
 import {entryService} from "../../services/entryService.js";
-import {getRatingColour} from "../../services/utilities.js";
+import {getRatingColor} from "../../services/utilities.js";
 
 import SetTodayDate from "../SetTodayDate.jsx";
 import ClearDate from "../ClearDate.jsx";
@@ -430,10 +430,10 @@ export default function GameEditModal({ entry, setEntry, show, setShow, setToast
 
                     {/* overall calculator */}
                     <div className="w-100 d-flex flex-row justify-content-center align-items-center mt-3">
-                      <div className={`bg-${getRatingColour(calculateFinal())}-subtle w-50 h-50 rounded-2 d-flex flex-row justify-content-center align-items-center`}>
+                      <div className={`bg-${getRatingColor(calculateFinal())}-subtle w-50 h-50 rounded-2 d-flex flex-row justify-content-center align-items-center`}>
                         <strong>TOTAL</strong>
                         <strong
-                          className={`text-white bg-${getRatingColour(calculateFinal())} text-center mx-2 fs-4 rounded-circle d-flex align-items-center justify-content-center`}
+                          className={`text-white bg-${getRatingColor(calculateFinal())} text-center mx-2 fs-4 rounded-circle d-flex align-items-center justify-content-center`}
                           style={{ width: "55px", height: "55px" }}
                         >
                           {calculateFinal()}
