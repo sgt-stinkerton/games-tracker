@@ -3,7 +3,7 @@ import {getTagsString} from "../../services/utilities.js";
 import CreateFormBase from "./CreateFormBase.jsx";
 import FormTop from "./FormTop.jsx";
 
-export default function CreateFormConfirm ({ prevStep, formData, tags, confirm }) {
+export default function CreateFormConfirm ({ prevStep, formData, confirm }) {
   return (
     <CreateFormBase canPrev={prevStep}>
       <FormTop title="Confirm Creation" iconName="QuestionCircle" />
@@ -13,7 +13,7 @@ export default function CreateFormConfirm ({ prevStep, formData, tags, confirm }
       >
         <span><strong>Title:</strong> {formData.title}</span>
         <span><strong>Release Year:</strong> {formData.releaseYear || "N/A"}</span>
-        <span><strong>Tags:</strong> {tags.length ? getTagsString(tags) : "N/A"}</span>
+        <span><strong>Tags:</strong> {formData.tags.length ? getTagsString(formData.tags) : "N/A"}</span>
         <span><strong>Status:</strong> {formData.status.replace("_", " ")}</span>
         {formData.status === "PLAYING" && (
           <div>

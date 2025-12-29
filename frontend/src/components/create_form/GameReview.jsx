@@ -52,6 +52,7 @@ export default function GameReview ({ prevStep, nextStep, handleInput, formData 
               value={formData.reviewText}
               placeholder={"Justify your ratings..."}
               onChange={handleInput}
+              maxLength={8192}
             />
 
             <div className={`small ${formData.reviewText.length > 8192 ? "text-danger" : "text-muted"}`}>

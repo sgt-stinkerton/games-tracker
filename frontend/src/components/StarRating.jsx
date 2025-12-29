@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {Star, StarHalf, StarFill} from "react-bootstrap-icons";
 
-export default function StarRating ({ numStars = 10, getCurrentRating, defaultRating = 0, type }) {
+export default function StarRating ({ numStars = 10, getCurrentRating, defaultRating = 0, type, displaySize=30 }) {
   const [currentRating, setCurrentRating] = useState(defaultRating);
   const [hover, setHover] = useState(0);
 
@@ -37,17 +37,17 @@ export default function StarRating ({ numStars = 10, getCurrentRating, defaultRa
     const iconStyle = { pointerEvents: "none" };
 
     if (displayValue >= value) {
-      return <StarFill size={30} className="text-warning" style={iconStyle} />
+      return <StarFill size={displaySize} className="text-warning" style={iconStyle} />
     }
     if (displayValue >= value - 0.5) {
-      return <StarHalf size={30} className="text-warning" style={iconStyle} />
+      return <StarHalf size={displaySize} className="text-warning" style={iconStyle} />
     }
-    return <Star size={30} className="text-warning" style={iconStyle} />
+    return <Star size={displaySize} className="text-warning" style={iconStyle} />
   }
 
   return (
     <div
-      className="d-flex align-items-center gap-1"
+      className="d-flex align-items-center gap-0"
       onMouseLeave={() => setHover(0)}
     >
       {Array.from({ length: numStars }).map((_, index) => (
@@ -60,7 +60,7 @@ export default function StarRating ({ numStars = 10, getCurrentRating, defaultRa
           {renderStar(index)}
         </span>
       ))}
-      <span className="ms-2 text-muted small fw-bold" style={{ minWidth : "25px" }}>
+      <span className="ms-2 mt-1 text-muted small fw-bold" style={{ minWidth : "25px" }}>
         {hover > 0 ? hover : (currentRating > 0 ? currentRating : "")}
       </span>
     </div>

@@ -2,7 +2,6 @@ import {Dropdown} from "react-bootstrap";
 import {ArrowUp, ArrowDown} from "react-bootstrap-icons";
 import "../../App.css";
 
-// TODO anything null just gets put at the bottom
 // todo uneven menu size between changes
 
 export default function SortDropdown({ currentSort, onSortChange }) {

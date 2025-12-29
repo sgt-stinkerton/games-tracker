@@ -11,16 +11,16 @@ import CreateFormConfirm from "./CreateFormConfirm.jsx";
 import CreateFormError from "./CreateFormError.jsx";
 import GameTags from "./GameTags.jsx";
 import CreateFormComplete from "./CreateFormComplete.jsx";
+import GameImage from "./GameImage.jsx";
 
 export default function MainCreateForm ({ }) {
   const [error, setError] = useState("");
   const [stage, setStage] = useState("info");
-  const [gameTags, setGameTags] = useState([]);  // tags stay between steps
   const [recentId, setRecentId] = useState(null);
 
   const initEmptyForm = () => {
     return {
-      title: "", releaseYear: "", tags: "", description: "",
+      title: "", releaseYear: "", tags: [], description: "", headerImageUrl: "",
       status: "", notes: "",
       reviewText: "", finishDate: "",
       enjoyment: "", gameplay: "", story: "", visuals: "", sound: ""
@@ -42,7 +42,9 @@ export default function MainCreateForm ({ }) {
   // get next part of form
   const nextStep = () => {
     if (stage === "info") {
-      setStage("tags");
+      setStage("image");
+    } else if (stage === "image") {
+      setStage("tags")
     } else if (stage === "tags") {
       setStage("status")
     } else if (stage === "status") {
@@ -68,8 +70,10 @@ export default function MainCreateForm ({ }) {
 
   // get previous part of form
   const prevStep = () => {
-    if (stage === "tags") {
+    if (stage === "image") {
       setStage("info")
+    } else if (stage === "tags") {
+      setStage("image")
     } else if (stage === "status") {
       setStage("tags");
     } else if (stage === "play-notes" || stage === "ratings") {
@@ -94,8 +98,9 @@ export default function MainCreateForm ({ }) {
     const gameData = {
       title: formData.title,
       releaseYear: formData.releaseYear !== "" ? parseInt(formData.releaseYear) : null,
-      tags: gameTags,
+      tags: formData.tags,
       description: formData.description !== "" ? formData.description : null,
+      headerImageUrl: formData.headerImageUrl !== "" ? formData.headerImageUrl : null
     };
 
     const entryData = {
@@ -150,15 +155,22 @@ export default function MainCreateForm ({ }) {
           formData={formData}
         />
       )
+    case "image":
+      return (
+        <GameImage
+          prevStep={prevStep}
+          nextStep={nextStep}
+          handleInput={handleInput}
+          formData={formData}
+        />
+      )
     case "tags":
       return (
         <GameTags
           prevStep={prevStep}
           nextStep={nextStep}
-          handleInput={handleInput}
+          handleInput={setFormData}
           formData={formData}
-          tags={gameTags}
-          setTags={setGameTags}
         />
       )
     case "status":
@@ -203,7 +215,6 @@ export default function MainCreateForm ({ }) {
           prevStep={prevStep}
           formData={formData}
           confirm={aggregateFormData}
-          tags={gameTags}
         />
       )
     case "complete":

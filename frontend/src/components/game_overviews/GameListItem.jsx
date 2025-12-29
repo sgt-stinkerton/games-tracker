@@ -15,9 +15,9 @@ export default function GameListItem ({imgSrc, title, status, releaseYear, tags,
       <div className="d-flex justify-content-start gap-2 flex-grow-1 min-width-0" style={{ minWidth: 0 }}>
         <img
           src={imgSrc || DefaultImg}
-          alt={"header image for " + title}
-          className="rounded-1"
-          style={{height: "65px", objectFit: "cover"}}
+          alt={"Header image for " + title}
+          className="rounded-2 flex-shrink-0"
+          style={{height: "80px", width: "171px", objectFit: "cover"}}
         />
 
         <div className="d-flex flex-column justify-content-between overflow-hidden w-100">

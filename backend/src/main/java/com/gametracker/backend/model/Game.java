@@ -46,10 +46,12 @@ public class Game {
 
     public Game() {}
 
-    public Game(String title, Year releaseYear, List<String> tags) {
+    public Game(String title, Year releaseYear, List<String> tags, String description, String headerImageUrl) {
         this.title = title;
         this.releaseYear = releaseYear;
         this.tags = tags;
+        this.description = description;
+        this.headerImageUrl = headerImageUrl;
     }
 
     public GameInfoDTO toDTO() {

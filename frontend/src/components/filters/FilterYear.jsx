@@ -2,6 +2,8 @@ import {useEffect, useState} from "react";
 import {Row, Col, Form} from "react-bootstrap";
 import FilterDropdown from "./FilterDropdown.jsx";
 
+// todo make text input instead
+
 export default function FilterYear({ initialState, onFilterChange }) {
   const [minYear, setMinYear] = useState(initialState?.min || "");
   const [maxYear, setMaxYear] = useState(initialState?.max || "");

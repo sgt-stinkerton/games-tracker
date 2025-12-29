@@ -1,17 +1,16 @@
 import {Button, Modal} from "react-bootstrap";
 
-// todo make prettier
-
 export default function GameDeleteModal({ show, setShow, title, handleDelete }) {
   return (
     <Modal show={show} onHide={() => setShow(false)} centered>
       <Modal.Header closeButton>
-        <Modal.Title className="text-danger">Delete Game?</Modal.Title>
+        <Modal.Title>Delete Game?</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Are you sure you want to delete <strong>{title}</strong>?</p>
+        <p className="text-danger">Are you sure you want to delete <strong>{title}</strong>?</p>
         <p className="text-muted small">
-          This action is permanent. If you own this on Steam, consider setting it to <strong>HIDDEN</strong> instead to prevent it from reappearing during syncs.
+          This action is <strong>permanent. </strong>
+          If you own this on Steam, consider setting it to <strong>HIDDEN</strong> instead to prevent it from reappearing during future library syncs.
         </p>
       </Modal.Body>
       <Modal.Footer>

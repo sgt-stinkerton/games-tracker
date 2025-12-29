@@ -12,5 +12,6 @@ public record GameCreationDTO (
         String title,
         Year releaseYear,
         List<String> tags,
-        String description
+        String description,
+        String headerImageUrl
 ) {}

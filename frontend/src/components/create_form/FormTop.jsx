@@ -1,5 +1,5 @@
 import {CheckCircle, Clipboard, Controller, JournalText,
-  QuestionCircle, Star, Tags, XCircle} from "react-bootstrap-icons";
+  QuestionCircle, Star, Tags, XCircle, Image} from "react-bootstrap-icons";
 
 export default function FormTop ({ title, iconName }) {
 
@@ -12,6 +12,7 @@ export default function FormTop ({ title, iconName }) {
       case "JournalText": return <JournalText size={45} />
       case "QuestionCircle": return <QuestionCircle size={45} />
       case "CheckCircle": return <CheckCircle size={45} />
+      case "Image": return <Image size={45} />
       default: return <XCircle size={45} />
     }
   }

@@ -12,6 +12,14 @@ export const getStatusColor = (status) => {
   }
 };
 
+export const getRatingColour = (value) => {
+  if (!value) return "secondary"
+  if (value < 5) return "danger";
+  if (value < 7) return "warning";
+  if (value < 10) return "success";
+  return "info";
+}
+
 export const searchTags = (query) => {
   const tags = Object.keys(AllowedTags);
   return tags.filter(tag => tag.toLowerCase().includes(query.toLowerCase()));

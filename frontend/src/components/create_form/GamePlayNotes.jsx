@@ -29,6 +29,7 @@ export default function GamePlayNotes ({ prevStep, nextStep, handleInput, formDa
               value={formData.notes}
               placeholder={"Enter any thoughts you've had whilst playing..."}
               onChange={handleInput}
+              maxLength={1024}
             />
 
             <div className={`small ${formData.notes.length > 1024 ? "text-danger" : "text-muted"}`}>

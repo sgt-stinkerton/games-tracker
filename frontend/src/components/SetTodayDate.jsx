@@ -15,7 +15,7 @@ export default function SetTodayDate({ handleInput }) {
 
   return (
     <Button variant="primary" onClick={setToday} className="ms-1 px-2 py-1">
-      Set as Today
+      Set Today
     </Button>
   )
 }

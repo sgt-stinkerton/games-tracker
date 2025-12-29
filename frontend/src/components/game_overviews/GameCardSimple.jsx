@@ -23,8 +23,8 @@ export default function GameCardSimple ({ imgSrc, title, tags, currentAchievemen
         <div className="rounded-3 mb-1">
           <Card.Img
             src={imgSrc || DefaultImg}
-            alt={"header image for " + title}
-            style={{ width: '100%', objectFit: 'cover' }}
+            alt={"Header image for " + title}
+            style={{ height: 94, width: '100%', objectFit: 'cover' }}
           />
         </div>
 

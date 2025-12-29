@@ -4,7 +4,7 @@ import {Card, Col, Dropdown, ProgressBar, Row} from "react-bootstrap";
 import {ArrowRepeat, PencilSquare, StarFill, Trash, TrophyFill} from "react-bootstrap-icons";
 import {entryService} from "../services/entryService.js";
 import {gameService} from "../services/gameService.js";
-import {getStatusColor} from "../services/utilities.js";
+import {getStatusColor, getRatingColour} from "../services/utilities.js";
 import DefaultImg from "../assets/placeholder.svg";
 import "../App.css";
 
@@ -17,6 +17,7 @@ import TagBadges from "../components/game_overviews/TagBadges.jsx";
 // TODO error
 // todo make review and text scroll prettier
 // todo make expand button for play notes
+// todo fix title being super duper long
 
 export default function GamePage({ setShowToast, setToastMsg }) {
   const { gameId } = useParams();
@@ -32,10 +33,7 @@ export default function GamePage({ setShowToast, setToastMsg }) {
 
   useEffect(() => {
     entryService.getEntryByGameId(gameId)
-      .then(data => {
-        setEntry(data);
-        console.log(data);
-      })
+      .then(data => setEntry(data))
       .catch(error => setError(error))
   }, [gameId]);
 
@@ -175,14 +173,14 @@ export default function GamePage({ setShowToast, setToastMsg }) {
       <Row className="g-4 pt-2" style={{ height: "calc(100vh - 100px)" }}>
 
         {/* left column */}
-        <Col lg={4} className="d-flex flex-column gap-3">
+        <Col lg={4} className="d-flex flex-column gap-3 h-100">
 
           {/* game info */}
-          <Card className="border-top-0 shadow-sm">
+          <Card className="border-top-0 shadow-sm flex-shrink-0">
             <Card.Img
               variant="top"
               src={entry.game.headerImageUrl || DefaultImg}
-              style={{ width: "100%", objectFit: "cover" }}
+              style={{ height: 150, width: "100%", objectFit: "cover" }}
             />
             <Card.Body className="p-0">
               {/* description */}
@@ -224,11 +222,13 @@ export default function GamePage({ setShowToast, setToastMsg }) {
           </Card>
 
           {/* user gameplay notes */}
-          <Card className="border-top-0 shadow-sm h-100">
-            <Card.Title className="fw-bold m-0 px-3 py-2">Play Notes</Card.Title>
+          <Card className="border-top-0 shadow-sm flex-grow-1" style={{ minHeight: "0" }}>
+            <Card.Title className="fw-bold m-0 px-3 py-2 flex-shrink-0">Play Notes</Card.Title>
 
-            <Card.Body className="pt-0 text-muted small overflow-auto">
-              {entry.notes || "No notes added for this game."}
+            <Card.Body className="pt-0 text-muted small overflow-auto text-break flex-grow-1">
+              <p style={{ whiteSpace: "pre-wrap" }}>
+                {entry.notes || "No notes added for this game."}
+              </p>
             </Card.Body>
           </Card>
         </Col>
@@ -284,16 +284,16 @@ export default function GamePage({ setShowToast, setToastMsg }) {
               </Row>
 
               {/* review text */}
-              <div className="flex-grow-1 bg-light p-4 rounded-3 border-start border-4 border-secondary position-relative d-flex flex-column overflow-hidden">
+              <div className="flex-grow-1 bg-light p-3 rounded-3 border-start border-4 border-secondary position-relative d-flex flex-column overflow-hidden">
                 {/* quote icon */}
                 <span
-                  className="position-absolute text-secondary opacity-25"
-                  style={{ top: '10px', left: '15px', fontSize: '3rem', lineHeight: 1 }}
+                  className="position-absolute text-secondary opacity-75"
+                  style={{ top: '5px', left: '10px', fontSize: '3rem', lineHeight: 1 }}
                 >
                   &ldquo;
                 </span>
 
-                <div className="px-3 h-100 overflow-auto" style={{ zIndex: 1 }}>
+                <div className="px-3 h-100 overflow-auto" style={{ zIndex: 1, whiteSpace: "pre-wrap" }}>
                   <p className={`m-0 fst-italic fs-6 ${entry.reviewText ? "text-dark" : "text-muted opacity-50 text-center py-4"}`}>
                     {entry.reviewText || "No review written yet..."}
                   </p>
@@ -314,7 +314,8 @@ export default function GamePage({ setShowToast, setToastMsg }) {
       <GameEditModal
         show={showEditModal} setShow={setShowEditModal}
         entry={entry} setEntry={setEntry}
-        setToastMsg={setToastMsg} setShowToast={setShowToast} />
+        setToastMsg={setToastMsg} setShowToast={setShowToast}
+      />
       <GameDeleteModal
         show={showDeleteModal} setShow={setShowDeleteModal}
         title={entry.game.title}

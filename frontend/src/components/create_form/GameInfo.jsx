@@ -6,8 +6,6 @@ import CreateFormBase from "./CreateFormBase.jsx";
 import FormTop from "./FormTop.jsx";
 import FormAlert from "./FormAlert.jsx";
 
-// TODO add image link
-
 export default function GameInfo ({ nextStep, handleInput, formData }) {
   const [error, setError] = useState(null);
   const [existingTitles, setExistingTitles] = useState([]);
@@ -63,6 +61,13 @@ export default function GameInfo ({ nextStep, handleInput, formData }) {
     nextStep();
   }
 
+  const handleYearChange = (e) => {
+    const value = e.target.value;
+    if (value === "" || /^\d+$/.test(value)) {
+      handleInput(e);
+    }
+  };
+
   return (
     <CreateFormBase canNext={submitSection}>
       <FormTop title="Game Info" iconName="Controller" />
@@ -79,6 +84,7 @@ export default function GameInfo ({ nextStep, handleInput, formData }) {
               value={formData.title}
               onChange={handleInput}
               placeholder="Enter game title..."
+              maxLength={255}
             />
           </Form.Group>
 
@@ -89,8 +95,9 @@ export default function GameInfo ({ nextStep, handleInput, formData }) {
               type="text"
               className="bg-white"
               value={formData.releaseYear}
-              onChange={handleInput}
+              onChange={handleYearChange}
               placeholder="Enter release year..."
+              maxLength={4}
             />
           </Form.Group>
 
@@ -104,6 +111,7 @@ export default function GameInfo ({ nextStep, handleInput, formData }) {
               value={formData.description}
               placeholder={"Enter a short description..."}
               onChange={handleInput}
+              maxLength={350}
             />
 
             <div className="text-muted small">

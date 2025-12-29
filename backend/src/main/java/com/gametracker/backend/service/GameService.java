@@ -44,7 +44,7 @@ public class GameService {
     }
 
     public Game createGame(GameCreationDTO dto) {
-        Game newGame = new Game(dto.title(), dto.releaseYear(), dto.tags());
+        Game newGame = new Game(dto.title(), dto.releaseYear(), dto.tags(), dto.description(), dto.headerImageUrl());
         return gameRepository.save(newGame);
     }
 
