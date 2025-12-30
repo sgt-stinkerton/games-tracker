@@ -1,6 +1,7 @@
 package com.gametracker.backend.service;
 
 import com.gametracker.backend.dto.game.GameCreationDTO;
+import com.gametracker.backend.dto.game.GameSteamUpdateDTO;
 import com.gametracker.backend.enums.AllowedTags;
 import com.gametracker.backend.enums.Status;
 import com.gametracker.backend.model.Entry;
@@ -67,6 +68,12 @@ public class GameService {
         return gameRepository.save(updatedGame);
     }
 
+    public Game updateSteamId(long id, GameSteamUpdateDTO dto) {
+        Game updatedGame = getById(id);
+        updatedGame.setSteamAppId(dto.steamAppId());
+        return gameRepository.save(updatedGame);
+    }
+
     public void syncGame(String appId, String nameFromSteam) {
         // find existing game with steam app id
         boolean creatingNew = false;
@@ -88,6 +95,10 @@ public class GameService {
         game.setSteamAppId(appId);
         game.setHeaderImageUrl("https://steamcdn-a.akamaihd.net/steam/apps/" + appId + "/header.jpg");
         game = gameRepository.save(game);
+
+        if (game.getTitle().equals("##RESET##")) {
+            creatingNew = true;
+        }
 
         // try-catch used so that program doesn't halt on a steam store error
         try {
@@ -121,6 +132,14 @@ public class GameService {
 
             if (storeData != null && storeData.has(appId) && storeData.get(appId).get("success").asBoolean()) {
                 JsonNode data = storeData.get(appId).get("data");
+
+                if (data.has("name")) {
+                    if (creatingNew) {
+                        game.setTitle(data.get("name").asText());
+                    } else {
+                        System.out.println("not replacing name");
+                    }
+                }
 
                 // set description (steam page short description)
                 if (data.has("short_description")) {

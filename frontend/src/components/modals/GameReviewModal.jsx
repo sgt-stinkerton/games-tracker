@@ -1,13 +1,13 @@
-import {useState} from "react";
-import {Button, Col, Form, Modal, Row} from "react-bootstrap";
-
+import {useEffect, useState} from "react";
+import {Button, Col, Form, Modal, Tabs, Tab, Row} from "react-bootstrap";
+import {ArrowCounterclockwise} from "react-bootstrap-icons";
+import {gameService} from "../../services/gameService.js";
 import {entryService} from "../../services/entryService.js";
+import {getRatingColor} from "../../services/utilities.js";
+
 import SetTodayDate from "../SetTodayDate.jsx";
 import ClearDate from "../ClearDate.jsx";
-
-// todo make prettier
-// todo error
-// todo if you add one indiv rating, you should have to add all of them
+import StarRating from "../StarRating.jsx";
 
 export default function GameEditModal({ entry, setEntry, show, setShow, setToastMsg, setShowToast }) {
   const [error, setError] = useState(null);
@@ -24,34 +24,56 @@ export default function GameEditModal({ entry, setEntry, show, setShow, setToast
       sound: entry.sound ?? ""
     };
   };
-  
   const [formData, setFormData] = useState(setInitForm());
 
-  const isWithinCharLimit = formData.reviewText?.length <= 8192;
-  
+  // rating checkers
+  const ratingTypes = ["enjoyment", "gameplay", "story", "visuals", "sound"];
+  const someNullRatings = ratingTypes.some(type => !formData[type] || formData[type] === "");
+  const allNullRatings = ratingTypes.every(type => !formData[type] || formData[type] === "");
+
+  // calculate overall score if all ratings given
+  const calculateFinal = () => {
+    if (!someNullRatings) {
+      const total = ratingTypes.reduce((sum, type) => {
+        return sum + Number(formData[type]);
+      }, 0);
+      return total / ratingTypes.length;
+    }
+    return "-";
+  }
+
+  // checks length of string fields
+  const isWithinCharLimit = (type) => {
+    if (type === "reviewText") return formData.reviewText?.length <= 8192;
+    return true;
+  }
+
+  // validation logic
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError(null);
+
+    // review text validation
+    formData.reviewText = formData.reviewText?.trim();
+    if (!isWithinCharLimit("reviewText")) {
+      return setError("Review text must be less than 8192 characters.");
+    }
+
+    // rating validation
+    if (someNullRatings && !allNullRatings) {
+      return setError("Must give no or all ratings.")
+    }
+
+    aggregateFormData();
+  }
+
   // helper for ratings
   const formatScore = (val) => {
     if (val === "" || val === null || val === undefined) return null;
     return Number(val);
   };
 
-  const resetDate = () => {
-    handleInput({ target: {name: "finishDate", value: "" }});
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setError(null);
-
-    formData.reviewText = formData.reviewText?.trim();
-    if (!isWithinCharLimit) {
-      setError("Review text must be less than 8192 characters.");
-      return;
-    }
-
-    aggregateFormData();
-  }
-
+  // put form data together
   const aggregateFormData = () => {
     const reviewData = {
       reviewText: formData.reviewText,
@@ -68,7 +90,6 @@ export default function GameEditModal({ entry, setEntry, show, setShow, setToast
 
   // call api services to create instances of entities
   const executeUpdate = (reviewData) => {
-    console.log(reviewData);
     entryService.createReview(entry.id, reviewData)
       .then(() => {
         return entryService.getEntryByGameId(entry.game.id);
@@ -84,74 +105,177 @@ export default function GameEditModal({ entry, setEntry, show, setShow, setToast
       })
   };
 
+  // checks if a form section has been edited
+  const changesMade = (field) => {
+    const formField = formData[field];
+    if (field === "reviewText") return formField !== entry[field];
+
+    if (field === "finishDate") {
+      const current = formField || "";
+      const original = entry[field] || "";
+      return current !== original;
+    }
+
+    // ratings
+    if (formField === "" && !entry[field]) return false;
+    return formField !== entry[field];
+  }
+
+  // resets a form section to the original data
+  const resetField = (field, type) => {
+    if (type === "game") {
+      return setFormData({ ...formData, [field]: entry.game[field] });
+    }
+    return setFormData({ ...formData, [field]: entry[field] });
+  };
+
+  // clears the date field completely
+  const resetDate = () => {
+    onFormChange({ target: {name: "finishDate", value: "" }});
+  }
+
+  // handles changes to input fields
   const onFormChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const EditScoreInput = ({ label, name }) => (
-    <Form.Group as={Col} xs={6} md={4} className="mb-3">
-      <Form.Label className="small fw-bold text-muted">{label}</Form.Label>
-      <Form.Control
-        type="number"
-        min="0" max="10"
-        className="bg-white"
-        name={name}
-        value={formData[name]}
-        onChange={onFormChange}
-      />
-    </Form.Group>
+  // special input handler for ratings
+  const handleRatingChange = (type, value) => {
+    setFormData(prev => ({ ...prev, [type]: value }))
+  };
+
+  // if changes were made, display an arrow to revert those changes
+  const revertArrow = (field, type) => {
+    return changesMade(field, type) ? (
+      <span title="Revert Change">
+        <ArrowCounterclockwise
+          size={18}
+          onClick={() => resetField(field, type)}
+          style={{ cursor: "pointer" }}
+        />
+      </span>
+    ) : (
+      <span style={{ width: "18px" }}></span>
+    )
+  };
+
+  // header for input fields, including form label, span text, and conditional revert arrow
+  const InputHeader = (title, field, type, span) => (
+    <div className="d-flex justify-content-between align-items-end mb-1">
+      <div>
+        <Form.Label className="fw-bold m-0">{title}</Form.Label>
+        {span && (
+          <span className="text-muted small ms-2">
+            ({span === "Max 3" ? span : `${formData[field]?.length || 0}/${span} characters`})
+          </span>
+        )}
+      </div>
+      {revertArrow(field, type)}
+    </div>
   );
 
   return (
     <Modal show={show} onHide={() => setShow(false)} size="lg" backdrop="static">
-      <Modal.Header closeButton>
-        <Modal.Title>Create Review</Modal.Title>
+      <Modal.Header closeButton className="pb-2">
+        <Modal.Title className="fw-bold">Create Review</Modal.Title>
       </Modal.Header>
-      <Modal.Body className="px-4">
-        <Form className="d-flex justify-content-between align-items-center mb-3">
-          <h6 className="fw-bold text-primary m-0">Review & Ratings</h6>
-          <div className="d-flex gap-2">
-            <Form.Control
-              type="date"
-              name="finishDate"
-              className="bg-white"
-              value={formData.finishDate || ""}
-              onChange={onFormChange}
-              size="sm" style={{width: "140px"}}
-            />
-            <SetTodayDate handleInput={onFormChange} />
-            <ClearDate handleInput={resetDate} />
-          </div>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Review Text</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={4}
-              name="reviewText"
-              className="bg-white"
-              placeholder="Write your final thoughts..."
-              value={formData.reviewText || ""}
-              onChange={onFormChange}
-            />
+      <Modal.Body className="px-4 pt-2">
+        <Form>
+          <Row className="g-4">
+            <Col lg={6} className="d-flex flex-column gap-3">
+              {/* finish date */}
+              <div className="rounded-3">
+                {InputHeader("Finish Date", "finishDate", "entry")}
+                <div className="d-flex justify-content-between">
+                  <div className="d-flex gap-2">
+                    <Form.Control
+                      type="date"
+                      name="finishDate"
+                      className="bg-white border-secondary-subtle"
+                      value={formData.finishDate || ""}
+                      onChange={onFormChange}
+                      style={{ width: "160px" }}
+                    />
+                    <SetTodayDate handleInput={onFormChange} />
+                  </div>
+                  <ClearDate handleInput={resetDate} />
+                </div>
+              </div>
 
-            <div className="text-muted small">
-              {formData.reviewText.length}/8192 characters.
-            </div>
-          </Form.Group>
+              {/* review text */}
+              <div className="d-flex flex-column h-100">
+                {InputHeader("Review Text", "reviewText", "entry", "8192")}
+                <Form.Control
+                  as="textarea"
+                  name="reviewText"
+                  className="bg-white flex-grow-1"
+                  placeholder="What did you think about this game? Write your thoughts here..."
+                  style={{ resize: "none" }}
+                  value={formData.reviewText || ""}
+                  onChange={onFormChange}
+                  maxLength={8192}
+                />
+              </div>
+            </Col>
 
-          <Row>
-            <EditScoreInput label="Enjoyment" name="enjoyment" />
-            <EditScoreInput label="Gameplay" name="gameplay" />
-            <EditScoreInput label="Story" name="story" />
-            <EditScoreInput label="Visuals" name="visuals" />
-            <EditScoreInput label="Sound" name="sound" />
+            {/* ratings */}
+            <Col lg={6} className="d-flex flex-column gap-1">
+
+              {/* header */}
+              <div className="p-1">
+                <h6 className="mb-1 fw-bold">Rate Each Category</h6>
+                <p className="m-0 small">To make your review shine, rate the game in each of the 5 categories. If you rate the game in one category, you must rate it in all categories.</p>
+              </div>
+
+              {/* actual ratings (using stars) */}
+              <div className="d-flex flex-column gap-2 ps-1 pt-1">
+                {ratingTypes.map(t => (
+                  <div key={t} className="d-flex flex-row align-items-center justify-content-between">
+                    <Col lg={3}>
+                      <Form.Label className="fw-bold mb-0 text-capitalize" style={{ fontSize: "14px" }}>{t}</Form.Label>
+                    </Col>
+
+                    <Col lg={9}>
+                      <div className="d-flex flex-row align-items-center">
+                        <StarRating
+                          type={t}
+                          defaultRating={formData[t]}
+                          getCurrentRating={handleRatingChange}
+                          displaySize={22}
+                        />
+                        {revertArrow(t, "entry")}
+                      </div>
+                    </Col>
+                  </div>
+                ))}
+              </div>
+
+              {/* overall calculator */}
+              <div className="w-100 d-flex flex-row justify-content-center align-items-center mt-3">
+                <div className={`bg-${getRatingColor(calculateFinal())}-subtle w-50 h-50 rounded-2 d-flex flex-row justify-content-center align-items-center`}>
+                  <strong>TOTAL</strong>
+                  <strong
+                    className={`text-white bg-${getRatingColor(calculateFinal())} text-center mx-2 fs-4 rounded-circle d-flex align-items-center justify-content-center`}
+                    style={{ width: "55px", height: "55px" }}
+                  >
+                    {calculateFinal()}
+                  </strong>
+                  <strong>SCORE</strong>
+                </div>
+              </div>
+            </Col>
           </Row>
         </Form>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={() => setShow(false)}>Cancel</Button>
-        <Button variant="primary" onClick={handleSubmit}>Save Changes</Button>
+      <Modal.Footer className="d-flex flex-row justify-content-between">
+        <Button variant="secondary" onClick={() => setShow(false)}>Complete Later</Button>
+
+        {error && (
+          <p className="m-0 text-danger bg-danger-subtle px-2 py-1 rounded-2">{error}</p>
+        )}
+
+        <Button variant="primary" onClick={handleSubmit}>Save Review</Button>
       </Modal.Footer>
     </Modal>
   )

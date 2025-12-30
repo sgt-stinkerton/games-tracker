@@ -13,11 +13,12 @@ import GameEditModal from "../components/modals/GameEditModal.jsx";
 import GameDeleteModal from "../components/modals/GameDeleteModal.jsx";
 import GameReviewModal from "../components/modals/GameReviewModal.jsx";
 import TagBadges from "../components/game_overviews/TagBadges.jsx";
+import GameSyncModal from "../components/modals/GameSyncModal.jsx";
 
 // TODO error
-// todo make review and text scroll prettier
-// todo make expand button for play notes
+// todo make text scroll prettier
 // todo fix title being super duper long
+// todo edit doesn't refresh when game syncs
 
 export default function GamePage({ setShowToast, setToastMsg }) {
   const { gameId } = useParams();
@@ -25,6 +26,7 @@ export default function GamePage({ setShowToast, setToastMsg }) {
   const [entry, setEntry] = useState(null);
 
   const [isSyncing, setIsSyncing] = useState(false);
+  const [showSyncModal, setShowSyncModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -38,6 +40,8 @@ export default function GamePage({ setShowToast, setToastMsg }) {
   }, [gameId]);
 
   const handleDelete = () => {
+    if (isSyncing) return;
+
     gameService.deleteGame(gameId)
       .then(() => {
         setShowDeleteModal(false);
@@ -47,14 +51,63 @@ export default function GamePage({ setShowToast, setToastMsg }) {
       })
   };
 
-  const handleSync = () => {
+  const checkSync = () => {
     if (isSyncing) return;
+    if (!entry.game.steamAppId) return setShowSyncModal(true);
+    handleSync();
+  }
+
+  const handleSoftSync = (steamId) => {
+    const formData = { steamAppId: steamId.toString() }
+    gameService.updateSteamId(entry.game.id, formData)
+      .then(() => {
+        return entryService.getEntryByGameId(gameId);
+      })
+      .then((updatedEntry) => {
+        handleSync(updatedEntry.game.steamAppId);
+      })
+      .catch(error => setError(error))
+  }
+
+  const handleHardSync = (steamId) => {
+    const formData = { steamAppId: steamId.toString() }
+
+    const gameData = {
+      title: "##RESET##",
+      releaseYear: null,
+      tags: [],
+      description: "",
+      headerImageUrl: null
+    }
+
+    gameService.updateSteamId(entry.game.id, formData)
+      .then(() => {
+        return gameService.updateGame(entry.game.id, gameData);
+      })
+      .then(() => {
+        return entryService.getEntryByGameId(gameId);
+      })
+      .then((updatedEntry) => {
+        handleSync(updatedEntry.game.steamAppId, updatedEntry.game.title);
+      })
+      .catch(error => setError(error))
+  }
+
+  const handleSync = (givenId=null, givenTitle=null) => {
     setIsSyncing(true);
+
+    const appIdToUse = givenId || entry.game.steamAppId;
+    const titleToUse = givenTitle || entry.game.title;
+
+    if (!appIdToUse) {
+      setIsSyncing(false);
+      return setError("Cannot sync: No Steam App ID found.");
+    }
 
     // prevent steam rate-limiting
     const timer = new Promise(resolve => setTimeout(resolve, 3000));
 
-    const syncRequest = gameService.syncGame(entry.game.steamAppId, entry.game.title)
+    const syncRequest = gameService.syncGame(appIdToUse.toString(), titleToUse)
       .then(() => { return entryService.getEntryByGameId(gameId); })
       .then((updatedData) => setEntry(updatedData))
       .catch(error => setError(error));
@@ -87,7 +140,7 @@ export default function GamePage({ setShowToast, setToastMsg }) {
 
   const StatBar = ({ label, value }) => {
     const percentage = (value || 0) * 10;
-    const colourClass = getRatingColour(value);
+    const colourClass = getRatingColor(value);
 
     return (
       <Row className="align-items-center">
@@ -144,18 +197,20 @@ export default function GamePage({ setShowToast, setToastMsg }) {
           <ArrowRepeat
             className={isSyncing ? "spin-active text-secondary" : "view-hover"}
             style={{cursor: isSyncing ? "" : "pointer"}}
-            onClick={isSyncing ? null : handleSync}
+            onClick={isSyncing ? null : checkSync}
             size={26}
           />
           {entry.status !== "HIDDEN" && (
             <PencilSquare
-              className="view-hover"
+              className={isSyncing ? "text-secondary" : "view-hover"}
               onClick={() => setShowEditModal(true)}
+              style={{cursor: isSyncing ? "" : "pointer"}}
               size={24} />
           )}
           <Trash
-            className="view-hover"
+            className={isSyncing ? "text-secondary" : "view-hover"}
             onClick={() => setShowDeleteModal(true)}
+            style={{cursor: isSyncing ? "" : "pointer"}}
             size={24} />
         </div>
       </div>
@@ -312,6 +367,10 @@ export default function GamePage({ setShowToast, setToastMsg }) {
         show={showDeleteModal} setShow={setShowDeleteModal}
         title={entry.game.title}
         handleDelete={handleDelete} />
+      <GameSyncModal
+        show={showSyncModal} setShow={setShowSyncModal}
+        handleSoftSync={handleSoftSync} handleHardSync={handleHardSync}
+      />
 
       <style type="text/css">
         {`
@@ -321,7 +380,6 @@ export default function GamePage({ setShowToast, setToastMsg }) {
           }
           .spin-active {
             animation: spin 1s linear infinite;
-            opacity: 0.5;
           }
         `}
       </style>

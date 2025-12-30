@@ -2,6 +2,7 @@ package com.gametracker.backend.controller;
 
 import com.gametracker.backend.dto.game.GameCreationDTO;
 import com.gametracker.backend.dto.game.GameInfoDTO;
+import com.gametracker.backend.dto.game.GameSteamUpdateDTO;
 import com.gametracker.backend.model.Entry;
 import com.gametracker.backend.model.Game;
 import com.gametracker.backend.service.EntryService;
@@ -77,6 +78,13 @@ public class GameController {
     public ResponseEntity<GameInfoDTO> updateGame(@PathVariable Long id,
                                                   @Valid @RequestBody GameCreationDTO dto) {
         Game updatedGame = gameService.updateGame(id, dto);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedGame.toDTO());
+    }
+
+    @PatchMapping({"/{id}/steam"})
+    public ResponseEntity<GameInfoDTO> updateSteamId(@PathVariable Long id,
+                                                     @Valid @RequestBody GameSteamUpdateDTO dto) {
+        Game updatedGame = gameService.updateSteamId(id, dto);
         return ResponseEntity.status(HttpStatus.OK).body(updatedGame.toDTO());
     }
 

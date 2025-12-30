@@ -10,22 +10,12 @@ import ClearDate from "../ClearDate.jsx";
 import TagSearch from "../TagSearch.jsx";
 import StarRating from "../StarRating.jsx";
 
+// todo put image thingie in
+
 export default function GameEditModal({ entry, setEntry, show, setShow, setToastMsg, setShowToast }) {
   const [error, setError] = useState(null);
   const [existingTitles, setExistingTitles] = useState([]);
 
-  // get existing titles so there are no exact duplicates
-  useEffect(() => {
-    if (show) {
-      gameService.getAllGames()
-        .then(data => {
-          const titles = data.map(g => g.title);
-          setExistingTitles(titles);
-        })
-        .catch(error => setError(error))
-    }
-  }, [show]);
-  
   // form data
   const setInitForm = () => {
     return {
@@ -50,6 +40,21 @@ export default function GameEditModal({ entry, setEntry, show, setShow, setToast
   };
   const [formData, setFormData] = useState(setInitForm());
 
+  // get existing titles so there are no exact duplicates
+  useEffect(() => {
+    setError(null);
+    if (show) {
+      gameService.getAllGames()
+        .then(data => {
+          const titles = data.map(g => g.title);
+          setExistingTitles(titles);
+        })
+        .catch(error => setError(error))
+    } else {
+      setFormData(setInitForm());
+    }
+  }, [show]);
+
   // levels of edit ability
   const canEditNotes = entry && ["PLAYING"].includes(entry.status);
   const canEditReview = entry && ["COMPLETED", "DROPPED"].includes(entry.status);
@@ -67,7 +72,7 @@ export default function GameEditModal({ entry, setEntry, show, setShow, setToast
       }, 0);
       return total / ratingTypes.length;
     }
-    return "N/A";
+    return "-";
   }
 
   // checks length of string fields

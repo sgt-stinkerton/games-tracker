@@ -13,7 +13,7 @@ export const getStatusColor = (status) => {
 };
 
 export const getRatingColor = (value) => {
-  if (!value) return "secondary"
+  if (!value || value === "-") return "secondary"
   if (value < 5) return "danger";
   if (value < 7) return "warning";
   if (value < 10) return "success";

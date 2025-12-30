@@ -25,6 +25,14 @@ export const gameService = {
         throw error;
       }),
 
+  updateSteamId: (id, data) =>
+    api.patch(`/games/${id}/steam`, data)
+      .then(response => response.data)
+      .catch(error => {
+        console.error("Error linking game, " + error);
+        throw error;
+      }),
+
   deleteGame: (id) =>
     api.delete(`/games/${id}`)
       .catch(error => {
