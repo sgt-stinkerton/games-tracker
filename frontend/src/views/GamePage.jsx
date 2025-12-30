@@ -105,7 +105,7 @@ export default function GamePage({ setShowToast, setToastMsg }) {
     }
 
     // prevent steam rate-limiting
-    const timer = new Promise(resolve => setTimeout(resolve, 3000));
+    const timer = new Promise(resolve => setTimeout(resolve, 1500));
 
     const syncRequest = gameService.syncGame(appIdToUse.toString(), titleToUse)
       .then(() => { return entryService.getEntryByGameId(gameId); })
@@ -203,13 +203,13 @@ export default function GamePage({ setShowToast, setToastMsg }) {
           {entry.status !== "HIDDEN" && (
             <PencilSquare
               className={isSyncing ? "text-secondary" : "view-hover"}
-              onClick={() => setShowEditModal(true)}
+              onClick={() => (isSyncing ? null : setShowEditModal(true))}
               style={{cursor: isSyncing ? "" : "pointer"}}
               size={24} />
           )}
           <Trash
             className={isSyncing ? "text-secondary" : "view-hover"}
-            onClick={() => setShowDeleteModal(true)}
+            onClick={() => (isSyncing ? null : setShowDeleteModal(true))}
             style={{cursor: isSyncing ? "" : "pointer"}}
             size={24} />
         </div>
